@@ -88,14 +88,12 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuLink>
-                  <Link
-                    to="/blog"
-                    className="text-base font-medium bg-transparent hover:bg-muted/50 px-3 py-2 rounded-md"
-                  >
-                    Blog
-                  </Link>
-                </NavigationMenuLink>
+                <Link
+                  to="/blog"
+                  className="text-base font-medium bg-transparent hover:bg-muted/50 px-3 py-2 rounded-md"
+                >
+                  Blog
+                </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
