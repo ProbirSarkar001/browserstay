@@ -66,7 +66,7 @@ function BlogPost() {
         </header>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none">
-          <Markdown content={post.content} />
+          <Markdown html={post.html} />
         </div>
       </article>
     </main>

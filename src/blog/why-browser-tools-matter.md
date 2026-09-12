@@ -1,6 +1,6 @@
 ---
 title: "Why Browser-Based Tools Matter for Privacy"
-published: 2024-12-15
+published: 2026-09-12
 description: "Most online tools upload your files to their servers. Here's why browser-based processing is fundamentally different."
 tags: ["privacy", "browser-tools", "webassembly"]
 ---

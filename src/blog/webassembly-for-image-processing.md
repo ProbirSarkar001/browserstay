@@ -1,6 +1,6 @@
 ---
 title: "How WebAssembly Enables Browser-Based Image Processing"
-published: 2024-12-20
+published: 2026-09-12
 description: "A deep dive into how WebAssembly brings near-native performance to image processing in the browser."
 tags: ["webassembly", "image-processing", "performance"]
 ---

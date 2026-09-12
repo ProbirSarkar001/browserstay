@@ -1,11 +1,8 @@
 // content-collections.ts
 import { defineCollection, defineConfig } from "@content-collections/core";
+import { compileMarkdown } from "@content-collections/markdown";
 import { z } from "zod";
 import matter from "gray-matter";
-function extractFrontMatter(content) {
-  const { data, content: body, excerpt } = matter(content, { excerpt: true });
-  return { data, body, excerpt: excerpt || "" };
-}
 var posts = defineCollection({
   name: "posts",
   directory: "./src/blog",
@@ -14,21 +11,21 @@ var posts = defineCollection({
     title: z.string(),
     published: z.string(),
     description: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-    content: z.string()
+    tags: z.array(z.string()).optional()
   }),
-  transform: ({ content, ...post }) => {
-    const frontMatter = extractFrontMatter(content);
-    const headerImageMatch = content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+  transform: async (document, context) => {
+    const html = await compileMarkdown(context, document);
+    const { content: body } = matter(document.content);
+    const headerImageMatch = document.content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
     const headerImage = headerImageMatch ? headerImageMatch[2] : void 0;
     return {
-      ...post,
-      slug: post._meta.path,
-      excerpt: frontMatter.excerpt,
-      description: frontMatter.data.description,
-      tags: frontMatter.data.tags,
+      ...document,
+      slug: document._meta.path,
+      description: document.description,
+      tags: document.tags,
       headerImage,
-      content: frontMatter.body
+      content: body,
+      html
     };
   }
 });

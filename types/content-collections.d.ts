@@ -5,9 +5,9 @@ declare module "content-collections" {
     published: string;
     description?: string;
     tags?: string[];
-    excerpt: string;
-    headerImage?: string;
-    content: string;
     slug: string;
+    content: string;
+    html: string;
+    headerImage?: string;
   }>;
 }
