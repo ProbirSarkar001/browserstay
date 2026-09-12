@@ -4,7 +4,7 @@ import { PageHeader } from "@/shared/components/layout/page-header"
 import { HowItWorks } from "@/shared/components/layout/how-it-works"
 import { FAQSection } from "@/shared/components/layout/faq-section"
 import { ImageToPdfProvider } from "@/features/image-to-pdf/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 
 const imageToPdfFaqItems = [
   {
@@ -27,7 +27,7 @@ const imageToPdfFaqItems = [
 
 export const Route = createFileRoute('/image-to-pdf')({
   component: ImageToPdfPage,
-  head: () => generateMetaFromKey('imageToPdf'),
+  head: () => generateToolHead('imageToPdf'),
 })
 
 function ImageToPdfPage() {

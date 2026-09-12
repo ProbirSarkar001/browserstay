@@ -4,12 +4,12 @@ import { HowItWorks } from "@/shared/components/layout/how-it-works"
 import { FAQSection } from "@/shared/components/layout/faq-section"
 import { ImageConverter } from "@/features/image-converter/image-converter"
 import { ImageConverterProvider } from "@/features/image-converter/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 import { CONVERSION_SLUGS } from "@/features/image-converter/constants"
 
 export const Route = createFileRoute('/image-converter/')({
   component: ImageConverterPage,
-  head: () => generateMetaFromKey('imageConverter'),
+  head: () => generateToolHead('imageConverter'),
 })
 
 const POPULAR_SLUGS = [

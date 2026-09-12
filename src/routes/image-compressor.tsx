@@ -4,7 +4,7 @@ import { HowItWorks } from "@/shared/components/layout/how-it-works"
 import { FAQSection } from "@/shared/components/layout/faq-section"
 import { ImageCompressor } from "@/features/image-compressor/image-compressor"
 import { ImageCompressorProvider } from "@/features/image-compressor/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 
 const imageCompressorFaqItems = [
   {
@@ -27,7 +27,7 @@ const imageCompressorFaqItems = [
 
 export const Route = createFileRoute('/image-compressor')({
   component: ImageCompressorPage,
-  head: () => generateMetaFromKey('imageCompressor'),
+  head: () => generateToolHead('imageCompressor'),
 })
 
 function ImageCompressorPage() {

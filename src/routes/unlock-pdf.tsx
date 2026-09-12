@@ -3,7 +3,7 @@ import { PageHeader } from "@/shared/components/layout/page-header";
 import { HowItWorks } from "@/shared/components/layout/how-it-works";
 import { FAQSection } from "@/shared/components/layout/faq-section";
 import { UnlockPdfProvider, UnlockPdfDropZone, UnlockFileDetails, UnlockActionCard } from "@/features/unlock-pdf";
-import { generateMetaFromKey } from "@/lib/seo";
+import { generateToolHead } from "@/lib/seo";
 
 const unlockPdfFaqItems = [
   {
@@ -26,7 +26,7 @@ const unlockPdfFaqItems = [
 
 export const Route = createFileRoute("/unlock-pdf")({
   component: UnlockPdfPage,
-  head: () => generateMetaFromKey("unlockPdf")
+  head: () => generateToolHead("unlockPdf")
 });
 
 function UnlockPdfPage() {

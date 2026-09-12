@@ -7,7 +7,7 @@ import { SplitFileDetails } from "@/features/split-pdf/components/file-details"
 import { SplitControls } from "@/features/split-pdf/components/split-controls"
 import { SplitError } from "@/features/split-pdf/components/error-display"
 import { SplitPdfProvider, useSplitPdfContext } from "@/features/split-pdf/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 
 function SplitPdfContent() {
   const { fileData } = useSplitPdfContext()
@@ -40,7 +40,7 @@ const splitPdfFaqItems = [
 
 export const Route = createFileRoute('/split-pdf')({
   component: SplitPdfPage,
-  head: () => generateMetaFromKey('splitPdf'),
+  head: () => generateToolHead('splitPdf'),
 })
 
 function SplitPdfPage() {

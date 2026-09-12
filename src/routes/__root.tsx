@@ -6,6 +6,7 @@ import { Footer } from "@/shared/components/layout/footer";
 import { ThemeProvider } from "@/shared/components/layout/theme-provider";
 import { SkipLink } from "@/shared/components/layout/skip-link";
 import { BASE_URL } from "@/lib/seo";
+import { SITE_CONFIG } from "@/config/site";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -73,6 +74,24 @@ export const Route = createRootRoute({
       }
     ],
     scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "BrowserStay",
+          url: BASE_URL,
+          description:
+            "Free, private, open-source PDF and image tools that run entirely in your browser. No uploads, no accounts, no servers.",
+          publisher: {
+            "@type": "Organization",
+            name: "BrowserStay",
+            url: BASE_URL,
+            logo: `${BASE_URL}/favicon.svg`,
+            sameAs: [SITE_CONFIG.links.github]
+          }
+        })
+      },
       {
         type: "application/ld+json",
         children: JSON.stringify({

@@ -8,11 +8,11 @@ import { PdfDropZone } from "@/features/pdf-to-image/components/pdf-drop-zone"
 import { PdfFileList } from "@/features/pdf-to-image/components/pdf-file-list"
 import { ActionCard } from "@/features/pdf-to-image/components/action-card"
 import { PdfToImageProvider } from "@/features/pdf-to-image/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 
 export const Route = createFileRoute('/pdf-to-image')({
   component: PdfToImagePage,
-  head: () => generateMetaFromKey('pdfToImage'),
+  head: () => generateToolHead('pdfToImage'),
 })
 
 function PdfToImagePage() {
