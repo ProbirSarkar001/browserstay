@@ -6,6 +6,8 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
+import { visit } from "unist-util-visit";
+import { toString } from "hast-util-to-string";
 
 export type MarkdownHeading = {
   id: string;
@@ -32,9 +34,6 @@ export async function renderMarkdown(content: string): Promise<MarkdownResult> {
       properties: { className: ["anchor"] }
     })
     .use(() => (tree: any) => {
-      const visit = require("unist-util-visit").visit;
-      const toString = require("hast-util-to-string").toString;
-
       visit(tree, "element", (node: any) => {
         if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName)) {
           headings.push({
