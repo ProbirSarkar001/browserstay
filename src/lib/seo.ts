@@ -226,6 +226,13 @@ export const metaConfigs = {
       featureList: ["Cryptographic randomness", "Customizable length", "Character type options", "One-click generation"]
     }
   },
+  blog: {
+    title: "Blog - Privacy, Browser Tools & Web Technology | BrowserStay",
+    description:
+      "Thoughts on privacy, browser-based tools, and web technology. Learn how WebAssembly and modern browsers enable private, local processing.",
+    canonicalUrl: `${BASE_URL}/blog`,
+    keywords: "blog, privacy, browser tools, webassembly, local processing, web technology, browserstay"
+  },
   privacy: {
     title: "Privacy Policy - No Data Collection, Ever | BrowserStay",
     description:

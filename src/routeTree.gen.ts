@@ -26,6 +26,8 @@ import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
 import { Route as SplitPdfRouteImport } from './routes/split-pdf'
 import { Route as UnlockPdfRouteImport } from './routes/unlock-pdf'
 import { Route as ApiDottoolsJsonRouteImport } from './routes/api[.]tools.json'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as ImageConverterIndexRouteImport } from './routes/image-converter/index'
 import { Route as ImageConverterConversionRouteImport } from './routes/image-converter/$conversion'
 
@@ -114,6 +116,16 @@ const ApiDottoolsJsonRoute = ApiDottoolsJsonRouteImport.update({
   path: '/api.tools/json',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImageConverterIndexRoute = ImageConverterIndexRouteImport.update({
   id: '/image-converter/',
   path: '/image-converter/',
@@ -144,7 +156,9 @@ export interface FileRoutesByFullPath {
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/blog/': typeof BlogIndexRoute
   '/image-converter/': typeof ImageConverterIndexRoute
 }
 export interface FileRoutesByTo {
@@ -165,7 +179,9 @@ export interface FileRoutesByTo {
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/blog': typeof BlogIndexRoute
   '/image-converter': typeof ImageConverterIndexRoute
 }
 export interface FileRoutesById {
@@ -187,7 +203,9 @@ export interface FileRoutesById {
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/blog/': typeof BlogIndexRoute
   '/image-converter/': typeof ImageConverterIndexRoute
 }
 export interface FileRouteTypes {
@@ -210,7 +228,9 @@ export interface FileRouteTypes {
     | '/split-pdf'
     | '/unlock-pdf'
     | '/api.tools/json'
+    | '/blog/$slug'
     | '/image-converter/$conversion'
+    | '/blog/'
     | '/image-converter/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -231,7 +251,9 @@ export interface FileRouteTypes {
     | '/split-pdf'
     | '/unlock-pdf'
     | '/api.tools/json'
+    | '/blog/$slug'
     | '/image-converter/$conversion'
+    | '/blog'
     | '/image-converter'
   id:
     | '__root__'
@@ -252,7 +274,9 @@ export interface FileRouteTypes {
     | '/split-pdf'
     | '/unlock-pdf'
     | '/api.tools/json'
+    | '/blog/$slug'
     | '/image-converter/$conversion'
+    | '/blog/'
     | '/image-converter/'
   fileRoutesById: FileRoutesById
 }
@@ -274,7 +298,9 @@ export interface RootRouteChildren {
   SplitPdfRoute: typeof SplitPdfRoute
   UnlockPdfRoute: typeof UnlockPdfRoute
   ApiDottoolsJsonRoute: typeof ApiDottoolsJsonRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   ImageConverterConversionRoute: typeof ImageConverterConversionRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ImageConverterIndexRoute: typeof ImageConverterIndexRoute
 }
 
@@ -399,6 +425,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiDottoolsJsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/image-converter/': {
       id: '/image-converter/'
       path: '/image-converter'
@@ -434,7 +474,9 @@ const rootRouteChildren: RootRouteChildren = {
   SplitPdfRoute: SplitPdfRoute,
   UnlockPdfRoute: UnlockPdfRoute,
   ApiDottoolsJsonRoute: ApiDottoolsJsonRoute,
+  BlogSlugRoute: BlogSlugRoute,
   ImageConverterConversionRoute: ImageConverterConversionRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ImageConverterIndexRoute: ImageConverterIndexRoute,
 }
 export const routeTree = rootRouteImport

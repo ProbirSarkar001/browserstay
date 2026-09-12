@@ -21,3 +21,4 @@ yarn.lock
 /playwright/.cache/
 .tanstack
 *.tsbuildinfo
+.content-collections
