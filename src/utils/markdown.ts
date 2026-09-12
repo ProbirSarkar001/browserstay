@@ -1,0 +1,55 @@
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeStringify from "rehype-stringify";
+
+export type MarkdownHeading = {
+  id: string;
+  text: string;
+  level: number;
+};
+
+export type MarkdownResult = {
+  markup: string;
+  headings: MarkdownHeading[];
+};
+
+export async function renderMarkdown(content: string): Promise<MarkdownResult> {
+  const headings: MarkdownHeading[] = [];
+
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, {
+      behavior: "wrap",
+      properties: { className: ["anchor"] }
+    })
+    .use(() => (tree: any) => {
+      const visit = require("unist-util-visit").visit;
+      const toString = require("hast-util-to-string").toString;
+
+      visit(tree, "element", (node: any) => {
+        if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName)) {
+          headings.push({
+            id: node.properties?.id || "",
+            text: toString(node),
+            level: parseInt(node.tagName.charAt(1), 10)
+          });
+        }
+      });
+    })
+    .use(rehypeStringify)
+    .process(content);
+
+  return {
+    markup: String(result),
+    headings
+  };
+}

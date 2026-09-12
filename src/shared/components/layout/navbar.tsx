@@ -87,7 +87,16 @@ export function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Placeholders for future links */}
+              <NavigationMenuItem>
+                <NavigationMenuLink>
+                  <Link
+                    to="/blog"
+                    className="text-base font-medium bg-transparent hover:bg-muted/50 px-3 py-2 rounded-md"
+                  >
+                    Blog
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -138,6 +147,14 @@ export function Navbar() {
                   className={cn("text-lg font-medium transition-colors hover:text-primary text-muted-foreground")}
                 >
                   Home
+                </Link>
+
+                <Link
+                  to="/blog"
+                  onClick={() => setIsOpen(false)}
+                  className={cn("text-lg font-medium transition-colors hover:text-primary text-muted-foreground")}
+                >
+                  Blog
                 </Link>
 
                 <div className="space-y-6">
