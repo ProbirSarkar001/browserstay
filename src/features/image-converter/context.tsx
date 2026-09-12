@@ -3,6 +3,7 @@ import type { ConverterFile, ConversionSettings } from "./types";
 import { DEFAULT_CONVERSION_SETTINGS } from "./constants";
 import { createConverterFile } from "./services/image-converter";
 import { useFileHandler, useProcessingState } from "@/shared/hooks";
+import { isSupportedImageFile } from "@/shared/services/image";
 
 interface ImageConverterContextValue {
   files: ConverterFile[];
@@ -25,7 +26,7 @@ export function ImageConverterProvider({ children }: { children: ReactNode }) {
 
   const fileHandler = useFileHandler<ConverterFile>({
     createFile: createConverterFile,
-    validateFile: (file: File) => file.type.startsWith("image/")
+    validateFile: isSupportedImageFile
   });
 
   const processingState = useProcessingState();

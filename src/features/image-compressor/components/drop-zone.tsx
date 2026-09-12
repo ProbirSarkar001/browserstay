@@ -37,7 +37,7 @@ export function ImageCompressorDropZone() {
       <input
         type="file"
         multiple
-        accept="image/*"
+        accept="image/*,.heic,.heif"
         onChange={handleFileInput}
         className="hidden"
         id="image-compressor-input"
@@ -52,7 +52,7 @@ export function ImageCompressorDropZone() {
               Drop your images here
             </p>
             <p className="text-sm text-muted-foreground">
-              or click to browse • JPG, PNG, WebP supported
+              or click to browse • JPG, PNG, WebP, HEIC supported
             </p>
           </div>
         </div>

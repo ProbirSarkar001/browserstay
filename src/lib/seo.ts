@@ -120,10 +120,10 @@ export const metaConfigs = {
   imageConverter: {
     title: "Image Converter - Convert Images Online Free | BrowserStay",
     description:
-      "Convert images between JPG, PNG, WebP, and AVIF free. High-quality WebAssembly encoding runs entirely in your browser — no uploads, no limits, 100% private.",
+      "Convert JPG, PNG, WebP, AVIF, and HEIC images free. High-quality WebAssembly encoding runs entirely in your browser — no uploads, no limits, 100% private.",
     canonicalUrl: `${BASE_URL}/image-converter`,
     keywords:
-      "image converter, convert jpg to png, webp to jpg, avif converter, image format converter, local image converter, browserstay"
+      "image converter, convert jpg to png, webp to jpg, avif converter, heic to jpg, image format converter, local image converter, browserstay"
   },
   imageToPdf: {
     title: "Image to PDF Converter - Convert Images to PDF Free | BrowserStay",

@@ -3,6 +3,7 @@ import type { ImageFile, ResizeSettings } from "./types";
 import { DEFAULT_RESIZE_SETTINGS } from "./constants";
 import { createImageFile, revokeImageFilePreview } from "./services/image-resize";
 import { useProcessingState } from "@/shared/hooks";
+import { isSupportedImageFile } from "@/shared/services/image";
 
 interface ImageResizeContextValue {
   files: ImageFile[];
@@ -28,7 +29,7 @@ export function ImageResizeProvider({ children }: { children: ReactNode }) {
     const processedFiles: ImageFile[] = [];
 
     for (const file of newFiles) {
-      if (!file.type.startsWith('image/')) continue;
+      if (!isSupportedImageFile(file)) continue;
       try {
         const imageFile = await createImageFile(file);
         processedFiles.push(imageFile);

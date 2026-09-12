@@ -34,9 +34,16 @@ export interface EncodeImageResult {
   ratio: number;
 }
 
+export interface ImageDimensions {
+  width: number;
+  height: number;
+}
+
 /** API exposed by the image worker. */
 export interface ImageWorkerApi {
   encodeImageWorker(file: File, options: EncodeImageOptions): Promise<EncodeImageResult>;
   resizeImageWorker(file: File, options: ResizeWorkerOptions): Promise<EncodeImageResult>;
   compressImageWorker(file: File, options: CompressImageOptions): Promise<EncodeImageResult>;
+  getImageDimensionsWorker(file: File): Promise<ImageDimensions>;
+  createThumbnailWorker(file: File, maxSize: number): Promise<Blob>;
 }

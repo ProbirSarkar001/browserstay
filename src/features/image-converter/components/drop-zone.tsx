@@ -37,7 +37,7 @@ export function ImageConverterDropZone() {
       <input
         type="file"
         multiple
-        accept="image/*"
+        accept="image/*,.heic,.heif"
         onChange={handleFileInput}
         className="hidden"
         id="image-converter-input"
@@ -52,7 +52,7 @@ export function ImageConverterDropZone() {
               Drop your images here
             </p>
             <p className="text-sm text-muted-foreground">
-              or click to browse • JPG, PNG, WebP, AVIF, GIF supported
+              or click to browse • JPG, PNG, WebP, AVIF, HEIC, GIF supported
             </p>
           </div>
         </div>

@@ -31,7 +31,7 @@ function ImageConverterPage() {
             steps={[
               {
                 title: "Add your Images",
-                description: "Drag & drop your photos. We support JPG, PNG, WebP, AVIF, and more."
+                description: "Drag & drop your photos. We support JPG, PNG, WebP, AVIF, HEIC, and more."
               },
               {
                 title: "Choose a Format",
@@ -56,7 +56,7 @@ function ImageConverterPage() {
               },
               {
                 question: "What formats are supported?",
-                answer: "You can convert to JPEG, PNG, WebP, or AVIF. Most common input formats (JPG, PNG, WebP, AVIF, GIF, and more) are accepted."
+                answer: "You can convert to JPEG, PNG, WebP, or AVIF. Most common input formats (JPG, PNG, WebP, AVIF, HEIC, GIF, and more) are accepted."
               },
               {
                 question: "Which format should I choose?",

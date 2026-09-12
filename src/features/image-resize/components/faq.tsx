@@ -13,7 +13,7 @@ export function ImageResizeFaq() {
       <AccordionItem value="item-2">
         <AccordionTrigger>What formats are supported?</AccordionTrigger>
         <AccordionContent>
-          We support all major image formats including JPG, PNG, WebP, GIF, BMP, and more. You can also convert between formats
+          We support all major image formats including JPG, PNG, WebP, HEIC, GIF, BMP, and more. You can also convert between formats
           during the resize process.
         </AccordionContent>
       </AccordionItem>

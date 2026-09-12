@@ -1,5 +1,12 @@
 import * as Comlink from "comlink";
-import type { ImageWorkerApi, EncodeImageOptions, ResizeWorkerOptions, CompressImageOptions, ImageTransparencyInfo } from "./types";
+import type {
+  ImageWorkerApi,
+  EncodeImageOptions,
+  ResizeWorkerOptions,
+  CompressImageOptions,
+  ImageTransparencyInfo,
+  ImageDimensions
+} from "./types";
 import pLimit from "p-limit";
 
 let worker: Worker | undefined;
@@ -113,6 +120,13 @@ export async function compressImages(
   return Promise.all(tasks);
 }
 
+export async function getImageDimensions(file: File): Promise<ImageDimensions> {
+  return getApi().getImageDimensionsWorker(file);
+}
+
+export async function createImageThumbnail(file: File, maxSize = 256): Promise<Blob> {
+  return getApi().createThumbnailWorker(file, maxSize);
+}
 
 export function terminateImageWorker(): void {
   worker?.terminate();
