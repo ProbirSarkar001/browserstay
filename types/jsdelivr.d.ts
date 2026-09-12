@@ -2,6 +2,10 @@ declare module "https://cdn.jsdelivr.net/npm/comlink@4.4.2/+esm" {
   export * from "comlink";
 }
 
+declare module "https://cdn.jsdelivr.net/npm/@discourse/heic@1.0.0/+esm" {
+  export * from "@discourse/heic";
+}
+
 declare module "https://cdn.jsdelivr.net/npm/@jsquash/jpeg@1.6.0/+esm" {
   export * from "@jsquash/jpeg";
 }

@@ -13,7 +13,7 @@ const imageResizeFaqItems = [
   },
   {
     question: "What formats are supported?",
-    answer: "We support all major image formats including JPG, PNG, WebP, GIF, BMP, and more. You can also convert between formats during the resize process."
+    answer: "We support all major image formats including JPG, PNG, WebP, HEIC, GIF, BMP, and more. You can also convert between formats during the resize process."
   },
   {
     question: "Can I batch resize multiple images?",
@@ -50,7 +50,7 @@ function ImageResizePage() {
             steps={[
               {
                 title: "Upload Images",
-                description: "Drag & drop your photos. We support JPG, PNG, WebP, and more."
+                description: "Drag & drop your photos. We support JPG, PNG, WebP, HEIC, and more."
               },
               {
                 title: "Set Dimensions",

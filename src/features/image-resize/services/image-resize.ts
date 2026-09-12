@@ -1,6 +1,7 @@
 import type { ImageFile, ResizeSettings } from "../types";
+import { getImageDimensions } from "@/shared/services/image";
 
-export async function loadImageDimensions(file: File): Promise<{ width: number; height: number }> {
+async function loadImageDimensionsFromElement(file: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
@@ -17,6 +18,16 @@ export async function loadImageDimensions(file: File): Promise<{ width: number; 
 
     img.src = url;
   });
+}
+
+export async function loadImageDimensions(file: File): Promise<{ width: number; height: number }> {
+  try {
+    return await loadImageDimensionsFromElement(file);
+  } catch {
+    // Browsers can't decode some formats natively (e.g. HEIC); the worker's
+    // WebAssembly codecs can.
+    return getImageDimensions(file);
+  }
 }
 
 export function calculateTargetDimensions(

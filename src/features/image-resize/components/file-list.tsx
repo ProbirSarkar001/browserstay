@@ -1,5 +1,6 @@
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
+import { ImagePreview } from "@/shared/components/common/image-preview";
 import { Trash2 } from "lucide-react";
 import { useImageResizeContext } from "../context";
 
@@ -13,7 +14,8 @@ export function ImageResizeFileList() {
       {files.map((file) => (
         <Card key={file.id} className="p-4">
           <div className="flex items-center gap-4">
-            <img
+            <ImagePreview
+              file={file.file}
               src={file.preview}
               alt={file.file.name}
               className="w-16 h-16 object-cover rounded-md"

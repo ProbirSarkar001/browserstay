@@ -38,7 +38,7 @@ Most "free" online tools secretly upload your files to their servers. BrowserSta
 
 - **Frontend**: React 19, Vite, TypeScript
 - **Routing**: TanStack Router & React Start
-- **Processing**: WebAssembly codecs (via `@jsquash/*`), Web Workers + Comlink, PDF.js, pdf-lib, jsPDF
+- **Processing**: WebAssembly codecs (via `@jsquash/*` and `@discourse/heic`), Web Workers + Comlink, PDF.js, pdf-lib, jsPDF
 - **State**: Immer (`use-immer`)
 - **Styling**: Tailwind CSS v4, class-variance-authority
 - **UI Components**: Base UI / shadcn-style components
@@ -113,7 +113,7 @@ src/
 ### Key files
 
 - `src/lib/seo.ts` — Centralized SEO metadata (titles, descriptions, keywords, canonical URLs) for every route.
-- `src/shared/services/image/` — Web Worker + Comlink image processing (encode, resize, compress) using `@jsquash/*` WebAssembly codecs.
+- `src/shared/services/image/` — Web Worker + Comlink image processing (encode, resize, compress) using `@jsquash/*` WebAssembly codecs and `@discourse/heic` for HEIC/HEIF decoding.
 - `src/shared/services/zip/` — ZIP generation for batch downloads.
 - `wrangler.jsonc` — Cloudflare Workers deployment config (custom domain: `browserstay.com`).
 

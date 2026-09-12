@@ -14,4 +14,4 @@ export const OUTPUT_FORMATS = [
 
 export const QUALITY_RANGE = { min: 1, max: 100, step: 1 };
 
-export const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"] as const;
+export const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif", "image/heic", "image/heif"] as const;

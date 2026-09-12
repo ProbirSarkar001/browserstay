@@ -9,6 +9,7 @@ import { encode as encodeJpeg, decode as decodeJpeg } from "https://cdn.jsdelivr
 import { encode as encodeWebp, decode as decodeWebp } from "https://cdn.jsdelivr.net/npm/@jsquash/webp@1.5.0/+esm";
 import { encode as encodePng, decode as decodePng } from "https://cdn.jsdelivr.net/npm/@jsquash/png@3.1.1/+esm";
 import { encode as encodeAvif, decode as decodeAvif } from "https://cdn.jsdelivr.net/npm/@jsquash/avif@2.1.1/+esm";
+import { decode as decodeHeic } from "https://cdn.jsdelivr.net/npm/@discourse/heic@1.0.0/+esm";
 
 /** @typedef {import("../../src/shared/services/image/types").ImageFormat} ImageFormat */
 /** @typedef {import("../../src/shared/services/image/types").EncodeImageOptions} EncodeImageOptions */
@@ -26,9 +27,35 @@ const MIME_TYPE = {
   avif: "image/avif"
 };
 
+/** Extensions for HEIC/HEIF, which browsers cannot decode natively. */
+const HEIC_EXTENSIONS = [".heic", ".heif"];
+
+/**
+ * Whether a file is a HEIC/HEIF image. Matched by extension as well as MIME
+ * type because some platforms report an empty type for these files.
+ * @param {File} file
+ * @returns {boolean}
+ */
+function isHeicFile(file) {
+  if (file.type === "image/heic" || file.type === "image/heif") return true;
+  const name = file.name.toLowerCase();
+  return HEIC_EXTENSIONS.some((ext) => name.endsWith(ext));
+}
+
+/**
+ * Whether a file is an image the worker can decode, including HEIC/HEIF files
+ * whose MIME type some platforms report as empty.
+ * @param {File} file
+ * @returns {boolean}
+ */
+function isImageFile(file) {
+  return file.type.startsWith("image/") || isHeicFile(file);
+}
+
 /**
  * Decodes a File into raw pixel data. Uses the matching @jsquash codec for the
- * file's MIME type; falls back to a generic canvas decode for other image types.
+ * file's MIME type, a libheif decoder for HEIC/HEIF, and falls back to a generic
+ * canvas decode for other image types.
  * @param {File} file
  * @returns {Promise<ImageData>}
  */
@@ -42,6 +69,11 @@ async function decodeToImageData(file) {
   if (type === "image/avif") {
     const data = await decodeAvif(buffer);
     if (!data) throw new Error("Failed to decode AVIF image");
+    return data;
+  }
+  if (isHeicFile(file)) {
+    const data = await decodeHeic(buffer);
+    if (!data) throw new Error("Failed to decode HEIC image");
     return data;
   }
 
@@ -135,7 +167,7 @@ function buildResult(file, format, encoded) {
  * @returns {Promise<EncodeImageResult>}
  */
 async function encodeImageWorker(file, options) {
-  if (!file.type.startsWith("image/")) throw new Error("File must be an image");
+  if (!isImageFile(file)) throw new Error("File must be an image");
   const imageData = await decodeToImageData(file);
   const encoded = await encodeImageData(imageData, options);
   return buildResult(file, options.outputFormat, encoded);
@@ -147,7 +179,7 @@ async function encodeImageWorker(file, options) {
  * @returns {Promise<EncodeImageResult>}
  */
 async function resizeImageWorker(file, options) {
-  if (!file.type.startsWith("image/")) throw new Error("File must be an image");
+  if (!isImageFile(file)) throw new Error("File must be an image");
 
   const imageData = await decodeToImageData(file);
   const { targetWidth, targetHeight } = options;
@@ -162,7 +194,7 @@ async function resizeImageWorker(file, options) {
  * @returns {Promise<EncodeImageResult>}
  */
 async function compressImageWorker(file, options) {
-  if (!file.type.startsWith("image/")) throw new Error("File must be an image");
+  if (!isImageFile(file)) throw new Error("File must be an image");
 
   let data = await decodeToImageData(file);
   const { maxDimension } = options;
@@ -180,6 +212,45 @@ async function compressImageWorker(file, options) {
   return buildResult(file, options.outputFormat, encoded);
 }
 
+/**
+ * Reads the pixel dimensions of an image without encoding it. Used by callers
+ * (e.g. resize) for formats the browser cannot decode natively, like HEIC.
+ * @param {File} file
+ * @returns {Promise<{ width: number; height: number }>}
+ */
+async function getImageDimensionsWorker(file) {
+  if (!isImageFile(file)) throw new Error("File must be an image");
+  const { width, height } = await decodeToImageData(file);
+  return { width, height };
+}
+
+/**
+ * Decodes a file the browser cannot display itself (e.g. HEIC) and returns a
+ * small PNG thumbnail as a Blob, for use as a preview.
+ * @param {File} file
+ * @param {number} maxSize
+ * @returns {Promise<Blob>}
+ */
+async function createThumbnailWorker(file, maxSize) {
+  const imageData = await decodeToImageData(file);
+  const scale = Math.min(1, maxSize / Math.max(imageData.width, imageData.height));
+  const width = Math.max(1, Math.round(imageData.width * scale));
+  const height = Math.max(1, Math.round(imageData.height * scale));
+  const thumbnail = scale < 1 ? await resampleImageData(imageData, width, height) : imageData;
+
+  const canvas = new OffscreenCanvas(thumbnail.width, thumbnail.height);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas 2D context not supported");
+  ctx.putImageData(thumbnail, 0, 0);
+  return canvas.convertToBlob({ type: "image/png" });
+}
+
 /** @type {ImageWorkerApi} */
-const api = { encodeImageWorker, resizeImageWorker, compressImageWorker };
+const api = {
+  encodeImageWorker,
+  resizeImageWorker,
+  compressImageWorker,
+  getImageDimensionsWorker,
+  createThumbnailWorker
+};
 Comlink.expose(api);

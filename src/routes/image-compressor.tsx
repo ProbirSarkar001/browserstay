@@ -50,7 +50,7 @@ function ImageCompressorPage() {
             steps={[
               {
                 title: "Upload Images",
-                description: "Drag & drop your photos. We support JPG, PNG, WebP, and more."
+                description: "Drag & drop your photos. We support JPG, PNG, WebP, HEIC, and more."
               },
               {
                 title: "Adjust Quality",

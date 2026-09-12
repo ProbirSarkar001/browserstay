@@ -4,6 +4,7 @@ import { DEFAULT_COMPRESSION_SETTINGS } from "./constants";
 import { createImageFile } from "./services/image-compressor";
 import { useFileHandler } from "@/shared/hooks";
 import { useProcessingState } from "@/shared/hooks";
+import { isSupportedImageFile } from "@/shared/services/image";
 
 interface ImageCompressorContextValue {
   files: ImageFile[];
@@ -26,7 +27,7 @@ export function ImageCompressorProvider({ children }: { children: ReactNode }) {
 
   const fileHandler = useFileHandler<ImageFile>({
     createFile: createImageFile,
-    validateFile: (file: File) => file.type.startsWith('image/'),
+    validateFile: isSupportedImageFile,
   });
 
   const processingState = useProcessingState();
