@@ -21,8 +21,16 @@ interface ImageConverterContextValue {
 
 const ImageConverterContext = createContext<ImageConverterContextValue | null>(null);
 
-export function ImageConverterProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<ConversionSettings>(DEFAULT_CONVERSION_SETTINGS);
+interface ImageConverterProviderProps {
+  children: ReactNode;
+  defaultOutputFormat?: ConversionSettings["outputFormat"];
+}
+
+export function ImageConverterProvider({ children, defaultOutputFormat }: ImageConverterProviderProps) {
+  const [settings, setSettings] = useState<ConversionSettings>({
+    ...DEFAULT_CONVERSION_SETTINGS,
+    ...(defaultOutputFormat ? { outputFormat: defaultOutputFormat } : {}),
+  });
 
   const fileHandler = useFileHandler<ConverterFile>({
     createFile: createConverterFile,

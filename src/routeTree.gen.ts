@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as EncryptPdfRouteImport } from './routes/encrypt-pdf'
 import { Route as ImageCompressorRouteImport } from './routes/image-compressor'
-import { Route as ImageConverterRouteImport } from './routes/image-converter'
 import { Route as ImageResizeRouteImport } from './routes/image-resize'
 import { Route as ImageToPdfRouteImport } from './routes/image-to-pdf'
 import { Route as ImageToolsRouteImport } from './routes/image-tools'
@@ -25,6 +24,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
 import { Route as SplitPdfRouteImport } from './routes/split-pdf'
 import { Route as UnlockPdfRouteImport } from './routes/unlock-pdf'
+import { Route as ImageConverterIndexRouteImport } from './routes/image-converter/index'
+import { Route as ImageConverterConversionRouteImport } from './routes/image-converter/$conversion'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,11 +45,6 @@ const EncryptPdfRoute = EncryptPdfRouteImport.update({
 const ImageCompressorRoute = ImageCompressorRouteImport.update({
   id: '/image-compressor',
   path: '/image-compressor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImageConverterRoute = ImageConverterRouteImport.update({
-  id: '/image-converter',
-  path: '/image-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImageResizeRoute = ImageResizeRouteImport.update({
@@ -106,13 +102,23 @@ const UnlockPdfRoute = UnlockPdfRouteImport.update({
   path: '/unlock-pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImageConverterIndexRoute = ImageConverterIndexRouteImport.update({
+  id: '/image-converter/',
+  path: '/image-converter/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageConverterConversionRoute =
+  ImageConverterConversionRouteImport.update({
+    id: '/image-converter/$conversion',
+    path: '/image-converter/$conversion',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/image-compressor': typeof ImageCompressorRoute
-  '/image-converter': typeof ImageConverterRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
   '/image-tools': typeof ImageToolsRoute
@@ -124,13 +130,14 @@ export interface FileRoutesByFullPath {
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/image-converter/': typeof ImageConverterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/image-compressor': typeof ImageCompressorRoute
-  '/image-converter': typeof ImageConverterRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
   '/image-tools': typeof ImageToolsRoute
@@ -142,6 +149,8 @@ export interface FileRoutesByTo {
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/image-converter': typeof ImageConverterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,7 +158,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/image-compressor': typeof ImageCompressorRoute
-  '/image-converter': typeof ImageConverterRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
   '/image-tools': typeof ImageToolsRoute
@@ -161,6 +169,8 @@ export interface FileRoutesById {
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/image-converter/$conversion': typeof ImageConverterConversionRoute
+  '/image-converter/': typeof ImageConverterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -169,7 +179,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/encrypt-pdf'
     | '/image-compressor'
-    | '/image-converter'
     | '/image-resize'
     | '/image-to-pdf'
     | '/image-tools'
@@ -181,13 +190,14 @@ export interface FileRouteTypes {
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
+    | '/image-converter/$conversion'
+    | '/image-converter/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/encrypt-pdf'
     | '/image-compressor'
-    | '/image-converter'
     | '/image-resize'
     | '/image-to-pdf'
     | '/image-tools'
@@ -199,13 +209,14 @@ export interface FileRouteTypes {
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
+    | '/image-converter/$conversion'
+    | '/image-converter'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/encrypt-pdf'
     | '/image-compressor'
-    | '/image-converter'
     | '/image-resize'
     | '/image-to-pdf'
     | '/image-tools'
@@ -217,6 +228,8 @@ export interface FileRouteTypes {
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
+    | '/image-converter/$conversion'
+    | '/image-converter/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -224,7 +237,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   EncryptPdfRoute: typeof EncryptPdfRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
-  ImageConverterRoute: typeof ImageConverterRoute
   ImageResizeRoute: typeof ImageResizeRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
   ImageToolsRoute: typeof ImageToolsRoute
@@ -236,6 +248,8 @@ export interface RootRouteChildren {
   QrGeneratorRoute: typeof QrGeneratorRoute
   SplitPdfRoute: typeof SplitPdfRoute
   UnlockPdfRoute: typeof UnlockPdfRoute
+  ImageConverterConversionRoute: typeof ImageConverterConversionRoute
+  ImageConverterIndexRoute: typeof ImageConverterIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -266,13 +280,6 @@ declare module '@tanstack/react-router' {
       path: '/image-compressor'
       fullPath: '/image-compressor'
       preLoaderRoute: typeof ImageCompressorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/image-converter': {
-      id: '/image-converter'
-      path: '/image-converter'
-      fullPath: '/image-converter'
-      preLoaderRoute: typeof ImageConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/image-resize': {
@@ -352,6 +359,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnlockPdfRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/image-converter/': {
+      id: '/image-converter/'
+      path: '/image-converter'
+      fullPath: '/image-converter/'
+      preLoaderRoute: typeof ImageConverterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-converter/$conversion': {
+      id: '/image-converter/$conversion'
+      path: '/image-converter/$conversion'
+      fullPath: '/image-converter/$conversion'
+      preLoaderRoute: typeof ImageConverterConversionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -360,7 +381,6 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   EncryptPdfRoute: EncryptPdfRoute,
   ImageCompressorRoute: ImageCompressorRoute,
-  ImageConverterRoute: ImageConverterRoute,
   ImageResizeRoute: ImageResizeRoute,
   ImageToPdfRoute: ImageToPdfRoute,
   ImageToolsRoute: ImageToolsRoute,
@@ -372,6 +392,8 @@ const rootRouteChildren: RootRouteChildren = {
   QrGeneratorRoute: QrGeneratorRoute,
   SplitPdfRoute: SplitPdfRoute,
   UnlockPdfRoute: UnlockPdfRoute,
+  ImageConverterConversionRoute: ImageConverterConversionRoute,
+  ImageConverterIndexRoute: ImageConverterIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
