@@ -47,7 +47,7 @@ function ImageConverterConversionPage() {
         </ClientOnly>
 
         {related.length > 0 && (
-          <section className="mt-12">
+          <section className="my-12">
             <h2 className="text-xl font-semibold mb-4">Convert {combo.from.toUpperCase()} to other formats</h2>
             <div className="flex flex-wrap gap-3">
               {related.map((r) => (
