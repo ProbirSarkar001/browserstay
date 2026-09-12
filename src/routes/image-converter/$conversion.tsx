@@ -1,4 +1,4 @@
-import { createFileRoute, ClientOnly, Link } from "@tanstack/react-router";
+import { createFileRoute, ClientOnly, Link, notFound } from "@tanstack/react-router";
 import { PageHeader } from "@/shared/components/layout/page-header";
 import { HowItWorks } from "@/shared/components/layout/how-it-works";
 import { FAQSection } from "@/shared/components/layout/faq-section";
@@ -17,17 +17,7 @@ function ImageConverterConversionPage() {
   const combo = getConversionBySlug(conversion);
 
   if (!combo) {
-    return (
-      <main className="container mx-auto p-6 space-y-6">
-        <div className="max-w-6xl mx-auto text-center py-20">
-          <h1 className="text-3xl font-bold mb-4">Conversion Not Found</h1>
-          <p className="text-muted-foreground mb-8">This conversion is not supported.</p>
-          <Link to="/image-converter" className="text-primary hover:underline">
-            Go to Image Converter
-          </Link>
-        </div>
-      </main>
-    );
+    throw notFound();
   }
 
   const related = CONVERSION_SLUGS.filter((s) => s.from === combo.from && s.slug !== combo.slug);
@@ -41,7 +31,7 @@ function ImageConverterConversionPage() {
         />
 
         <ClientOnly fallback={<div className="h-64 bg-muted animate-pulse rounded-lg" />}>
-          <ImageConverterProvider defaultOutputFormat={combo.to as ImageFormat}>
+          <ImageConverterProvider key={conversion} defaultOutputFormat={combo.to as ImageFormat}>
             <ImageConverter />
           </ImageConverterProvider>
         </ClientOnly>
