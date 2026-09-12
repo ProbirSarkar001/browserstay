@@ -8,7 +8,7 @@ import { MergeSettings } from "@/features/merge-pdf/components/settings";
 import { MergeActionCard } from "@/features/merge-pdf/components/action-card";
 import { MergeError } from "@/features/merge-pdf/components/error-display";
 import { MergePdfProvider } from "@/features/merge-pdf/context";
-import { generateMetaFromKey } from "@/lib/seo";
+import { generateToolHead } from "@/lib/seo";
 
 const mergePdfFaqItems = [
   {
@@ -31,7 +31,7 @@ const mergePdfFaqItems = [
 
 export const Route = createFileRoute("/merge-pdf")({
   component: MergePdfPage,
-  head: () => generateMetaFromKey("mergePdf")
+  head: () => generateToolHead("mergePdf")
 });
 
 function MergePdfPage() {

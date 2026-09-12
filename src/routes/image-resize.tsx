@@ -4,7 +4,7 @@ import { HowItWorks } from "@/shared/components/layout/how-it-works"
 import { FAQSection } from "@/shared/components/layout/faq-section"
 import { ImageResize } from "@/features/image-resize/image-resize"
 import { ImageResizeProvider } from "@/features/image-resize/context"
-import { generateMetaFromKey } from "@/lib/seo"
+import { generateToolHead } from "@/lib/seo"
 
 const imageResizeFaqItems = [
   {
@@ -27,7 +27,7 @@ const imageResizeFaqItems = [
 
 export const Route = createFileRoute('/image-resize')({
   component: ImageResizePage,
-  head: () => generateMetaFromKey('imageResize'),
+  head: () => generateToolHead('imageResize'),
 })
 
 function ImageResizePage() {

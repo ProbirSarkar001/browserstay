@@ -4,7 +4,7 @@ import { HowItWorks } from "@/shared/components/layout/how-it-works";
 import { FAQSection } from "@/shared/components/layout/faq-section";
 import { QRGenerator } from "@/features/qr-generator/qr-generator";
 import { QRGeneratorProvider } from "@/features/qr-generator";
-import { generateMetaFromKey } from "@/lib/seo";
+import { generateToolHead } from "@/lib/seo";
 
 const qrGeneratorFaqItems = [
   {
@@ -46,7 +46,7 @@ const qrGeneratorFaqItems = [
 
 export const Route = createFileRoute("/qr-generator")({
   component: QRGeneratorPage,
-  head: () => generateMetaFromKey("qrGenerator"),
+  head: () => generateToolHead("qrGenerator"),
 });
 
 function QRGeneratorPage() {

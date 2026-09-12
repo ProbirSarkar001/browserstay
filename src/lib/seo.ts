@@ -17,6 +17,12 @@ export interface MetaConfig {
   twitterCard?: "summary" | "summary_large_image" | "app" | "player";
   canonicalUrl: string;
   keywords?: string;
+  jsonLd?: {
+    name: string;
+    description: string;
+    featureList?: readonly string[];
+    applicationCategory?: string;
+  };
 }
 
 /**
@@ -87,35 +93,60 @@ export const metaConfigs = {
     description:
       "Convert PDF pages to high-quality JPG or PNG images for free. 100% in your browser with WebAssembly — no uploads, and nothing ever leaves your PC.",
     canonicalUrl: `${BASE_URL}/pdf-to-image`,
-    keywords: "pdf to image, convert pdf to jpg, pdf to png, pdf converter, local pdf to image, browserstay"
+    keywords: "pdf to image, convert pdf to jpg, pdf to png, pdf converter, local pdf to image, browserstay",
+    jsonLd: {
+      name: "PDF to Image Converter",
+      description: "Convert PDF pages to high-quality JPG or PNG images. 100% in your browser with WebAssembly — no uploads.",
+      featureList: ["PDF to JPG conversion", "PDF to PNG conversion", "Batch page extraction", "Local WebAssembly processing"]
+    }
   },
   mergePdf: {
     title: "Merge PDF Files - Free Online PDF Combiner | BrowserStay",
     description:
       "Combine multiple PDF files into one document for free. Merge PDFs in seconds — no uploads, no registration, 100% private and processed locally in your browser.",
     canonicalUrl: `${BASE_URL}/merge-pdf`,
-    keywords: "merge pdf, combine pdf, join pdf, pdf combiner, merge pdf files free, local merge pdf, browserstay"
+    keywords: "merge pdf, combine pdf, join pdf, pdf combiner, merge pdf files free, local merge pdf, browserstay",
+    jsonLd: {
+      name: "Merge PDF Files",
+      description: "Combine multiple PDF files into one document. Merge PDFs in seconds — no uploads, 100% private.",
+      featureList: ["Merge multiple PDFs", "Drag-and-drop reordering", "Instant local processing"]
+    }
   },
   splitPdf: {
     title: "Split PDF File - Extract Pages Free Online | BrowserStay",
     description:
       "Split PDF files and extract pages for free. Separate a PDF into individual pages or extract specific ranges — all locally in your browser, no uploads, 100% private.",
     canonicalUrl: `${BASE_URL}/split-pdf`,
-    keywords: "split pdf, extract pages from pdf, split pdf online, pdf page extractor, local split pdf, browserstay"
+    keywords: "split pdf, extract pages from pdf, split pdf online, pdf page extractor, local split pdf, browserstay",
+    jsonLd: {
+      name: "Split PDF File",
+      description: "Split PDF files and extract pages. Separate a PDF into individual pages or extract specific ranges — all locally.",
+      featureList: ["Extract specific pages", "Split into multiple files", "Page range selection", "Local processing"]
+    }
   },
   unlockPdf: {
     title: "Unlock PDF - Remove Password Free Online | BrowserStay",
     description:
       "Remove password protection from PDFs for free. Unlock your PDF instantly — the password and file are processed entirely in your browser, never uploaded, 100% private.",
     canonicalUrl: `${BASE_URL}/unlock-pdf`,
-    keywords: "unlock pdf, remove pdf password, pdf password remover, decrypt pdf, unlock pdf online, local pdf unlock, browserstay"
+    keywords: "unlock pdf, remove pdf password, pdf password remover, decrypt pdf, unlock pdf online, local pdf unlock, browserstay",
+    jsonLd: {
+      name: "Unlock PDF",
+      description: "Remove password protection from PDFs. Unlock your PDF instantly — processed entirely in your browser.",
+      featureList: ["Remove PDF passwords", "Decrypt protected PDFs", "Instant local processing"]
+    }
   },
   encryptPdf: {
     title: "Encrypt PDF - Password Protect PDF Free Online | BrowserStay",
     description:
       "Protect your PDF with a password for free. Encrypt your PDF instantly — everything happens in your browser, never uploaded, 100% private.",
     canonicalUrl: `${BASE_URL}/encrypt-pdf`,
-    keywords: "encrypt pdf, password protect pdf, add password to pdf, protect pdf, pdf encryption, local pdf encrypt, browserstay"
+    keywords: "encrypt pdf, password protect pdf, add password to pdf, protect pdf, pdf encryption, local pdf encrypt, browserstay",
+    jsonLd: {
+      name: "Encrypt PDF",
+      description: "Protect your PDF with a password. Encrypt your PDF instantly — everything happens in your browser.",
+      featureList: ["Add password protection", "Encrypt PDF files", "Local secure processing"]
+    }
   },
   imageConverter: {
     title: "Image Converter - Convert Images Online Free | BrowserStay",
@@ -123,7 +154,12 @@ export const metaConfigs = {
       "Convert JPG, PNG, WebP, AVIF, and HEIC images free. High-quality WebAssembly encoding runs entirely in your browser — no uploads, no limits, 100% private.",
     canonicalUrl: `${BASE_URL}/image-converter`,
     keywords:
-      "image converter, convert jpg to png, webp to jpg, avif converter, heic to jpg, image format converter, local image converter, browserstay"
+      "image converter, convert jpg to png, webp to jpg, avif converter, heic to jpg, image format converter, local image converter, browserstay",
+    jsonLd: {
+      name: "Image Converter",
+      description: "Convert JPG, PNG, WebP, AVIF, and HEIC images. High-quality WebAssembly encoding runs entirely in your browser.",
+      featureList: ["JPG, PNG, WebP, AVIF, HEIC support", "Batch conversion", "Quality control", "WebAssembly encoding"]
+    }
   },
   imageToPdf: {
     title: "Image to PDF Converter - Convert Images to PDF Free | BrowserStay",
@@ -131,7 +167,12 @@ export const metaConfigs = {
       "Convert images (JPG, PNG, WebP) to PDF documents. Sortable pages, custom settings, fully local processing. Free and private — your images never leave your device.",
     canonicalUrl: `${BASE_URL}/image-to-pdf`,
     keywords:
-      "image to pdf, jpg to pdf, png to pdf, photos to pdf, image to pdf converter, local image to pdf, browserstay"
+      "image to pdf, jpg to pdf, png to pdf, photos to pdf, image to pdf converter, local image to pdf, browserstay",
+    jsonLd: {
+      name: "Image to PDF Converter",
+      description: "Convert images to PDF documents. Sortable pages, custom settings, fully local processing.",
+      featureList: ["Images to PDF", "Page sorting", "Custom page settings", "Batch conversion"]
+    }
   },
   imageResize: {
     title: "Image Resizer - Resize Images Online Free | BrowserStay",
@@ -139,7 +180,12 @@ export const metaConfigs = {
       "Resize images to any dimension for free. Maintain aspect ratio, batch process multiple images, convert formats — all in your browser with no uploads.",
     canonicalUrl: `${BASE_URL}/image-resize`,
     keywords:
-      "image resizer, resize image, resize jpg, resize png, image dimensions, batch resize images, local resizer, browserstay"
+      "image resizer, resize image, resize jpg, resize png, image dimensions, batch resize images, local resizer, browserstay",
+    jsonLd: {
+      name: "Image Resizer",
+      description: "Resize images to any dimension. Maintain aspect ratio, batch process multiple images — all in your browser.",
+      featureList: ["Resize to any dimension", "Aspect ratio lock", "Batch resizing", "Format conversion"]
+    }
   },
   imageCompressor: {
     title: "Image Compressor - Compress Images Online Free | BrowserStay",
@@ -147,7 +193,12 @@ export const metaConfigs = {
       "Compress images to reduce file size while keeping quality. Smart compression, batch processing, multiple formats — 100% free, private, and processed locally.",
     canonicalUrl: `${BASE_URL}/image-compressor`,
     keywords:
-      "image compressor, compress image, reduce image size, compress jpg, compress png, photo compressor, local compression, browserstay"
+      "image compressor, compress image, reduce image size, compress jpg, compress png, photo compressor, local compression, browserstay",
+    jsonLd: {
+      name: "Image Compressor",
+      description: "Compress images to reduce file size while keeping quality. Smart compression, batch processing, multiple formats.",
+      featureList: ["Smart compression", "Batch processing", "Multiple formats", "Quality control"]
+    }
   },
   qrGenerator: {
     title: "QR Code Generator - Create Custom QR Codes Free | BrowserStay",
@@ -155,7 +206,12 @@ export const metaConfigs = {
       "Generate custom QR codes for URLs, text, WiFi, and contacts. Customizable colors, sizes, and error correction. 100% free, private, and generated in your browser.",
     canonicalUrl: `${BASE_URL}/qr-generator`,
     keywords:
-      "qr code generator, create qr code, wifi qr code, qr code for url, custom qr code, free qr generator, browserstay"
+      "qr code generator, create qr code, wifi qr code, qr code for url, custom qr code, free qr generator, browserstay",
+    jsonLd: {
+      name: "QR Code Generator",
+      description: "Generate custom QR codes for URLs, text, WiFi, and contacts. Customizable colors, sizes, and error correction.",
+      featureList: ["URL, text, WiFi, contact QR codes", "Custom colors and sizes", "Error correction levels", "PNG and SVG export"]
+    }
   },
   passwordGenerator: {
     title: "Secure Password Generator - Free Online Tool | BrowserStay",
@@ -163,7 +219,12 @@ export const metaConfigs = {
       "Generate strong, secure passwords instantly in your browser using the Web Crypto API. Customizable length and character types. Fully local — nothing is stored or sent.",
     canonicalUrl: `${BASE_URL}/password-generator`,
     keywords:
-      "password generator, strong password, random password, secure password, password creator, local password generator, browserstay"
+      "password generator, strong password, random password, secure password, password creator, local password generator, browserstay",
+    jsonLd: {
+      name: "Secure Password Generator",
+      description: "Generate strong, secure passwords using the Web Crypto API. Customizable length and character types.",
+      featureList: ["Cryptographic randomness", "Customizable length", "Character type options", "One-click generation"]
+    }
   },
   privacy: {
     title: "Privacy Policy - No Data Collection, Ever | BrowserStay",
@@ -185,6 +246,50 @@ export const metaConfigs = {
  * Type-safe meta configuration keys
  */
 export type MetaConfigKey = keyof typeof metaConfigs;
+
+/**
+ * Generates SoftwareApplication JSON-LD structured data for a tool route.
+ * Helps AI systems and search engines understand each tool's purpose and capabilities.
+ */
+function buildToolJsonLd(config: MetaConfig, canonicalUrl: string) {
+  const { jsonLd } = config;
+  if (!jsonLd) return undefined;
+
+  return [
+    {
+      type: "application/ld+json" as const,
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: jsonLd.name,
+        url: canonicalUrl,
+        description: jsonLd.description,
+        applicationCategory: jsonLd.applicationCategory ?? "UtilitiesApplication",
+        operatingSystem: "Any",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD"
+        },
+        ...(jsonLd.featureList?.length ? { featureList: jsonLd.featureList } : {})
+      })
+    }
+  ];
+}
+
+/**
+ * Generates combined head config (meta tags + JSON-LD) for a tool route.
+ * Reads everything from the single metaConfigs source of truth.
+ * @param key - The meta config key matching the tool
+ * @returns TanStack Router compatible head configuration with structured data
+ */
+export function generateToolHead(key: MetaConfigKey) {
+  const config = metaConfigs[key];
+  const meta = generateMeta(config);
+  const scripts = buildToolJsonLd(config, config.canonicalUrl);
+
+  return scripts ? { ...meta, scripts } : meta;
+}
 
 /**
  * Helper function to get meta config by key
