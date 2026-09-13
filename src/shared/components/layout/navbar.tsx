@@ -8,20 +8,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger
 } from "@/shared/components/ui/navigation-menu";
-import { Layers, Menu } from "lucide-react";
+import { Layers, Menu, Search } from "lucide-react";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/shared/components/ui/sheet";
 import { TOOLS_CONFIG } from "@/config/tools";
 import { SITE_CONFIG } from "@/config/site";
 import { ModeToggle } from "@/shared/components/layout/theme-toggler";
 import { GithubIcon } from "@/shared/components/common";
+import { useCommandPalette } from "@/shared/hooks/use-command-palette";
 import { useState } from "react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { setOpen: setPaletteOpen } = useCommandPalette();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md upports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 font-bold text-xl text-primary mr-8">
@@ -41,31 +43,25 @@ export function Navbar() {
                   Tools
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-105 p-3 lg:w-125">
-                    <div className="grid grid-cols-2 gap-3">
+                  <div className="w-105 p-3">
+                    <div className="grid grid-cols-2 gap-1">
                       {TOOLS_CONFIG.map((category) => (
-                        <div key={category.title} className="space-y-2">
-                          <div className="flex items-center gap-1.5 pb-1 border-b border-border">
-                            <category.icon className="w-4 h-4 text-primary" />
-                            <h4 className="font-semibold text-sm text-foreground">{category.title}</h4>
-                          </div>
-                          <ul className="space-y-0.5">
-                            {category.items
-                              .filter((item) => !item.disabled)
-                              .map((item) => (
-                                <li key={item.title}>
-                                  <NavigationMenuLink>
-                                    <Link
-                                      to={item.href}
-                                      className="block px-2 py-1 text-xs text-muted-foreground rounded-md hover:bg-muted hover:text-primary transition-colors"
-                                    >
-                                      {item.title}
-                                    </Link>
-                                  </NavigationMenuLink>
-                                </li>
-                              ))}
-                          </ul>
-                        </div>
+                        <NavigationMenuLink key={category.href}>
+                          <Link
+                            to={category.href}
+                            className="flex w-full items-center gap-2.5 px-2.5 py-2 rounded-md hover:bg-muted transition-colors"
+                          >
+                            <span className="p-1.5 rounded-lg bg-primary/10 text-primary shrink-0">
+                              <category.icon className="w-4 h-4" />
+                            </span>
+                            <span className="text-sm font-medium text-foreground truncate">
+                              {category.title}
+                            </span>
+                            <span className="ml-auto text-xs text-muted-foreground shrink-0">
+                              {category.items.filter((item) => !item.disabled).length}
+                            </span>
+                          </Link>
+                        </NavigationMenuLink>
                       ))}
                     </div>
 
@@ -101,6 +97,20 @@ export function Navbar() {
 
         {/* Action Button */}
         <div className="hidden md:flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPaletteOpen(true)}
+            className="gap-2 text-muted-foreground"
+            aria-label="Search tools"
+          >
+            <Search className="h-4 w-4" />
+            Search
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-0.5 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+              Ctrl K
+            </kbd>
+          </Button>
+
           <ModeToggle />
 
           <Button
@@ -139,6 +149,20 @@ export function Navbar() {
               </div>
 
               <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-6 min-h-0">
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    setPaletteOpen(true);
+                  }}
+                  className="flex items-center gap-2.5 text-lg font-medium text-muted-foreground hover:text-primary transition-colors text-left"
+                >
+                  <Search className="w-4 h-4" />
+                  Search tools
+                  <kbd className="ml-auto inline-flex items-center rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground">
+                    Ctrl K
+                  </kbd>
+                </button>
+
                 <Link
                   to="/"
                   onClick={() => setIsOpen(false)}
@@ -155,33 +179,23 @@ export function Navbar() {
                   Blog
                 </Link>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <h4 className="font-medium text-foreground border-b border-border pb-2">Tools</h4>
-                  {TOOLS_CONFIG.map((tool) => (
-                    <div key={tool.title} className="space-y-3 pl-2">
-                      <Link
-                        to={tool.href}
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-2 font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        <tool.icon className="w-4 h-4" />
-                        {tool.title}
-                      </Link>
-                      <div className="pl-6 space-y-3 border-l-2 border-border ml-1.5">
-                        {tool.items
-                          .filter((item) => !item.disabled)
-                          .map((item) => (
-                            <Link
-                              key={item.title}
-                              to={item.href}
-                              onClick={() => setIsOpen(false)}
-                              className="block text-sm text-muted-foreground hover:text-primary px-2 transition-colors"
-                            >
-                              {item.title}
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
+                  {TOOLS_CONFIG.map((category) => (
+                    <Link
+                      key={category.href}
+                      to={category.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-2.5 font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      <span className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                        <category.icon className="w-4 h-4" />
+                      </span>
+                      {category.title}
+                      <span className="ml-auto text-xs font-normal text-muted-foreground">
+                        {category.items.filter((item) => !item.disabled).length}
+                      </span>
+                    </Link>
                   ))}
                 </div>
               </div>
