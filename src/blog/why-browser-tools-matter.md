@@ -56,3 +56,7 @@ But for most personal use cases, these trade-offs are worth it.
 As WebAssembly matures and browser APIs expand, more processing will move to the client. The server-centric model isn't going away, but the browser-first approach is becoming viable for an increasing number of use cases.
 
 The key insight: you don't need to send your files to someone else's computer just because a website tells you to.
+
+## Try It Yourself
+
+Experience browser-first tools at [BrowserStay](/) — [image compression](/image-compressor), [PDF merging](/merge-pdf), [QR codes](/qr-generator), [password generation](/password-generator), and more. Every tool runs 100% in your browser.

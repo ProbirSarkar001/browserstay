@@ -24,7 +24,11 @@ User drops image → File API reads bytes → WASM decodes image →
 Process pixels → WASM encodes result → Blob URL for download
 ```
 
-The entire pipeline happens without any network requests.
+The entire pipeline happens without any network requests — and without your images ever leaving your device.
+
+## Try It Yourself
+
+See it in action: [compress](/image-compressor), [convert](/image-converter), and [resize](/image-resize) images right in your browser with BrowserStay — powered by WASM and Web Workers.
 
 ## Real-World Performance
 
