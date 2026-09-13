@@ -15,17 +15,16 @@ import { Route as EncryptPdfRouteImport } from './routes/encrypt-pdf'
 import { Route as ImageCompressorRouteImport } from './routes/image-compressor'
 import { Route as ImageResizeRouteImport } from './routes/image-resize'
 import { Route as ImageToPdfRouteImport } from './routes/image-to-pdf'
-import { Route as ImageToolsRouteImport } from './routes/image-tools'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MergePdfRouteImport } from './routes/merge-pdf'
 import { Route as PasswordGeneratorRouteImport } from './routes/password-generator'
 import { Route as PdfToImageRouteImport } from './routes/pdf-to-image'
-import { Route as PdfToolsRouteImport } from './routes/pdf-tools'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
 import { Route as SplitPdfRouteImport } from './routes/split-pdf'
 import { Route as UnlockPdfRouteImport } from './routes/unlock-pdf'
-import { Route as ApiDottoolsJsonRouteImport } from './routes/api[.]tools.json'
+import { Route as Char123categoryChar125ToolsRouteImport } from './routes/{$category}-tools'
+import { Route as ApiToolsDotjsonRouteImport } from './routes/api/tools[.]json'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as ImageConverterIndexRouteImport } from './routes/image-converter/index'
@@ -61,11 +60,6 @@ const ImageToPdfRoute = ImageToPdfRouteImport.update({
   path: '/image-to-pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ImageToolsRoute = ImageToolsRouteImport.update({
-  id: '/image-tools',
-  path: '/image-tools',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
@@ -84,11 +78,6 @@ const PasswordGeneratorRoute = PasswordGeneratorRouteImport.update({
 const PdfToImageRoute = PdfToImageRouteImport.update({
   id: '/pdf-to-image',
   path: '/pdf-to-image',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PdfToolsRoute = PdfToolsRouteImport.update({
-  id: '/pdf-tools',
-  path: '/pdf-tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -111,9 +100,15 @@ const UnlockPdfRoute = UnlockPdfRouteImport.update({
   path: '/unlock-pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiDottoolsJsonRoute = ApiDottoolsJsonRouteImport.update({
-  id: '/api.tools/json',
-  path: '/api.tools/json',
+const Char123categoryChar125ToolsRoute =
+  Char123categoryChar125ToolsRouteImport.update({
+    id: '/{$category}-tools',
+    path: '/{$category}-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiToolsDotjsonRoute = ApiToolsDotjsonRouteImport.update({
+  id: '/api/tools.json',
+  path: '/api/tools.json',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -145,17 +140,16 @@ export interface FileRoutesByFullPath {
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
-  '/image-tools': typeof ImageToolsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
-  '/pdf-tools': typeof PdfToolsRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
-  '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
+  '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
   '/blog/': typeof BlogIndexRoute
@@ -168,17 +162,16 @@ export interface FileRoutesByTo {
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
-  '/image-tools': typeof ImageToolsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
-  '/pdf-tools': typeof PdfToolsRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
-  '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
+  '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
   '/blog': typeof BlogIndexRoute
@@ -192,17 +185,16 @@ export interface FileRoutesById {
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
-  '/image-tools': typeof ImageToolsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
-  '/pdf-tools': typeof PdfToolsRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
-  '/api.tools/json': typeof ApiDottoolsJsonRoute
+  '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
+  '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/image-converter/$conversion': typeof ImageConverterConversionRoute
   '/blog/': typeof BlogIndexRoute
@@ -217,17 +209,16 @@ export interface FileRouteTypes {
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
-    | '/image-tools'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
-    | '/pdf-tools'
     | '/privacy'
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
-    | '/api.tools/json'
+    | '/{$category}-tools'
+    | '/api/tools.json'
     | '/blog/$slug'
     | '/image-converter/$conversion'
     | '/blog/'
@@ -240,17 +231,16 @@ export interface FileRouteTypes {
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
-    | '/image-tools'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
-    | '/pdf-tools'
     | '/privacy'
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
-    | '/api.tools/json'
+    | '/{$category}-tools'
+    | '/api/tools.json'
     | '/blog/$slug'
     | '/image-converter/$conversion'
     | '/blog'
@@ -263,17 +253,16 @@ export interface FileRouteTypes {
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
-    | '/image-tools'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
-    | '/pdf-tools'
     | '/privacy'
     | '/qr-generator'
     | '/split-pdf'
     | '/unlock-pdf'
-    | '/api.tools/json'
+    | '/{$category}-tools'
+    | '/api/tools.json'
     | '/blog/$slug'
     | '/image-converter/$conversion'
     | '/blog/'
@@ -287,17 +276,16 @@ export interface RootRouteChildren {
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageResizeRoute: typeof ImageResizeRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
-  ImageToolsRoute: typeof ImageToolsRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MergePdfRoute: typeof MergePdfRoute
   PasswordGeneratorRoute: typeof PasswordGeneratorRoute
   PdfToImageRoute: typeof PdfToImageRoute
-  PdfToolsRoute: typeof PdfToolsRoute
   PrivacyRoute: typeof PrivacyRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   SplitPdfRoute: typeof SplitPdfRoute
   UnlockPdfRoute: typeof UnlockPdfRoute
-  ApiDottoolsJsonRoute: typeof ApiDottoolsJsonRoute
+  Char123categoryChar125ToolsRoute: typeof Char123categoryChar125ToolsRoute
+  ApiToolsDotjsonRoute: typeof ApiToolsDotjsonRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ImageConverterConversionRoute: typeof ImageConverterConversionRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -348,13 +336,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageToPdfRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/image-tools': {
-      id: '/image-tools'
-      path: '/image-tools'
-      fullPath: '/image-tools'
-      preLoaderRoute: typeof ImageToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/llms.txt': {
       id: '/llms.txt'
       path: '/llms.txt'
@@ -381,13 +362,6 @@ declare module '@tanstack/react-router' {
       path: '/pdf-to-image'
       fullPath: '/pdf-to-image'
       preLoaderRoute: typeof PdfToImageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pdf-tools': {
-      id: '/pdf-tools'
-      path: '/pdf-tools'
-      fullPath: '/pdf-tools'
-      preLoaderRoute: typeof PdfToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -418,11 +392,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnlockPdfRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api.tools/json': {
-      id: '/api.tools/json'
-      path: '/api.tools/json'
-      fullPath: '/api.tools/json'
-      preLoaderRoute: typeof ApiDottoolsJsonRouteImport
+    '/{$category}-tools': {
+      id: '/{$category}-tools'
+      path: '/{$category}-tools'
+      fullPath: '/{$category}-tools'
+      preLoaderRoute: typeof Char123categoryChar125ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tools.json': {
+      id: '/api/tools.json'
+      path: '/api/tools.json'
+      fullPath: '/api/tools.json'
+      preLoaderRoute: typeof ApiToolsDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -463,17 +444,16 @@ const rootRouteChildren: RootRouteChildren = {
   ImageCompressorRoute: ImageCompressorRoute,
   ImageResizeRoute: ImageResizeRoute,
   ImageToPdfRoute: ImageToPdfRoute,
-  ImageToolsRoute: ImageToolsRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MergePdfRoute: MergePdfRoute,
   PasswordGeneratorRoute: PasswordGeneratorRoute,
   PdfToImageRoute: PdfToImageRoute,
-  PdfToolsRoute: PdfToolsRoute,
   PrivacyRoute: PrivacyRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   SplitPdfRoute: SplitPdfRoute,
   UnlockPdfRoute: UnlockPdfRoute,
-  ApiDottoolsJsonRoute: ApiDottoolsJsonRoute,
+  Char123categoryChar125ToolsRoute: Char123categoryChar125ToolsRoute,
+  ApiToolsDotjsonRoute: ApiToolsDotjsonRoute,
   BlogSlugRoute: BlogSlugRoute,
   ImageConverterConversionRoute: ImageConverterConversionRoute,
   BlogIndexRoute: BlogIndexRoute,

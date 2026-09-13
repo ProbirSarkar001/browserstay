@@ -3,6 +3,7 @@ import { Outlet, createRootRoute, HeadContent, Scripts } from "@tanstack/react-r
 import appCss from "@/styles/globals.css?url";
 import { Navbar } from "@/shared/components/layout/navbar";
 import { Footer } from "@/shared/components/layout/footer";
+import { CommandPalette } from "@/shared/components/command-palette";
 import { ThemeProvider } from "@/shared/components/layout/theme-provider";
 import { SkipLink } from "@/shared/components/layout/skip-link";
 import { BASE_URL } from "@/lib/seo";
@@ -131,6 +132,7 @@ function RootLayout() {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SkipLink />
           <Navbar />
+          <CommandPalette />
           <div className="flex-1" id="main-content" tabIndex={-1}>
             <Outlet />
           </div>
