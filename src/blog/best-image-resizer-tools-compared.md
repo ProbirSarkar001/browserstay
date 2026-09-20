@@ -112,4 +112,4 @@ The biggest file size win isn't compression — it's removing pixels you don't n
 
 ## Try It Yourself
 
-Resize images with our free [Image Resizer](/image-resizer) — set dimensions, lock aspect ratio, batch process, download as ZIP. Pair with [Image Compressor](/image-compressor) for a complete optimization workflow.
+Resize images with our free [Image Resizer](/image-resize) — set dimensions, lock aspect ratio, batch process, download as ZIP. Pair with [Image Compressor](/image-compressor) for a complete optimization workflow.

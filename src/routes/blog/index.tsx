@@ -17,16 +17,15 @@ export const Route = createFileRoute("/blog/")({
     };
   },
   component: BlogIndex,
-  head: ({ search }) => {
+  head: ({ match }) => {
     const meta = generateMetaFromKey("blog");
-    const raw = Number(search?.page);
-    const page = Number.isFinite(raw) && raw >= 1 ? Math.floor(raw) : 1;
+    const page = match.search.page;
     if (page <= 1) return meta;
 
     const pageTitle = `Blog - Page ${page} | BrowserStay`;
     return {
       ...meta,
-      meta: meta.meta?.map((tag) => (tag.title ? { title: pageTitle } : tag))
+      meta: meta.meta?.map((tag) => (tag?.title ? { title: pageTitle } : tag))
     };
   }
 });
