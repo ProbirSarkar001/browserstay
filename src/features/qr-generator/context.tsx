@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode, useState, useCallback, useMemo } from "react";
 import { useProcessingState } from "@/shared/hooks";
-import { generateQRCode, type GenerateQRResult } from "./services/qr-generator";
+import type { GenerateQRResult } from "./services/qr-generator";
 import {
   DEFAULT_QR_SETTINGS,
   DEFAULT_WIFI_CONFIG,
@@ -35,7 +35,10 @@ interface QRGeneratorContextValue {
   setSmsConfig: (config: Partial<SmsConfig>) => void;
   setGeoConfig: (config: Partial<GeoConfig>) => void;
   updateSettings: (settings: Partial<QRSettings>) => void;
-  generateQR: () => Promise<void>;
+  setResult: (result: GenerateQRResult | null) => void;
+  startProcessing: () => void;
+  setSuccessWithStop: () => void;
+  setErrorWithStop: (error: string) => void;
   setError: (error: string | null) => void;
   reset: () => void;
 }
@@ -83,27 +86,6 @@ export function QRGeneratorProvider({ children }: { children: ReactNode }) {
     setGeoConfigState((prev) => ({ ...prev, ...config }));
   }, []);
 
-  const generateQR = useCallback(async () => {
-    processingState.startProcessing();
-
-    try {
-      const result = await generateQRCode({
-        content,
-        contentType,
-        wifiConfig,
-        vcardConfig,
-        smsConfig,
-        geoConfig,
-        settings,
-      });
-      setResult(result);
-      processingState.setSuccessWithStop();
-    } catch (err) {
-      processingState.setErrorWithStop(err instanceof Error ? err.message : "Failed to generate QR code");
-      setResult(null);
-    }
-  }, [content, contentType, wifiConfig, vcardConfig, smsConfig, geoConfig, settings, processingState]);
-
   const reset = useCallback(() => {
     setContent("");
     setResult(null);
@@ -134,7 +116,10 @@ export function QRGeneratorProvider({ children }: { children: ReactNode }) {
       setSmsConfig,
       setGeoConfig,
       updateSettings,
-      generateQR,
+      setResult,
+      startProcessing: processingState.startProcessing,
+      setSuccessWithStop: processingState.setSuccessWithStop,
+      setErrorWithStop: processingState.setErrorWithStop,
       setError: processingState.setError,
       reset,
     }),
@@ -156,7 +141,9 @@ export function QRGeneratorProvider({ children }: { children: ReactNode }) {
       setSmsConfig,
       setGeoConfig,
       updateSettings,
-      generateQR,
+      processingState.startProcessing,
+      processingState.setSuccessWithStop,
+      processingState.setErrorWithStop,
       processingState.setError,
       reset,
     ]

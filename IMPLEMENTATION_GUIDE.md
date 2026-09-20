@@ -20,7 +20,6 @@ src/
 │   │   ├── components/
 │   │   ├── constants/
 │   │   ├── context.tsx
-│   │   ├── index.ts
 │   │   └── types/
 │   └── [other features...]
 ├── lib/                # General-purpose utilities
@@ -53,10 +52,11 @@ feature-name/
 │   └── index.ts         # Feature-specific types
 ├── services/            # Optional: feature-specific services
 │   └── feature-name.ts  # Core processing logic
-├── context.tsx          # React Context provider
-├── index.ts             # Feature entry point
+├── context.tsx          # React Context provider (no client-only service imports)
 └── feature-name.tsx     # Main page component
 ```
+
+> **Do not add a feature `index.ts` barrel.** Routes and universal code must import `context`, `components/*`, `constants`, and `services/*` by path. Barrel imports pull the whole feature into the SSR graph and break client-only import protection. See `AGENTS.md`.
 
 ## Adding a New Feature
 
@@ -195,67 +195,75 @@ yourFeature: {
 }
 ```
 
+## Import Conventions
+
+**Barrel (`index.ts`) imports are an anti-pattern** for routes, contexts, and any code that runs during SSR. Import concrete modules by path:
+
+```typescript
+// ✅ Route — direct paths, ssr: false for browser tools
+import { EncryptPdfProvider } from "@/features/encrypt-pdf/context";
+import { EncryptActionCard } from "@/features/encrypt-pdf/components/action-card";
+
+// ✅ Feature component — client runtime from .client.ts
+import { compressImages } from "@/shared/services/image/image.client";
+import { createZip } from "@/shared/services/zip/zip";
+import { downloadBlob } from "@/shared/services/download/download";
+
+// ✅ Universal code — types only from service barrels when needed
+import type { FileWithInfo } from "@/shared/services/pdf/types";
+
+// ❌ Pulls entire feature/service graph into the server bundle
+import { EncryptPdfProvider } from "@/features/encrypt-pdf";
+import { createZip, downloadBlob } from "@/shared/services";
+```
+
+Browser-only service files use `import "@tanstack/react-start/client-only"` or a `*.client.ts` suffix. See `AGENTS.md` → "Client-Only Code & Server Bundle Size".
+
 ## Shared Services
+
+Import implementation files directly — not `@/shared/services` barrels.
 
 ### PDF Service
 
-Located at: `src/shared/services/pdf/index.ts`
+Runtime: `src/shared/services/pdf/pdf.client.ts` (browser only). Types: `src/shared/services/pdf/types.ts`.
 
 ```typescript
-import { PdfService } from "@/shared/services";
+import { PdfService, encryptPdf, unlockPdf, isPdfEncrypted } from "@/shared/services/pdf/pdf.client";
+import type { FileWithInfo } from "@/shared/services/pdf/types";
 
-// Get file info (name, size, page count)
 const info = await PdfService.getFileInfo(file);
-
-// Convert PDF to images
 const images = await PdfService.pdfToImages(file, { scale: 2 });
-
-// Extract specific pages
-const blob = await PdfService.extractPagesAsPdf(file, [0, 1, 2]);
-
-// Split all pages
-const files = await PdfService.splitAllPages(file, pageCount, baseName);
-
-// PDF encryption
-import { encryptPdf, unlockPdf, isPdfEncrypted } from "@/shared/services";
 const encrypted = await encryptPdf(file, password);
-const unlocked = await unlockPdf(file, password);
-const isEncrypted = await isPdfEncrypted(file);
 ```
 
 ### Download Service
 
-Located at: `src/shared/services/download/index.ts`
+`src/shared/services/download/download.ts`
 
 ```typescript
-import { downloadBlob } from "@/shared/services";
+import { downloadBlob } from "@/shared/services/download/download";
 
-// Trigger browser download
 downloadBlob(blob, "filename.pdf");
 ```
 
 ### File Service
 
-Located at: `src/shared/services/file/index.ts`
+`src/shared/services/file/file.ts`
 
 ```typescript
-import { getBaseName, getFileExtension } from "@/shared/services";
+import { getBaseName, getFileExtension } from "@/shared/services/file/file";
 
-// Get filename without extension
-const baseName = getBaseName(file); // "document" from "document.pdf"
-
-// Get file extension
-const ext = getFileExtension(file); // "pdf" from "document.pdf"
+const baseName = getBaseName(file);
+const ext = getFileExtension(file);
 ```
 
 ### Zip Service
 
-Located at: `src/shared/services/zip/index.ts`
+`src/shared/services/zip/zip.ts`
 
 ```typescript
-import { createZip } from "@/shared/services";
+import { createZip } from "@/shared/services/zip/zip";
 
-// Create ZIP from files
 const zipBlob = await createZip({
   "file1.pdf": file1Blob,
   "file2.pdf": file2Blob,
@@ -459,7 +467,8 @@ async function processFiles() {
 ### Downloading Results
 
 ```typescript
-import { downloadBlob } from "@/shared/services";
+import { downloadBlob } from "@/shared/services/download/download";
+import { createZip } from "@/shared/services/zip/zip";
 
 function downloadResults(results: ProcessedFile[]) {
   if (results.length === 1) {

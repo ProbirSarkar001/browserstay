@@ -1,3 +1,5 @@
+import "@tanstack/react-start/client-only";
+
 /**
  * @ai-agent Browser-only PDF runtime. Import this file from feature components only —
  * never from route shells, contexts, or universal barrels. Pair with `ssr: false` on PDF

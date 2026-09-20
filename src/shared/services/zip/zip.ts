@@ -1,3 +1,4 @@
+import "@tanstack/react-start/client-only";
 import { zip } from "fflate";
 
 /**
