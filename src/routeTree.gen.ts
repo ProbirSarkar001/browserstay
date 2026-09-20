@@ -21,6 +21,7 @@ import { Route as PasswordGeneratorRouteImport } from './routes/password-generat
 import { Route as PdfToImageRouteImport } from './routes/pdf-to-image'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
+import { Route as RemoveImageMetadataRouteImport } from './routes/remove-image-metadata'
 import { Route as SplitPdfRouteImport } from './routes/split-pdf'
 import { Route as UnlockPdfRouteImport } from './routes/unlock-pdf'
 import { Route as Char123categoryChar125ToolsRouteImport } from './routes/{$category}-tools'
@@ -90,6 +91,11 @@ const QrGeneratorRoute = QrGeneratorRouteImport.update({
   path: '/qr-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RemoveImageMetadataRoute = RemoveImageMetadataRouteImport.update({
+  id: '/remove-image-metadata',
+  path: '/remove-image-metadata',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SplitPdfRoute = SplitPdfRouteImport.update({
   id: '/split-pdf',
   path: '/split-pdf',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/pdf-to-image': typeof PdfToImageRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/pdf-to-image': typeof PdfToImageRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/pdf-to-image': typeof PdfToImageRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
   '/unlock-pdf': typeof UnlockPdfRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/privacy'
     | '/qr-generator'
+    | '/remove-image-metadata'
     | '/split-pdf'
     | '/unlock-pdf'
     | '/{$category}-tools'
@@ -237,6 +247,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/privacy'
     | '/qr-generator'
+    | '/remove-image-metadata'
     | '/split-pdf'
     | '/unlock-pdf'
     | '/{$category}-tools'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/privacy'
     | '/qr-generator'
+    | '/remove-image-metadata'
     | '/split-pdf'
     | '/unlock-pdf'
     | '/{$category}-tools'
@@ -282,6 +294,7 @@ export interface RootRouteChildren {
   PdfToImageRoute: typeof PdfToImageRoute
   PrivacyRoute: typeof PrivacyRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  RemoveImageMetadataRoute: typeof RemoveImageMetadataRoute
   SplitPdfRoute: typeof SplitPdfRoute
   UnlockPdfRoute: typeof UnlockPdfRoute
   Char123categoryChar125ToolsRoute: typeof Char123categoryChar125ToolsRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QrGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/remove-image-metadata': {
+      id: '/remove-image-metadata'
+      path: '/remove-image-metadata'
+      fullPath: '/remove-image-metadata'
+      preLoaderRoute: typeof RemoveImageMetadataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/split-pdf': {
       id: '/split-pdf'
       path: '/split-pdf'
@@ -450,6 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToImageRoute: PdfToImageRoute,
   PrivacyRoute: PrivacyRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  RemoveImageMetadataRoute: RemoveImageMetadataRoute,
   SplitPdfRoute: SplitPdfRoute,
   UnlockPdfRoute: UnlockPdfRoute,
   Char123categoryChar125ToolsRoute: Char123categoryChar125ToolsRoute,
