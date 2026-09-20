@@ -6,8 +6,8 @@
 import { openPdf } from "clawpdf/browser";
 import { PDFDocument } from "@cantoo/pdf-lib";
 import pLimit from "p-limit";
-import { createZip } from "../zip";
-import { getBaseName } from "../file";
+import { createZip } from "../zip/zip";
+import { getBaseName } from "../file/file";
 import type {
   EncryptPdfResult,
   FileWithInfo,

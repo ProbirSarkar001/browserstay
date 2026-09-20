@@ -1,4 +1,4 @@
-import type { ImageFormat } from "@/shared/services";
+import type { ImageFormat } from "@/shared/services/image/types";
 
 export interface ConverterFile {
   id: string;

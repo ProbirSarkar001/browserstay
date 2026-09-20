@@ -3,7 +3,7 @@ import type { ImageFile, ResizeSettings } from "./types";
 import { DEFAULT_RESIZE_SETTINGS } from "./constants";
 import { createImageFile, revokeImageFilePreview } from "./services/image-resize";
 import { useProcessingState } from "@/shared/hooks";
-import { isSupportedImageFile } from "@/shared/services/image";
+import { isSupportedImageFile } from "@/shared/services/image/image-file";
 
 interface ImageResizeContextValue {
   files: ImageFile[];

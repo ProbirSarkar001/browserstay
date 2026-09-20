@@ -6,8 +6,8 @@ import { useSplitPdfContext } from "../context";
 import type { SplitMode } from "../types";
 import { extractPages, splitAllPages } from "../services/split-pdf";
 import { Info, Download, Scissors, Loader2 } from "lucide-react";
-import { createZip } from "@/shared/services/zip";
-import { downloadBlob } from "@/shared/services/download";
+import { createZip } from "@/shared/services/zip/zip";
+import { downloadBlob } from "@/shared/services/download/download";
 
 export function SplitControls() {
   const { fileData, settings, selectedPages, isProcessing, setIsProcessing, setError, updateSettings } =

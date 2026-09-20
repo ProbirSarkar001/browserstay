@@ -4,7 +4,7 @@ import { Slider } from "@/shared/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { useImageConverterContext } from "../context";
 import { OUTPUT_FORMATS, QUALITY_RANGE } from "../constants";
-import type { ImageFormat } from "@/shared/services";
+import type { ImageFormat } from "@/shared/services/image/types";
 
 export function ImageConverterSettings() {
   const { settings, updateSettings } = useImageConverterContext();
