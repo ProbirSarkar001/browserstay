@@ -1,3 +1,5 @@
+import "@tanstack/react-start/client-only";
+
 /**
  * @ai-agent Browser-only image runtime (worker + @jsquash). Import from feature
  * components only — not route shells or universal barrels. See AGENTS.md.

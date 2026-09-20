@@ -110,6 +110,22 @@ src/
 └── styles/          # Global CSS (Tailwind)
 ```
 
+### Import conventions
+
+TanStack Start includes every statically imported module in the server bundle unless it is explicitly client-only. **Do not import feature or service barrels** (`@/features/foo`, `@/shared/services`) from routes, contexts, or other universal code — import the concrete file instead:
+
+```ts
+// Route file
+import { EncryptPdfProvider } from "@/features/encrypt-pdf/context";
+import { EncryptPdfDropZone } from "@/features/encrypt-pdf/components/drop-zone";
+
+// Feature component
+import { createZip } from "@/shared/services/zip/zip";
+import { compressImages } from "@/shared/services/image/image.client";
+```
+
+See [AGENTS.md](AGENTS.md) → "Client-Only Code & Server Bundle Size" for the full checklist (`ssr: false`, `*.client.ts`, `import '@tanstack/react-start/client-only'`).
+
 ### Key files
 
 - `src/lib/seo.ts` — Centralized SEO metadata (titles, descriptions, keywords, canonical URLs) for every route.

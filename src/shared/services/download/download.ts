@@ -1,3 +1,5 @@
+import "@tanstack/react-start/client-only";
+
 /**
  * Download Service
  *

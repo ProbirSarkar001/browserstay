@@ -36,11 +36,12 @@ src/shared/services/pdf/
 ```
 
 ### Feature Files (`src/features/*`)
-- `index.ts` - Feature exports
+- `context.tsx` - Feature state provider (keep free of client-only service imports)
 - `components/` - React components
-- `services/` - Feature-specific services
+- `services/` - Feature-specific services (`*.client.ts` for browser-only runtime)
 - `types/` - TypeScript types
 - `utils/` - Utility functions
+- `index.ts` - **Avoid.** Barrel re-exports drag the whole feature graph into whatever imports them. Routes and other SSR-universal modules must import `context`, `components/*`, and `constants` by path instead.
 
 ## Comment Rules
 
@@ -149,9 +150,11 @@ export const Route = createFileRoute("/split-pdf")({
 
 Apply to all browser-tool routes (PDF tools, image tools, QR generator, password generator, etc.) unless there is a specific reason to SSR the tool UI.
 
-#### 3. Avoid barrel imports in route files
+#### 3. Avoid barrel (`index.ts`) imports — especially in routes
 
-Route modules are always part of the server graph. Importing a feature barrel re-exports every component in that feature, which can drag client-only deps into the server chunk even when children are wrapped in `ClientOnly`.
+**Barrel files are an anti-pattern in this codebase.** Route modules are always part of the server graph, so importing `@/features/foo` (the feature `index.ts`) re-exports the entire feature — context, components, services — and can pull client-only deps into the SSR bundle or trigger import-protection build errors. The same applies to `@/shared/services` and feature `index.ts` barrels in `context.tsx` or other universal code.
+
+Import the concrete module you need:
 
 ```ts
 // ✅ Route file — provider from context, components by path
@@ -160,9 +163,12 @@ import { EncryptPdfDropZone } from "@/features/encrypt-pdf/components/drop-zone"
 
 // ❌ Barrel pulls drop-zone → constants → pdf.client into server graph
 import { EncryptPdfProvider, EncryptPdfDropZone } from "@/features/encrypt-pdf";
+
+// ❌ Universal service barrel can pull browser-only runtime into dist/server
+import { createZip, downloadBlob } from "@/shared/services";
 ```
 
-`ClientOnly` around tool UI is still useful for a loading fallback during hydration, but it is not a substitute for `ssr: false` or `.client.ts` imports.
+`ClientOnly` around tool UI is still useful for a loading fallback during hydration, but it is not a substitute for `ssr: false`, direct imports, or `.client.ts` / `client-only` markers.
 
 #### 4. Verify the server bundle after changes
 
@@ -182,7 +188,7 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 | Browser-only utility | `*.client.ts` or `createClientOnlyFn()` |
 | Browser-only component | `ClientOnly` + `ssr: false` on the route |
 | Types in SSR/universal code | `types.ts` / `import type` from `index.ts` |
-| Tool route default | `ssr: false` + direct imports (no feature barrel) |
+| Tool route default | `ssr: false` + direct path imports (never feature/service barrels) |
 | SEO for tool pages | `head()` + prerender (unchanged) |
 
 ### Utilities
@@ -208,4 +214,4 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 5. **Don't import from `lodash`** - Use `es-toolkit/compat` for the same API with better performance
 6. **Don't rely on `ClientOnly` to shrink the server bundle** - It only defers rendering; use `*.client.ts`, `ssr: false`, and direct route imports for browser-only code
 7. **Don't re-export browser runtime from service `index.ts`** - Use `export type *` so universal barrels (`shared/services/index.ts`) cannot pull heavy libs into `dist/server`
-8. **Don't import feature barrels from route files** - Import `context` and `components/*` directly to avoid dragging the whole feature graph into the SSR bundle
+8. **Don't use barrel (`index.ts`) imports in routes, contexts, or other SSR-universal code** - Import `context`, `components/*`, `constants`, and service files by path (`@/features/foo/context`, `@/shared/services/zip/zip`). Feature `index.ts` barrels and `@/shared/services` are for convenience only and must not appear in the server import graph.
