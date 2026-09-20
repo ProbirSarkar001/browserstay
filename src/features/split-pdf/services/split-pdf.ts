@@ -1,4 +1,4 @@
-import { PdfService } from "@/shared/services";
+import { PdfService } from "@/shared/services/pdf/pdf.client";
 import type { SplitPdfFile } from "../types";
 
 export async function loadPdfFile(file: File): Promise<SplitPdfFile> {

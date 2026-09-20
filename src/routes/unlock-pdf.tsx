@@ -2,7 +2,10 @@ import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { PageHeader } from "@/shared/components/layout/page-header";
 import { HowItWorks } from "@/shared/components/layout/how-it-works";
 import { FAQSection } from "@/shared/components/layout/faq-section";
-import { UnlockPdfProvider, UnlockPdfDropZone, UnlockFileDetails, UnlockActionCard } from "@/features/unlock-pdf";
+import { UnlockPdfProvider } from "@/features/unlock-pdf/context";
+import { UnlockPdfDropZone } from "@/features/unlock-pdf/components/drop-zone";
+import { UnlockFileDetails } from "@/features/unlock-pdf/components/file-details";
+import { UnlockActionCard } from "@/features/unlock-pdf/components/action-card";
 import { generateToolHead } from "@/lib/seo";
 
 const unlockPdfFaqItems = [
@@ -25,6 +28,7 @@ const unlockPdfFaqItems = [
 ];
 
 export const Route = createFileRoute("/unlock-pdf")({
+  ssr: false,
   component: UnlockPdfPage,
   head: () => generateToolHead("unlockPdf")
 });

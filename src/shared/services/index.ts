@@ -6,5 +6,5 @@
 
 export * from "./download";
 export * from "./image";
-export * from "./pdf";
+export type * from "./pdf";
 export * from "./zip";
