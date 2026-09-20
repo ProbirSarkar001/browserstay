@@ -19,6 +19,7 @@
     "@discourse/heic": "1.0.0",
     "@dnd-kit/helpers": "^0.5.0",
     "@dnd-kit/react": "^0.5.0",
+    "@firecrawl/pdf-inspector-wasm": "^1.21.0",
     "@jsquash/avif": "2.1.1",
     "@jsquash/jpeg": "1.6.0",
     "@jsquash/png": "3.1.1",

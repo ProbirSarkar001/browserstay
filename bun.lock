@@ -13,6 +13,7 @@
         "@discourse/heic": "1.0.0",
         "@dnd-kit/helpers": "^0.5.0",
         "@dnd-kit/react": "^0.5.0",
+        "@firecrawl/pdf-inspector-wasm": "^1.21.0",
         "@jsquash/avif": "2.1.1",
         "@jsquash/jpeg": "1.6.0",
         "@jsquash/png": "3.1.1",
@@ -246,6 +247,8 @@
     "@eslint/object-schema": ["@eslint/object-schema@3.0.5", "", {}, "sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.7.2", "", { "dependencies": { "@eslint/core": "^1.2.1", "levn": "^0.4.1" } }, "sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A=="],
+
+    "@firecrawl/pdf-inspector-wasm": ["@firecrawl/pdf-inspector-wasm@1.21.0", "", {}, "sha512-ocko27f8nqrHMkg0JN2INj4e1HA6RRigoPcrzC9VYQU5jiFy2ri0NUae3kBOFjV3CRElSwZdg3vd8fJgHE+DLA=="],
 
     "@floating-ui/core": ["@floating-ui/core@1.7.5", "", { "dependencies": { "@floating-ui/utils": "0.2.11" } }, "sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ=="],
 

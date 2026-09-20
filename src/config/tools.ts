@@ -71,6 +71,16 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         keywords: ["convert", "jpg", "png"]
       },
       {
+        title: "PDF to Markdown",
+        href: "/pdf-to-markdown",
+        description: "Convert PDF documents to structured Markdown with tables and headings.",
+        icon: PenLine,
+        color: "bg-slate-500/10 text-slate-600",
+        tags: ["PDF", "Markdown"],
+        popular: true,
+        keywords: ["convert", "markdown", "md", "text extract", "tables"]
+      },
+      {
         title: "Image to PDF",
         href: "/image-to-pdf",
         description: "Convert images to a single PDF document.",
