@@ -1,27 +1,68 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { allPosts } from "content-collections";
 import { generateMetaFromKey } from "@/lib/seo";
+import { BLOG_POSTS_PER_PAGE } from "@/features/blog/constants";
+import { Pagination } from "@/shared/components/layout/pagination";
+import { paginate } from "@/shared/utils/pagination";
+
+type BlogSearch = {
+  page: number;
+};
 
 export const Route = createFileRoute("/blog/")({
+  validateSearch: (search: Record<string, unknown>): BlogSearch => {
+    const raw = Number(search.page);
+    return {
+      page: Number.isFinite(raw) && raw >= 1 ? Math.floor(raw) : 1
+    };
+  },
   component: BlogIndex,
-  head: () => generateMetaFromKey("blog")
+  head: ({ search }) => {
+    const meta = generateMetaFromKey("blog");
+    const raw = Number(search?.page);
+    const page = Number.isFinite(raw) && raw >= 1 ? Math.floor(raw) : 1;
+    if (page <= 1) return meta;
+
+    const pageTitle = `Blog - Page ${page} | BrowserStay`;
+    return {
+      ...meta,
+      meta: meta.meta?.map((tag) => (tag.title ? { title: pageTitle } : tag))
+    };
+  }
 });
 
 function BlogIndex() {
-  const sortedPosts = allPosts.sort(
-    (a: (typeof allPosts)[number], b: (typeof allPosts)[number]) => new Date(b.published).getTime() - new Date(a.published).getTime()
+  const { page } = Route.useSearch();
+
+  const sortedPosts = [...allPosts].sort(
+    (a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()
   );
+
+  const {
+    items: posts,
+    currentPage,
+    totalPages,
+    totalItems,
+    startIndex,
+    endIndex
+  } = paginate(sortedPosts, page, BLOG_POSTS_PER_PAGE);
 
   return (
     <main className="container mx-auto p-6">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-foreground mb-4">Blog</h1>
-        <p className="text-muted-foreground mb-8">
+        <p className="text-muted-foreground mb-2">
           Thoughts on privacy, browser tools, and web technology.
         </p>
+        {totalItems > 0 && (
+          <p className="text-sm text-muted-foreground mb-8">
+            Showing {startIndex}–{endIndex} of {totalItems} articles
+            {totalPages > 1 && ` · Page ${currentPage} of ${totalPages}`}
+          </p>
+        )}
 
         <div className="space-y-8">
-          {sortedPosts.map((post: (typeof allPosts)[number]) => (
+          {posts.map((post) => (
             <Link
               key={post.slug}
               to="/blog/$slug"
@@ -58,6 +99,13 @@ function BlogIndex() {
             </Link>
           ))}
         </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          to="/blog"
+          className="mt-12"
+        />
       </div>
     </main>
   );
