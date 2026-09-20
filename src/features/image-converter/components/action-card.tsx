@@ -2,11 +2,11 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Loader2, Download } from "lucide-react";
 import { useImageConverterContext } from "../context";
-import { encodeImages } from "@/shared/services";
-import type { ImageFormat } from "@/shared/services";
-import { createZip } from "@/shared/services/zip";
-import { downloadBlob } from "@/shared/services/download";
-import { getBaseName } from "@/shared/services/file";
+import { encodeImages } from "@/shared/services/image/image.client";
+import type { ImageFormat } from "@/shared/services/image/types";
+import { createZip } from "@/shared/services/zip/zip";
+import { downloadBlob } from "@/shared/services/download/download";
+import { getBaseName } from "@/shared/services/file/file";
 
 const FORMAT_EXTENSION: Record<ImageFormat, string> = {
   jpeg: "jpg",

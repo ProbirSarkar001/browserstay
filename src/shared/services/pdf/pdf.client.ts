@@ -1,22 +1,20 @@
+/**
+ * @ai-agent Browser-only PDF runtime. Import this file from feature components only —
+ * never from route shells, contexts, or universal barrels. Pair with `ssr: false` on PDF
+ * tool routes. See AGENTS.md "Client-Only Code & Server Bundle Size".
+ */
 import { openPdf } from "clawpdf/browser";
-import { createZip } from "../zip";
-import pLimit from "p-limit";
 import { PDFDocument } from "@cantoo/pdf-lib";
-import { getBaseName } from "../file";
-
-
-export interface PdfToImageOptions {
-  scale?: number;
-  startPage?: number;
-  endPage?: number | null;
-}
-export interface ImageResult {
-  page: number;
-  bytes: Uint8Array;
-  mimeType: string;
-  filename: string;
-  baseName: string;
-}
+import pLimit from "p-limit";
+import { createZip } from "../zip/zip";
+import { getBaseName } from "../file/file";
+import type {
+  EncryptPdfResult,
+  FileWithInfo,
+  ImageResult,
+  PdfToImageOptions,
+  UnlockPdfResult,
+} from "./types";
 
 async function pdfToImages(
   file: File,
@@ -30,14 +28,12 @@ async function pdfToImages(
   const lastPage = Math.min(endPage ?? pdf.pageCount, pdf.pageCount);
   const pagesArray = Array.from({ length: lastPage - startPage + 1 }, (_, i) => startPage + i);
 
-  // Handle invalid page range (P1 fix): empty pagesArray means no pages to process
   if (pagesArray.length === 0) {
-    onProgress?.(1, 1); // Signal completion to prevent stuck progress
+    onProgress?.(1, 1);
     return [];
   }
 
-  // Process pages concurrently with p-limit (P2 fix)
-  const limit = pLimit(10); // Process up to 10 pages in parallel
+  const limit = pLimit(10);
   const images: ImageResult[] = [];
   let completed = 0;
 
@@ -49,9 +45,8 @@ async function pdfToImages(
         bytes: png,
         mimeType: "image/png",
         filename: `${baseName}-page-${page}.png`,
-        baseName
+        baseName,
       };
-      // Report progress as each page completes
       completed++;
       onProgress?.(completed, pagesArray.length);
       return result;
@@ -83,16 +78,9 @@ async function downloadAll(images: ImageResult[]) {
   triggerDownload(blob, `${baseName}-images.zip`);
 }
 
-export interface FileWithInfo {
-  name: string;
-  size: number;
-  pages: number;
-  file: File;
-}
-
 async function getFileInfo(file: File): Promise<FileWithInfo> {
   const name = file.name;
-  const size = file.size; // raw bytes
+  const size = file.size;
   const arrayBuffer = await file.arrayBuffer();
   const pdfDoc = await PDFDocument.load(arrayBuffer);
   const pageCount = pdfDoc.getPageCount();
@@ -105,7 +93,7 @@ async function getFileInfo(file: File): Promise<FileWithInfo> {
     name,
     size,
     pages: pageCount,
-    file
+    file,
   };
 }
 
@@ -116,7 +104,7 @@ async function extractPagesAsPdf(file: File, pageIndices: number[]): Promise<Blo
   const copiedPages = await newPdf.copyPages(pdfDoc, pageIndices);
   copiedPages.forEach((page) => newPdf.addPage(page));
   const pdfBytes = await newPdf.save({
-    useObjectStreams: true
+    useObjectStreams: true,
   });
   return new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
 }
@@ -125,7 +113,7 @@ async function splitAllPages(file: File, pageCount: number, baseName: string): P
   const arrayBuffer = await file.arrayBuffer();
   const pdfDoc = await PDFDocument.load(arrayBuffer);
 
-  const limit = pLimit(10); // Process up to 10 pages in parallel
+  const limit = pLimit(10);
   const files: Record<string, Blob> = {};
 
   const tasks = Array.from({ length: pageCount }, (_, i) =>
@@ -134,7 +122,7 @@ async function splitAllPages(file: File, pageCount: number, baseName: string): P
       const [copiedPage] = await newPdf.copyPages(pdfDoc, [i]);
       newPdf.addPage(copiedPage);
       const pdfBytes = await newPdf.save({
-        useObjectStreams: true
+        useObjectStreams: true,
       });
 
       files[`${baseName}-page-${i + 1}.pdf`] = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
@@ -146,6 +134,40 @@ async function splitAllPages(file: File, pageCount: number, baseName: string): P
   return files;
 }
 
-export const PdfService = { pdfToImages, downloadAll, getFileInfo, extractPagesAsPdf, splitAllPages };
+async function saveToBlob(pdfDoc: PDFDocument, file: File, suffix: string): Promise<EncryptPdfResult> {
+  const pdfBytes = await pdfDoc.save({ useObjectStreams: true });
+  return {
+    blob: new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" }),
+    fileName: `${getBaseName(file)}-${suffix}.pdf`,
+  };
+}
 
-export { encryptPdf, unlockPdf, isPdfEncrypted, type EncryptPdfResult, type UnlockPdfResult } from "./pdf-security";
+/** Returns true if the PDF is password-protected. */
+export async function isPdfEncrypted(file: File): Promise<boolean> {
+  const doc = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+  return doc.isEncrypted;
+}
+
+export async function encryptPdf(file: File, password: string): Promise<EncryptPdfResult> {
+  const pdfDoc = await PDFDocument.load(await file.arrayBuffer());
+  pdfDoc.encrypt({ userPassword: password });
+
+  return saveToBlob(pdfDoc, file, "encrypted");
+}
+
+export async function unlockPdf(file: File, password: string): Promise<UnlockPdfResult> {
+  if (!(await isPdfEncrypted(file))) {
+    throw new Error("This PDF is not password-protected.");
+  }
+
+  let pdfDoc;
+  try {
+    pdfDoc = await PDFDocument.load(await file.arrayBuffer(), { password });
+  } catch {
+    throw new Error("Incorrect password or unsupported PDF encryption.");
+  }
+
+  return saveToBlob(pdfDoc, file, "unlocked");
+}
+
+export const PdfService = { pdfToImages, downloadAll, getFileInfo, extractPagesAsPdf, splitAllPages };

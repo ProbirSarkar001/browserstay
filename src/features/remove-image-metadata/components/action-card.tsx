@@ -4,11 +4,11 @@ import { Loader2, Download } from "lucide-react";
 import { useRemoveImageMetadataContext } from "../context";
 import { resolveOutputFormat } from "../services/remove-image-metadata";
 import { METADATA_QUALITY } from "../constants";
-import { encodeImages } from "@/shared/services";
+import { encodeImages } from "@/shared/services/image/image.client";
 import type { ImageFormat } from "@/shared/services/image/types";
-import { createZip } from "@/shared/services/zip";
-import { downloadBlob } from "@/shared/services/download";
-import { getBaseName } from "@/shared/services/file";
+import { createZip } from "@/shared/services/zip/zip";
+import { downloadBlob } from "@/shared/services/download/download";
+import { getBaseName } from "@/shared/services/file/file";
 
 const FORMAT_EXTENSION: Record<ImageFormat, string> = {
   jpeg: "jpg",

@@ -1,5 +1,5 @@
 import type { ImageFile, ResizeSettings } from "../types";
-import { getImageDimensions } from "@/shared/services/image";
+import { getImageDimensions } from "@/shared/services/image/image.client";
 
 async function loadImageDimensionsFromElement(file: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {

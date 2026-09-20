@@ -4,7 +4,7 @@ import { DEFAULT_METADATA_SETTINGS } from "./constants";
 import { createImageFile } from "./services/remove-image-metadata";
 import { useFileHandler } from "@/shared/hooks";
 import { useProcessingState } from "@/shared/hooks";
-import { isSupportedImageFile } from "@/shared/services/image";
+import { isSupportedImageFile } from "@/shared/services/image/image-file";
 
 interface RemoveImageMetadataContextValue {
   files: ImageFile[];

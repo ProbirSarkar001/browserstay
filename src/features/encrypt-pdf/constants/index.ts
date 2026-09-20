@@ -1,5 +1,5 @@
 import type { EncryptPdfFile } from "../types";
-import { isPdfEncrypted } from "@/shared/services/pdf";
+import { isPdfEncrypted } from "@/shared/services/pdf/pdf.client";
 
 export const ACCEPTED_FILE_TYPES = ["application/pdf"];
 

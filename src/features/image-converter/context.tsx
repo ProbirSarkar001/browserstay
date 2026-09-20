@@ -3,7 +3,7 @@ import type { ConverterFile, ConversionSettings } from "./types";
 import { DEFAULT_CONVERSION_SETTINGS } from "./constants";
 import { createConverterFile } from "./services/image-converter";
 import { useFileHandler, useProcessingState } from "@/shared/hooks";
-import { isSupportedImageFile } from "@/shared/services/image";
+import { isSupportedImageFile } from "@/shared/services/image/image-file";
 
 interface ImageConverterContextValue {
   files: ConverterFile[];

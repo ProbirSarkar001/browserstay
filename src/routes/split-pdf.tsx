@@ -39,6 +39,7 @@ const splitPdfFaqItems = [
 ];
 
 export const Route = createFileRoute('/split-pdf')({
+  ssr: false,
   component: SplitPdfPage,
   head: () => generateToolHead('splitPdf'),
 })

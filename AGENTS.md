@@ -13,16 +13,26 @@ Before substantial work:
 This project follows a consistent file naming convention to improve code organization and discoverability.
 
 ### Service Files (`src/shared/services/*/`)
-- `index.ts` - Main entry point, exports public API
-- `*.ts` - Primary implementation file
+- `index.ts` - Public entry point. For browser-only services, export **types only** here.
+- `types.ts` - Shared types safe to import from SSR/universal code
+- `*.client.ts` - Browser-only runtime (PDF, image codecs, DOM APIs). Never imported by route shells or SSR code.
+- `*.ts` - Isomorphic implementation (safe on server and client)
 - `*.test.ts` - Test files (when applicable)
 
-Example structure:
+Example structure (isomorphic):
 ```
 src/shared/services/zip/
 ├── index.ts          # Exports public API
 ├── zip.ts            # Main implementation
 └── zip.test.ts       # Tests
+```
+
+Example structure (browser-only):
+```
+src/shared/services/pdf/
+├── index.ts          # export type * from "./types" only
+├── types.ts          # FileWithInfo, ImageResult, etc.
+└── pdf.client.ts     # PdfService, encryptPdf, clawpdf, @cantoo/pdf-lib
 ```
 
 ### Feature Files (`src/features/*`)
@@ -97,6 +107,83 @@ const api = Comlink.wrap<WorkerApi>(worker);
 - Services export a clean public API via `index.ts`
 - Implementation details stay in the main file
 - Workers are co-located with their service
+- Browser-only services split types (`types.ts`) from runtime (`*.client.ts`); `index.ts` re-exports types only so `export * from "./pdf"` in `shared/services/index.ts` cannot pull heavy libs into the server bundle
+
+### Client-Only Code & Server Bundle Size (TanStack Start)
+
+All code is **isomorphic by default** in TanStack Start — it is included in both server and client bundles unless constrained. `ClientOnly` only skips **rendering** on the server; it does **not** exclude imported modules from the server bundle.
+
+Use this checklist for tool routes and browser-only libraries (PDF, image codecs, canvas, `localStorage`, etc.):
+
+#### 1. Put runtime in `*.client.ts`
+
+TanStack Start treats `.client.*` files as client-only via [import protection](https://tanstack.com/start/latest/docs/framework/react/guide/execution-model). Feature components that run tools should import runtime from the `.client.ts` file directly:
+
+```ts
+// ✅ Feature component
+import { PdfService } from "@/shared/services/pdf/pdf.client";
+
+// ✅ Type-only in universal code
+import type { FileWithInfo } from "@/shared/services/pdf";
+```
+
+```ts
+// ❌ Pulls @cantoo/pdf-lib, clawpdf, etc. into dist/server
+import { PdfService } from "@/shared/services/pdf";
+import { PdfService } from "@/shared/services";
+```
+
+Keep `shared/services/index.ts` as `export type * from "./pdf"` (not `export *`) for browser-only services.
+
+#### 2. Set `ssr: false` on tool routes
+
+Interactive tool pages do not need server-rendered markup. SEO comes from `head()` and prerendering. Disable SSR on the route:
+
+```ts
+export const Route = createFileRoute("/split-pdf")({
+  ssr: false,
+  component: SplitPdfPage,
+  head: () => generateToolHead("splitPdf"),
+});
+```
+
+Apply to all browser-tool routes (PDF tools, image tools, QR generator, password generator, etc.) unless there is a specific reason to SSR the tool UI.
+
+#### 3. Avoid barrel imports in route files
+
+Route modules are always part of the server graph. Importing a feature barrel re-exports every component in that feature, which can drag client-only deps into the server chunk even when children are wrapped in `ClientOnly`.
+
+```ts
+// ✅ Route file — provider from context, components by path
+import { EncryptPdfProvider } from "@/features/encrypt-pdf/context";
+import { EncryptPdfDropZone } from "@/features/encrypt-pdf/components/drop-zone";
+
+// ❌ Barrel pulls drop-zone → constants → pdf.client into server graph
+import { EncryptPdfProvider, EncryptPdfDropZone } from "@/features/encrypt-pdf";
+```
+
+`ClientOnly` around tool UI is still useful for a loading fallback during hydration, but it is not a substitute for `ssr: false` or `.client.ts` imports.
+
+#### 4. Verify the server bundle after changes
+
+```bash
+bun run build
+du -sh dist/server dist/client
+# No PDF/image codec libs should appear under dist/server
+rg "cantoo|clawpdf|@jsquash" dist/server
+```
+
+Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live only in `dist/client`.
+
+#### Quick reference
+
+| Concern | Use |
+| --- | --- |
+| Browser-only utility | `*.client.ts` or `createClientOnlyFn()` |
+| Browser-only component | `ClientOnly` + `ssr: false` on the route |
+| Types in SSR/universal code | `types.ts` / `import type` from `index.ts` |
+| Tool route default | `ssr: false` + direct imports (no feature barrel) |
+| SEO for tool pages | `head()` + prerender (unchanged) |
 
 ### Utilities
 - Use `es-toolkit/compat` for utility functions - it provides the same API as Lodash
@@ -119,3 +206,6 @@ const api = Comlink.wrap<WorkerApi>(worker);
 3. **Never use dynamic imports** - TanStack Router's per-route code splitting already emits third-party libraries (e.g., `@cantoo/pdf-lib`) as their own separate chunks when they're statically imported, so `await import()` gymnastics are unnecessary and cause dev-server module fetch failures. Always use plain static imports.
 4. **Don't manually spread nested objects for immutability** - Use Immer's `produce` instead
 5. **Don't import from `lodash`** - Use `es-toolkit/compat` for the same API with better performance
+6. **Don't rely on `ClientOnly` to shrink the server bundle** - It only defers rendering; use `*.client.ts`, `ssr: false`, and direct route imports for browser-only code
+7. **Don't re-export browser runtime from service `index.ts`** - Use `export type *` so universal barrels (`shared/services/index.ts`) cannot pull heavy libs into `dist/server`
+8. **Don't import feature barrels from route files** - Import `context` and `components/*` directly to avoid dragging the whole feature graph into the SSR bundle

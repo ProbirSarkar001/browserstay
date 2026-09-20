@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createImageThumbnail } from "@/shared/services/image";
+import { createImageThumbnail } from "@/shared/services/image/image.client";
 
 export interface ImagePreviewProps {
   file: File;

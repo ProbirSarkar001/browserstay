@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AlertCircle, Check, Copy, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { useEncryptPdfContext } from "../context";
-import { encryptPdf } from "@/shared/services/pdf";
+import { encryptPdf } from "@/shared/services/pdf/pdf.client";
 import { generatePassword, calculateStrength, getPasswordStrength, STRENGTH_COLORS } from "@/features/password-generator/services/password-generator";
 import { DEFAULT_PASSWORD_OPTIONS } from "@/features/password-generator/constants";
 import { useDownload, useClipboard } from "@/shared/hooks";

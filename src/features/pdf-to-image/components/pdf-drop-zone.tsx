@@ -1,4 +1,4 @@
-import { PdfService } from "@/shared/services/pdf";
+import { PdfService } from "@/shared/services/pdf/pdf.client";
 import { usePdfToImageContext } from "../context";
 import { DropZone } from "@/shared/components/common/drop-zone";
 

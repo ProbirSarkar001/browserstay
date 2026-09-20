@@ -3,10 +3,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/c
 import { Loader2, Download } from "lucide-react";
 import { useImageResizeContext } from "../context";
 import { calculateTargetDimensions } from "../services/image-resize";
-import { resizeImages } from "@/shared/services";
-import { downloadBlob } from "@/shared/services/download";
-import { createZip } from "@/shared/services/zip";
-import { getBaseName } from "@/shared/services/file";
+import { resizeImages } from "@/shared/services/image/image.client";
+import { downloadBlob } from "@/shared/services/download/download";
+import { createZip } from "@/shared/services/zip/zip";
+import { getBaseName } from "@/shared/services/file/file";
 import type { ImageFormat } from "@/shared/services/image/types";
 
 const SUPPORTED_FORMATS: readonly string[] = ["jpeg", "png", "webp", "avif"];

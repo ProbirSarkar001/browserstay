@@ -2,10 +2,10 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Loader2, Download } from "lucide-react";
 import { useImageCompressorContext } from "../context";
-import { compressImages } from "@/shared/services";
-import { createZip } from "@/shared/services/zip";
-import { downloadBlob } from "@/shared/services/download";
-import { getBaseName } from "@/shared/services/file";
+import { compressImages } from "@/shared/services/image/image.client";
+import { createZip } from "@/shared/services/zip/zip";
+import { downloadBlob } from "@/shared/services/download/download";
+import { getBaseName } from "@/shared/services/file/file";
 
 export function ImageCompressorActionCard() {
   const { files, settings, isCompressing, setIsCompressing, setError, updateCompressedSize } =

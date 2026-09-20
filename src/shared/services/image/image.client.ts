@@ -1,3 +1,7 @@
+/**
+ * @ai-agent Browser-only image runtime (worker + @jsquash). Import from feature
+ * components only — not route shells or universal barrels. See AGENTS.md.
+ */
 import * as Comlink from "comlink";
 import type {
   ImageWorkerApi,

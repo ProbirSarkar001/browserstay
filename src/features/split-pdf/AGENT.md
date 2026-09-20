@@ -3,6 +3,8 @@
 ## Overview
 Client-side PDF splitting and page extraction feature. All processing happens in the browser using pdf-lib - no server uploads.
 
+**Server bundle rules:** PDF runtime must stay in `shared/services/pdf/pdf.client.ts`; this route uses `ssr: false`; route file imports components by path (not the feature barrel). See `AGENTS.md` → "Client-Only Code & Server Bundle Size".
+
 ## Architecture
 
 ```

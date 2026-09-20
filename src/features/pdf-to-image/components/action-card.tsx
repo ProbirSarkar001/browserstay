@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { ActionCard as ReusableActionCard } from "@/shared/components/layout/action-card";
 import { usePdfToImageContext } from "../context";
-import { PdfService } from "@/shared/services/pdf";
+import { PdfService } from "@/shared/services/pdf/pdf.client";
 
 export function ActionCard() {
   const { file, settings, setImages, images, processing, setProcessing } = usePdfToImageContext();
