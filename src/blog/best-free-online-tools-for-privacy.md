@@ -31,6 +31,7 @@ A smaller group processes everything locally in your browser or on your desktop.
 | Compress images | [BrowserStay](/image-compressor) | Browser | No |
 | Convert formats | [BrowserStay](/image-converter) | Browser | No |
 | Resize images | [BrowserStay](/image-resize) | Browser | No |
+| Remove EXIF/metadata | [BrowserStay](/remove-image-metadata) | Browser | No |
 | HEIC to JPEG | [BrowserStay](/image-converter/heic-to-jpeg) | Browser | No |
 | Single image compress | Squoosh (Google) | Browser | No |
 | Batch resize (width) | Birme | Browser | No |
