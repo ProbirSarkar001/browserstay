@@ -263,14 +263,26 @@ textarea:focus-visible,
   @apply font-semibold;
 }
 
-.prose table {
-  @apply w-full mb-4;
+.prose :where(table) {
+  @apply w-full mb-6 text-sm border-collapse table-auto;
 }
 
-.prose th {
-  @apply text-left font-semibold p-2 border-b border-border;
+.prose :where(thead) {
+  @apply bg-muted/50;
 }
 
-.prose td {
-  @apply p-2 border-b border-border;
+.prose :where(th) {
+  @apply text-left font-semibold px-3 py-2 border border-border align-bottom;
+}
+
+.prose :where(td) {
+  @apply px-3 py-2 border border-border align-top;
+}
+
+.prose :where(tbody tr:nth-child(even)) {
+  @apply bg-muted/20;
+}
+
+.prose :where(tbody tr:hover) {
+  @apply bg-muted/40;
 }

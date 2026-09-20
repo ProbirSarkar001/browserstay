@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { allPosts } from "content-collections";
 import { Markdown } from "@/components/Markdown";
+import { RelatedArticles } from "@/features/blog/components/related-articles";
+import { getRelatedPosts } from "@/features/blog/utils/related-posts";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -8,18 +10,22 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!post) {
       throw notFound();
     }
-    return post;
+
+    const relatedPosts = getRelatedPosts(post, allPosts);
+
+    return { post, relatedPosts };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
+    const { post } = loaderData;
     return {
       meta: [
-        { title: `${loaderData.title} | BrowserStay Blog` },
-        { name: "description", content: loaderData.description || loaderData.title },
-        { property: "og:title", content: loaderData.title },
-        { property: "og:description", content: loaderData.description || loaderData.title },
+        { title: `${post.title} | BrowserStay Blog` },
+        { name: "description", content: post.description || post.title },
+        { property: "og:title", content: post.title },
+        { property: "og:description", content: post.description || post.title },
         { property: "og:type", content: "article" },
-        { property: "article:published_time", content: loaderData.published }
+        { property: "article:published_time", content: post.published }
       ]
     };
   },
@@ -27,7 +33,7 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogPost() {
-  const post = Route.useLoaderData();
+  const { post, relatedPosts } = Route.useLoaderData();
 
   return (
     <main className="container mx-auto p-6">
@@ -65,9 +71,11 @@ function BlogPost() {
           )}
         </header>
 
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
+        <div className="prose prose-neutral dark:prose-invert max-w-none overflow-x-auto">
           <Markdown html={post.html} />
         </div>
+
+        <RelatedArticles posts={relatedPosts} currentTags={post.tags} />
       </article>
     </main>
   );

@@ -1,7 +1,7 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
-import { compileMarkdown } from "@content-collections/markdown";
 import { z } from "zod";
 import matter from "gray-matter";
+import { compileBlogMarkdown } from "./src/features/blog/utils/compile-markdown";
 
 const posts = defineCollection({
   name: "posts",
@@ -13,10 +13,10 @@ const posts = defineCollection({
     description: z.string().optional(),
     tags: z.array(z.string()).optional()
   }),
-  transform: async (document, context) => {
-    const html = await compileMarkdown(context, document);
+  transform: async (document) => {
     const { content: body } = matter(document.content);
-    const headerImageMatch = document.content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+    const html = await compileBlogMarkdown(body);
+    const headerImageMatch = body.match(/!\[([^\]]*)\]\(([^)]+)\)/);
     const headerImage = headerImageMatch ? headerImageMatch[2] : undefined;
 
     return {
