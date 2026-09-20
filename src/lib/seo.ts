@@ -200,6 +200,19 @@ export const metaConfigs = {
       featureList: ["Smart compression", "Batch processing", "Multiple formats", "Quality control"]
     }
   },
+  removeImageMetadata: {
+    title: "Remove Image Metadata - Strip EXIF & GPS Free Online | BrowserStay",
+    description:
+      "Remove EXIF metadata, GPS location, and hidden camera data from photos. Re-encode images locally at maximum quality — no uploads, batch support, 100% private.",
+    canonicalUrl: `${BASE_URL}/remove-image-metadata`,
+    keywords:
+      "remove exif, strip image metadata, remove gps from photo, exif remover, photo metadata cleaner, remove location from image, local exif remover, browserstay",
+    jsonLd: {
+      name: "Remove Image Metadata",
+      description: "Remove EXIF metadata, GPS location, and hidden camera data from photos. Re-encode images locally at maximum quality.",
+      featureList: ["Strip EXIF and GPS data", "Preserve original format", "Batch processing", "Local browser processing"]
+    }
+  },
   qrGenerator: {
     title: "QR Code Generator - Create Custom QR Codes Free | BrowserStay",
     description:

@@ -151,6 +151,15 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         color: "bg-blue-500/10 text-blue-600",
         tags: ["Image", "Optimization"],
         keywords: ["reduce", "size", "optimize"]
+      },
+      {
+        title: "Remove Image Metadata",
+        href: "/remove-image-metadata",
+        description: "Strip EXIF, GPS, and hidden photo data before sharing.",
+        icon: Fingerprint,
+        color: "bg-green-500/10 text-green-600",
+        tags: ["Image", "Privacy"],
+        keywords: ["exif", "metadata", "gps", "strip", "privacy", "location"]
       }
     ]
   },
