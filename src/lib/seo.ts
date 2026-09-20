@@ -100,6 +100,25 @@ export const metaConfigs = {
       featureList: ["PDF to JPG conversion", "PDF to PNG conversion", "Batch page extraction", "Local WebAssembly processing"]
     }
   },
+  pdfToMarkdown: {
+    title: "PDF to Markdown Converter - Free & Private | BrowserStay",
+    description:
+      "Convert PDF documents to structured Markdown for free. Headings, tables, and lists preserved — 100% in your browser with WebAssembly, no uploads.",
+    canonicalUrl: `${BASE_URL}/pdf-to-markdown`,
+    keywords:
+      "pdf to markdown, convert pdf to md, pdf text extractor, pdf to text, markdown converter, local pdf converter, browserstay",
+    jsonLd: {
+      name: "PDF to Markdown Converter",
+      description:
+        "Convert PDF documents to structured Markdown. Headings, tables, and lists preserved — processed entirely in your browser.",
+      featureList: [
+        "Structured Markdown output",
+        "Table and heading detection",
+        "Compact mode for AI workflows",
+        "Local WebAssembly processing"
+      ]
+    }
+  },
   mergePdf: {
     title: "Merge PDF Files - Free Online PDF Combiner | BrowserStay",
     description:

@@ -19,6 +19,7 @@ import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MergePdfRouteImport } from './routes/merge-pdf'
 import { Route as PasswordGeneratorRouteImport } from './routes/password-generator'
 import { Route as PdfToImageRouteImport } from './routes/pdf-to-image'
+import { Route as PdfToMarkdownRouteImport } from './routes/pdf-to-markdown'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
 import { Route as RemoveImageMetadataRouteImport } from './routes/remove-image-metadata'
@@ -79,6 +80,11 @@ const PasswordGeneratorRoute = PasswordGeneratorRouteImport.update({
 const PdfToImageRoute = PdfToImageRouteImport.update({
   id: '/pdf-to-image',
   path: '/pdf-to-image',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfToMarkdownRoute = PdfToMarkdownRouteImport.update({
+  id: '/pdf-to-markdown',
+  path: '/pdf-to-markdown',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
+  '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
+  '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
   '/pdf-to-image': typeof PdfToImageRoute
+  '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
+    | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
     | '/remove-image-metadata'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
+    | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
     | '/remove-image-metadata'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '/merge-pdf'
     | '/password-generator'
     | '/pdf-to-image'
+    | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
     | '/remove-image-metadata'
@@ -292,6 +304,7 @@ export interface RootRouteChildren {
   MergePdfRoute: typeof MergePdfRoute
   PasswordGeneratorRoute: typeof PasswordGeneratorRoute
   PdfToImageRoute: typeof PdfToImageRoute
+  PdfToMarkdownRoute: typeof PdfToMarkdownRoute
   PrivacyRoute: typeof PrivacyRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   RemoveImageMetadataRoute: typeof RemoveImageMetadataRoute
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/pdf-to-image'
       fullPath: '/pdf-to-image'
       preLoaderRoute: typeof PdfToImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-to-markdown': {
+      id: '/pdf-to-markdown'
+      path: '/pdf-to-markdown'
+      fullPath: '/pdf-to-markdown'
+      preLoaderRoute: typeof PdfToMarkdownRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -468,6 +488,7 @@ const rootRouteChildren: RootRouteChildren = {
   MergePdfRoute: MergePdfRoute,
   PasswordGeneratorRoute: PasswordGeneratorRoute,
   PdfToImageRoute: PdfToImageRoute,
+  PdfToMarkdownRoute: PdfToMarkdownRoute,
   PrivacyRoute: PrivacyRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   RemoveImageMetadataRoute: RemoveImageMetadataRoute,

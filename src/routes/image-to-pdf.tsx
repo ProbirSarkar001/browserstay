@@ -26,7 +26,7 @@ const imageToPdfFaqItems = [
 ];
 
 export const Route = createFileRoute('/image-to-pdf')({
-  ssr: false,
+  
   component: ImageToPdfPage,
   head: () => generateToolHead('imageToPdf'),
 })

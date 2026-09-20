@@ -142,7 +142,7 @@ Interactive tool pages do not need server-rendered markup. SEO comes from `head(
 
 ```ts
 export const Route = createFileRoute("/split-pdf")({
-  ssr: false,
+  
   component: SplitPdfPage,
   head: () => generateToolHead("splitPdf"),
 });

@@ -48,7 +48,6 @@ const qrGeneratorFaqItems = [
 ];
 
 export const Route = createFileRoute("/qr-generator")({
-  ssr: false,
   component: QRGeneratorPage,
   head: () => generateToolHead("qrGenerator"),
 });
