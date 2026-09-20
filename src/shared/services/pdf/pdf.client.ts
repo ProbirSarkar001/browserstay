@@ -1,3 +1,8 @@
+/**
+ * @ai-agent Browser-only PDF runtime. Import this file from feature components only —
+ * never from route shells, contexts, or universal barrels. Pair with `ssr: false` on PDF
+ * tool routes. See AGENTS.md "Client-Only Code & Server Bundle Size".
+ */
 import { openPdf } from "clawpdf/browser";
 import { PDFDocument } from "@cantoo/pdf-lib";
 import pLimit from "p-limit";
