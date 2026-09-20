@@ -1,9 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { PageHeader } from "@/shared/components/layout/page-header";
 import { HowItWorks } from "@/shared/components/layout/how-it-works";
 import { FAQSection } from "@/shared/components/layout/faq-section";
-import { QRGenerator } from "@/features/qr-generator/qr-generator";
 import { QRGeneratorProvider } from "@/features/qr-generator/context";
+import { QRGeneratorInput } from "@/features/qr-generator/components/generator";
+import { QRGeneratorSettings } from "@/features/qr-generator/components/settings";
+import { QRGeneratorPreview } from "@/features/qr-generator/components/preview";
+import { QRGeneratorActionCard } from "@/features/qr-generator/components/action-card";
 import { generateToolHead } from "@/lib/seo";
 
 const qrGeneratorFaqItems = [
@@ -45,6 +48,7 @@ const qrGeneratorFaqItems = [
 ];
 
 export const Route = createFileRoute("/qr-generator")({
+  ssr: false,
   component: QRGeneratorPage,
   head: () => generateToolHead("qrGenerator"),
 });
@@ -59,7 +63,18 @@ function QRGeneratorPage() {
         />
 
         <QRGeneratorProvider>
-          <QRGenerator />
+          <ClientOnly fallback={<div className="h-96 bg-muted animate-pulse rounded-lg" />}>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 space-y-6">
+                <QRGeneratorInput />
+                <QRGeneratorSettings />
+              </div>
+              <div className="space-y-6">
+                <QRGeneratorPreview />
+                <QRGeneratorActionCard />
+              </div>
+            </div>
+          </ClientOnly>
         </QRGeneratorProvider>
 
         <section className="mb-24">
@@ -76,7 +91,7 @@ function QRGeneratorPage() {
               {
                 title: "Generate & Download",
                 description: "Get a crisp PNG or scalable SVG, or copy the code directly for your designs.",
-              }
+              },
             ]}
             description="Create professional QR codes in three simple steps. Fast, secure, and purely client-side."
           />

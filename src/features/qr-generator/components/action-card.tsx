@@ -4,15 +4,49 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/components/ui/
 import { useClipboard } from "@/shared/hooks";
 import { Loader2, Download, Copy, Check, RefreshCw } from "lucide-react";
 import { useQRGeneratorContext } from "../context";
-import { downloadPng, downloadSvg } from "../services/qr-generator";
+import { generateQRCode, downloadPng, downloadSvg } from "../services/qr-generator.client";
 
 export function QRGeneratorActionCard() {
-  const { result, isProcessing, error, generateQR, reset, setError } = useQRGeneratorContext();
+  const {
+    content,
+    contentType,
+    wifiConfig,
+    vcardConfig,
+    smsConfig,
+    geoConfig,
+    settings,
+    result,
+    isProcessing,
+    error,
+    setResult,
+    startProcessing,
+    setSuccessWithStop,
+    setErrorWithStop,
+    reset,
+    setError,
+  } = useQRGeneratorContext();
   const clipboard = useClipboard({ timeout: 2000 });
 
   const handleGenerate = async () => {
     setError(null);
-    await generateQR();
+    startProcessing();
+
+    try {
+      const generated = await generateQRCode({
+        content,
+        contentType,
+        wifiConfig,
+        vcardConfig,
+        smsConfig,
+        geoConfig,
+        settings,
+      });
+      setResult(generated);
+      setSuccessWithStop();
+    } catch (err) {
+      setErrorWithStop(err instanceof Error ? err.message : "Failed to generate QR code");
+      setResult(null);
+    }
   };
 
   const handleDownloadPng = () => {
