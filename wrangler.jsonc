@@ -5,6 +5,7 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
   "workers_dev": false,
+  "preview_urls": false,
   "routes": [
     {
       "pattern": "browserstay.com",

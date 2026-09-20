@@ -11,7 +11,7 @@ import { PdfToImageProvider } from "@/features/pdf-to-image/context"
 import { generateToolHead } from "@/lib/seo"
 
 export const Route = createFileRoute('/pdf-to-image')({
-  ssr: false,
+  
   component: PdfToImagePage,
   head: () => generateToolHead('pdfToImage'),
 })

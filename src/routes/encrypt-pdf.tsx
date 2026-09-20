@@ -28,7 +28,7 @@ const encryptPdfFaqItems = [
 ];
 
 export const Route = createFileRoute("/encrypt-pdf")({
-  ssr: false,
+  
   component: EncryptPdfPage,
   head: () => generateToolHead("encryptPdf")
 });

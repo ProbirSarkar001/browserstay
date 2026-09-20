@@ -30,7 +30,7 @@ const mergePdfFaqItems = [
 ];
 
 export const Route = createFileRoute("/merge-pdf")({
-  ssr: false,
+  
   component: MergePdfPage,
   head: () => generateToolHead("mergePdf")
 });

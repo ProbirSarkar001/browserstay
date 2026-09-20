@@ -28,7 +28,7 @@ const unlockPdfFaqItems = [
 ];
 
 export const Route = createFileRoute("/unlock-pdf")({
-  ssr: false,
+  
   component: UnlockPdfPage,
   head: () => generateToolHead("unlockPdf")
 });
