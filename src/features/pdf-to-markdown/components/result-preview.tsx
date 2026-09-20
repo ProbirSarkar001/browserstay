@@ -1,11 +1,19 @@
+import { useEffect, useState } from "react";
 import { AlertTriangle, Check, Copy, Download } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { Markdown } from "@/shared/components/common/markdown";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { useClipboard, useDownload } from "@/shared/hooks";
+import { cn } from "@/shared/utils";
 import { usePdfToMarkdownContext } from "../context";
 import { PDF_TYPE_LABELS } from "../constants";
+
+type ViewMode = "preview" | "raw";
+
+const outputClassName =
+  "max-h-[32rem] overflow-auto rounded-lg border border-border bg-muted/30 p-4 text-sm";
 
 function formatConfidence(confidence: number): string {
   return `${Math.round(confidence * 100)}%`;
@@ -15,6 +23,11 @@ export function PdfToMarkdownResultPreview() {
   const { result, fileData } = usePdfToMarkdownContext();
   const clipboard = useClipboard({ timeout: 2000 });
   const { downloadFile } = useDownload();
+  const [viewMode, setViewMode] = useState<ViewMode>("preview");
+
+  useEffect(() => {
+    setViewMode("preview");
+  }, [result]);
 
   if (!result || !fileData) return null;
 
@@ -77,7 +90,29 @@ export function PdfToMarkdownResultPreview() {
           <CardTitle className="text-base">
             {analysis.title ? analysis.title : `${fileData.fileName}.md`}
           </CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center rounded-lg border border-border p-0.5">
+              <Button
+                type="button"
+                variant={viewMode === "preview" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-7 px-2.5"
+                onClick={() => setViewMode("preview")}
+                disabled={!markdown}
+              >
+                Preview
+              </Button>
+              <Button
+                type="button"
+                variant={viewMode === "raw" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-7 px-2.5"
+                onClick={() => setViewMode("raw")}
+                disabled={!markdown}
+              >
+                Raw
+              </Button>
+            </div>
             <Button
               variant="outline"
               size="sm"
@@ -104,9 +139,18 @@ export function PdfToMarkdownResultPreview() {
         </CardHeader>
         <CardContent>
           {markdown ? (
-            <pre className="max-h-[32rem] overflow-auto rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed whitespace-pre-wrap break-words font-mono text-foreground">
-              {markdown}
-            </pre>
+            viewMode === "preview" ? (
+              <Markdown source={markdown} className={outputClassName} />
+            ) : (
+              <pre
+                className={cn(
+                  outputClassName,
+                  "leading-relaxed whitespace-pre-wrap break-words font-mono text-foreground",
+                )}
+              >
+                {markdown}
+              </pre>
+            )
           ) : (
             <p className="text-sm text-muted-foreground">
               No text could be extracted from this PDF. It may be scanned or image-only.
