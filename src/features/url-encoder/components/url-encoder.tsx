@@ -27,7 +27,7 @@ export function UrlEncoder() {
   const clipboard = useClipboard({ timeout: 2000 });
   const [direction, setDirection] = useState<Mode>("encode");
   const [input, setInput] = useState("");
-  const [encodeMode, setEncodeMode] = useState<UrlEncodeMode>("component");
+  const [encodeMode, setEncodeMode] = useState<UrlEncodeMode>("full");
   const [space, setSpace] = useState<SpaceEncoding>("percent");
 
   const { output, error } = useMemo(() => {
