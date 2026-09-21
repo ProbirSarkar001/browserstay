@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ShieldCheck, WifiOff, HardDrive, FileSearch, EyeOff, Server } from "lucide-react"
+import { SITE_CONFIG } from "@/config/site"
 import { generateMetaFromKey } from "@/lib/seo"
 
 export const Route = createFileRoute('/privacy')({
@@ -145,8 +146,16 @@ function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">Contact</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Questions about this policy? Open an issue on our GitHub repository and we'll get back
-              to you.
+              Questions about this policy? Send them through our{" "}
+              <a
+                href={SITE_CONFIG.links.feedback}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                feedback form
+              </a>{" "}
+              and we'll get back to you.
             </p>
           </section>
         </div>

@@ -80,12 +80,12 @@ export function Footer() {
                             ))}
                             <li>
                                 <a
-                                    href={SITE_CONFIG.links.issues}
+                                    href={SITE_CONFIG.links.feedback}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Report an issue
+                                    Feedback & Issues
                                 </a>
                             </li>
                         </ul>

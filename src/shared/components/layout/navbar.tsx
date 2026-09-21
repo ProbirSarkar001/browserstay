@@ -71,7 +71,7 @@ export function Navbar() {
                           <h5 className="font-medium text-sm text-foreground">Need more tools?</h5>
                         </div>
                         <Link
-                          to={SITE_CONFIG.links.issues}
+                          to={SITE_CONFIG.links.feedback}
                           target="_blank"
                           className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-7 text-xs px-2")}
                         >
