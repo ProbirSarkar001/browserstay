@@ -6,7 +6,7 @@ import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { cn } from "@/shared/utils";
-import { JsonEditor } from "@/shared/components/common/json-editor";
+import { CodeEditor } from "@/shared/components/common/code-editor";
 import { formatJson, minifyJson, validateJson } from "../services/json-formatter";
 import type { JsonIndent, JsonOperation } from "../types";
 import { INDENT_OPTIONS, SAMPLE_JSON } from "../constants";
@@ -122,7 +122,7 @@ export function JsonFormatter() {
                 </Button>
               </div>
             </div>
-            <JsonEditor
+            <CodeEditor
               id="json-input"
               value={input}
               onChange={setInput}
@@ -147,7 +147,7 @@ export function JsonFormatter() {
                 {clipboard.copied ? "Copied!" : "Copy"}
               </Button>
             </div>
-            <JsonEditor
+            <CodeEditor
               id="json-output"
               readOnly
               value={output}

@@ -1,11 +1,19 @@
 import "@tanstack/react-start/client-only";
 import { useMemo } from "react";
 import { json } from "@codemirror/lang-json";
+import { yaml } from "@codemirror/lang-yaml";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
 import { cn } from "@/shared/utils";
 
-export interface JsonEditorProps {
+export type CodeLanguage = "json" | "yaml";
+
+const LANGUAGES: Record<CodeLanguage, () => ReturnType<typeof json>> = {
+  json,
+  yaml
+};
+
+export interface CodeEditorProps {
   id?: string;
   value: string;
   onChange?: (value: string) => void;
@@ -13,25 +21,28 @@ export interface JsonEditorProps {
   placeholder?: string;
   height?: string;
   className?: string;
+  language?: CodeLanguage;
 }
 
 /**
- * @human A browser-only CodeMirror editor with JSON syntax highlighting, line numbers,
- * and code folding. Supports an editable mode for input and a read-only mode for output.
- * Import by path (`@/shared/components/common/json-editor`) rather than through the barrel,
- * so CodeMirror stays out of the server bundle.
+ * @human A browser-only CodeMirror editor with line numbers, code folding, and
+ * syntax highlighting for JSON or YAML. Pass `language` to pick the grammar; use the
+ * `readOnly` mode to render output as a viewer. Import by path
+ * (`@/shared/components/common/code-editor`) rather than through the barrel, so
+ * CodeMirror stays out of the server bundle.
  */
-export function JsonEditor({
+export function CodeEditor({
   id,
   value,
   onChange,
   readOnly = false,
   placeholder,
   height = "20rem",
-  className
-}: JsonEditorProps) {
+  className,
+  language = "json"
+}: CodeEditorProps) {
   const { resolvedTheme } = useTheme();
-  const extensions = useMemo(() => [json()], []);
+  const extensions = useMemo(() => [LANGUAGES[language]()], [language]);
 
   return (
     <div

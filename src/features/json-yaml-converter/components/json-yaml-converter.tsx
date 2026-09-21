@@ -4,10 +4,10 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
-import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
 import { cn } from "@/shared/utils";
+import { CodeEditor } from "@/shared/components/common/code-editor";
 import { convert } from "../services/json-yaml-converter";
 import type { ConversionDirection, IndentOption } from "../types";
 import { DIRECTION_OPTIONS, INDENT_OPTIONS, SAMPLE_JSON, SAMPLE_YAML } from "../constants";
@@ -21,6 +21,12 @@ export function JsonYamlConverter() {
   const debouncedInput = useDebouncedValue(input);
   const result = useMemo(() => convert(debouncedInput, direction, indent), [debouncedInput, direction, indent]);
   const output = result.ok ? result.output : "";
+
+  // The debounced value trails the editor while typing or pasting. Until the
+  // conversion catches up, `result` still describes the previous input (often
+  // empty), so hide the error to avoid flashing "Invalid JSON" on a valid paste.
+  const isPending = debouncedInput !== input;
+  const showError = Boolean(input) && !result.ok && !isPending;
 
   const inputStats = useMemo(
     () => ({ lines: input ? input.split("\n").length : 0, chars: input.length }),
@@ -82,7 +88,7 @@ export function JsonYamlConverter() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {input && !result.ok && (
+        {showError && (
           <div
             role="alert"
             className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm"
@@ -118,16 +124,13 @@ export function JsonYamlConverter() {
                 </Button>
               </div>
             </div>
-            <Textarea
+            <CodeEditor
               id="converter-input"
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={setInput}
+              language={toYaml ? "json" : "yaml"}
               placeholder={toYaml ? '{"key": "value"}' : "key: value"}
-              spellCheck={false}
-              className={cn(
-                "min-h-64 font-mono text-sm resize-y",
-                input && !result.ok && "border-destructive/50"
-              )}
+              className={cn(showError && "border-destructive/50")}
             />
           </div>
 
@@ -153,13 +156,12 @@ export function JsonYamlConverter() {
                 </Button>
               </div>
             </div>
-            <Textarea
+            <CodeEditor
               id="converter-output"
               readOnly
               value={output}
+              language={toYaml ? "yaml" : "json"}
               placeholder={toYaml ? "YAML appears here" : "JSON appears here"}
-              spellCheck={false}
-              className="min-h-64 font-mono text-sm resize-y bg-muted/30"
             />
           </div>
         </div>
