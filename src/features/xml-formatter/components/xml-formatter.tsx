@@ -5,7 +5,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
-import { Textarea } from "@/shared/components/ui/textarea";
+import { CodeEditor } from "@/shared/components/common/code-editor";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
 import { cn, safeSync } from "@/shared/utils";
@@ -128,13 +128,13 @@ export function XmlFormatter() {
                 </Button>
               </div>
             </div>
-            <Textarea
+            <CodeEditor
               id="xml-input"
+              language="xml"
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={setInput}
               placeholder='<?xml version="1.0"?><root>…</root>'
-              spellCheck={false}
-              className={cn("min-h-64 font-mono text-sm resize-y", input && error && "border-destructive/50")}
+              className={cn(input && error && "border-destructive/50")}
             />
           </div>
 
@@ -154,13 +154,13 @@ export function XmlFormatter() {
                 {clipboard.copied ? "Copied!" : "Copy"}
               </Button>
             </div>
-            <Textarea
+            <CodeEditor
               id="xml-output"
+              language="xml"
               readOnly
               value={output}
               placeholder="Formatted XML appears here"
-              spellCheck={false}
-              className="min-h-64 font-mono text-sm resize-y bg-muted/30"
+              className="bg-muted/30"
             />
           </div>
         </div>

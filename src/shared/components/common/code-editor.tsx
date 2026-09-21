@@ -1,16 +1,18 @@
 import "@tanstack/react-start/client-only";
 import { useMemo } from "react";
 import { json } from "@codemirror/lang-json";
+import { xml } from "@codemirror/lang-xml";
 import { yaml } from "@codemirror/lang-yaml";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
 import { cn } from "@/shared/utils";
 
-export type CodeLanguage = "json" | "yaml";
+export type CodeLanguage = "json" | "yaml" | "xml";
 
 const LANGUAGES: Record<CodeLanguage, () => ReturnType<typeof json>> = {
   json,
-  yaml
+  yaml,
+  xml
 };
 
 export interface CodeEditorProps {
@@ -26,7 +28,7 @@ export interface CodeEditorProps {
 
 /**
  * @human A browser-only CodeMirror editor with line numbers, code folding, and
- * syntax highlighting for JSON or YAML. Pass `language` to pick the grammar; use the
+ * syntax highlighting for JSON, YAML, or XML. Pass `language` to pick the grammar; use the
  * `readOnly` mode to render output as a viewer. Import by path
  * (`@/shared/components/common/code-editor`) rather than through the barrel, so
  * CodeMirror stays out of the server bundle.
