@@ -4,9 +4,9 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
-import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { cn } from "@/shared/utils";
+import { JsonEditor } from "./json-editor";
 import { formatJson, minifyJson, validateJson } from "../services/json-formatter";
 import type { JsonIndent } from "../types";
 import { INDENT_OPTIONS, SAMPLE_JSON } from "../constants";
@@ -105,16 +105,12 @@ export function JsonFormatter() {
                 </Button>
               </div>
             </div>
-            <Textarea
+            <JsonEditor
               id="json-input"
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={setInput}
               placeholder='{"paste": "your JSON here"}'
-              spellCheck={false}
-              className={cn(
-                "min-h-80 font-mono text-sm resize-y",
-                input && !validation.valid && "border-destructive/50 focus-visible:ring-destructive/30"
-              )}
+              className={cn(input && !validation.valid && "border-destructive/50")}
             />
           </div>
 
@@ -134,13 +130,12 @@ export function JsonFormatter() {
                 {clipboard.copied ? "Copied!" : "Copy"}
               </Button>
             </div>
-            <Textarea
+            <JsonEditor
               id="json-output"
               readOnly
               value={validation.valid && input ? safeFormat(input, indent) : ""}
               placeholder="Formatted JSON appears here"
-              spellCheck={false}
-              className="min-h-80 font-mono text-sm resize-y bg-muted/30"
+              className="bg-muted/30"
             />
           </div>
         </div>

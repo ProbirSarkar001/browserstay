@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, ClientOnly } from '@tanstack/react-router'
 import { PageHeader } from "@/shared/components/layout/page-header"
 import { HowItWorks } from "@/shared/components/layout/how-it-works"
 import { FAQSection } from "@/shared/components/layout/faq-section"
@@ -20,7 +20,9 @@ function JsonFormatterPage() {
         />
 
         <div className="w-full max-w-6xl mx-auto">
-          <JsonFormatter />
+          <ClientOnly fallback={<div className="h-96 bg-muted animate-pulse rounded-lg" />}>
+            <JsonFormatter />
+          </ClientOnly>
         </div>
 
         {/* How It Works */}
