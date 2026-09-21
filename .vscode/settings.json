@@ -1,5 +1,6 @@
 {
   "search.exclude": {
     "**/tsconfig.tsbuildinfo": true
-  }
+  },
+  "js/ts.experimental.useTsgo": false
 }
