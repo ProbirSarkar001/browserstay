@@ -171,6 +171,15 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         color: "bg-green-500/10 text-green-600",
         tags: ["Image", "Privacy"],
         keywords: ["exif", "metadata", "gps", "strip", "privacy", "location"]
+      },
+      {
+        title: "Image Color Palette",
+        href: "/image-color-palette",
+        description: "Extract a color palette from any image.",
+        icon: Palette,
+        color: "bg-fuchsia-500/10 text-fuchsia-600",
+        tags: ["Image", "Color"],
+        keywords: ["palette", "color", "extract", "hex", "rgb", "hsl", "dominant", "swatch", "picker", "eyedropper"]
       }
     ]
   },

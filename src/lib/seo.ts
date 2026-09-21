@@ -232,6 +232,19 @@ export const metaConfigs = {
       featureList: ["Strip EXIF and GPS data", "Preserve original format", "Batch processing", "Local browser processing"]
     }
   },
+  imageColorPalette: {
+    title: "Image Color Palette Generator - Extract Colors Free | BrowserStay",
+    description:
+      "Extract a color palette from any image for free. Drag the pointers to steer which colors are picked, read them as HEX, RGB, or HSL, and export as CSS, Tailwind, JSON, or PNG — all in your browser with no uploads.",
+    canonicalUrl: `${BASE_URL}/image-color-palette`,
+    keywords:
+      "image color palette, color palette generator, extract colors from image, dominant color, color picker, hex color extractor, image to palette, color scheme from photo, local color extractor, browserstay",
+    jsonLd: {
+      name: "Image Color Palette",
+      description: "Extract the dominant colors from any image and export the palette. Runs entirely in your browser.",
+      featureList: ["Extract dominant colors", "Draggable color pointers", "HEX, RGB, and HSL output", "Export CSS, Tailwind, JSON, and PNG"]
+    }
+  },
   qrGenerator: {
     title: "QR Code Generator - Create Custom QR Codes Free | BrowserStay",
     description:

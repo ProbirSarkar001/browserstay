@@ -15,6 +15,7 @@ import { Route as Base64EncoderRouteImport } from './routes/base64-encoder'
 import { Route as DiffCheckerRouteImport } from './routes/diff-checker'
 import { Route as EncryptPdfRouteImport } from './routes/encrypt-pdf'
 import { Route as HashGeneratorRouteImport } from './routes/hash-generator'
+import { Route as ImageColorPaletteRouteImport } from './routes/image-color-palette'
 import { Route as ImageCompressorRouteImport } from './routes/image-compressor'
 import { Route as ImageResizeRouteImport } from './routes/image-resize'
 import { Route as ImageToPdfRouteImport } from './routes/image-to-pdf'
@@ -71,6 +72,11 @@ const EncryptPdfRoute = EncryptPdfRouteImport.update({
 const HashGeneratorRoute = HashGeneratorRouteImport.update({
   id: '/hash-generator',
   path: '/hash-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageColorPaletteRoute = ImageColorPaletteRouteImport.update({
+  id: '/image-color-palette',
+  path: '/image-color-palette',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImageCompressorRoute = ImageCompressorRouteImport.update({
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/hash-generator': typeof HashGeneratorRoute
+  '/image-color-palette': typeof ImageColorPaletteRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
@@ -253,6 +260,7 @@ export interface FileRoutesByTo {
   '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/hash-generator': typeof HashGeneratorRoute
+  '/image-color-palette': typeof ImageColorPaletteRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
   '/hash-generator': typeof HashGeneratorRoute
+  '/image-color-palette': typeof ImageColorPaletteRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
     | '/diff-checker'
     | '/encrypt-pdf'
     | '/hash-generator'
+    | '/image-color-palette'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/diff-checker'
     | '/encrypt-pdf'
     | '/hash-generator'
+    | '/image-color-palette'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
@@ -396,6 +407,7 @@ export interface FileRouteTypes {
     | '/diff-checker'
     | '/encrypt-pdf'
     | '/hash-generator'
+    | '/image-color-palette'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
@@ -432,6 +444,7 @@ export interface RootRouteChildren {
   DiffCheckerRoute: typeof DiffCheckerRoute
   EncryptPdfRoute: typeof EncryptPdfRoute
   HashGeneratorRoute: typeof HashGeneratorRoute
+  ImageColorPaletteRoute: typeof ImageColorPaletteRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageResizeRoute: typeof ImageResizeRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
@@ -503,6 +516,13 @@ declare module '@tanstack/react-router' {
       path: '/hash-generator'
       fullPath: '/hash-generator'
       preLoaderRoute: typeof HashGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-color-palette': {
+      id: '/image-color-palette'
+      path: '/image-color-palette'
+      fullPath: '/image-color-palette'
+      preLoaderRoute: typeof ImageColorPaletteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/image-compressor': {
@@ -704,6 +724,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiffCheckerRoute: DiffCheckerRoute,
   EncryptPdfRoute: EncryptPdfRoute,
   HashGeneratorRoute: HashGeneratorRoute,
+  ImageColorPaletteRoute: ImageColorPaletteRoute,
   ImageCompressorRoute: ImageCompressorRoute,
   ImageResizeRoute: ImageResizeRoute,
   ImageToPdfRoute: ImageToPdfRoute,
