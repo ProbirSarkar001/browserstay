@@ -298,6 +298,71 @@ export const metaConfigs = {
       featureList: ["Format and beautify JSON", "Validate with error location", "Minify JSON", "Adjustable indentation"]
     }
   },
+  xmlFormatter: {
+    title: "XML Formatter & Validator - Beautify, Minify XML Online Free | BrowserStay",
+    description:
+      "Format, validate, and minify XML for free. Precise error locations, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/xml-formatter`,
+    keywords:
+      "xml formatter, xml validator, xml beautifier, xml pretty print, minify xml, format xml online, local xml formatter, browserstay",
+    jsonLd: {
+      name: "XML Formatter & Validator",
+      description: "Format, validate, and minify XML. Precise error locations, adjustable indentation.",
+      featureList: ["Format and beautify XML", "Validate with error location", "Minify XML", "Adjustable indentation"]
+    }
+  },
+  jsonYamlConverter: {
+    title: "JSON to YAML Converter - Convert JSON & YAML Online Free | BrowserStay",
+    description:
+      "Convert JSON to YAML and YAML to JSON for free. Precise error locations, adjustable indentation — all conversion happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/json-yaml-converter`,
+    keywords:
+      "json to yaml, yaml to json, yaml converter, json yaml converter, yaml formatter, convert yaml online, local yaml converter, browserstay",
+    jsonLd: {
+      name: "JSON to YAML Converter",
+      description: "Convert JSON to YAML and YAML back to JSON. Precise error locations, adjustable indentation.",
+      featureList: ["Convert JSON to YAML", "Convert YAML to JSON", "Validate with error location", "Adjustable indentation"]
+    }
+  },
+  regexTester: {
+    title: "Regex Tester - Test Regular Expressions Online Free | BrowserStay",
+    description:
+      "Test and debug regular expressions for free. Live highlighting, match positions, capture groups, and replacement previews — all matching runs locally in your browser.",
+    canonicalUrl: `${BASE_URL}/regex-tester`,
+    keywords:
+      "regex tester, regular expression tester, regex online, test regex, regexp debugger, capture groups, regex replace, browserstay",
+    jsonLd: {
+      name: "Regex Tester",
+      description: "Test regular expressions with live highlighting, match positions, capture groups, and replacements.",
+      featureList: ["Live match highlighting", "Match positions and capture groups", "Flag toggles", "Replacement preview"]
+    }
+  },
+  diffChecker: {
+    title: "Diff Checker - Compare Two Texts Online Free | BrowserStay",
+    description:
+      "Compare two texts and highlight added, removed, and unchanged lines for free. Line numbers on both sides — the comparison runs locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/diff-checker`,
+    keywords:
+      "diff checker, compare text, text difference, diff tool, compare two files, online diff, line diff, browserstay",
+    jsonLd: {
+      name: "Diff Checker",
+      description: "Compare two texts line by line and highlight additions, deletions, and unchanged lines.",
+      featureList: ["Line-by-line comparison", "Added and removed highlighting", "Line numbers per side", "Copy unified diff"]
+    }
+  },
+  jwtDecoder: {
+    title: "JWT Decoder - Decode JSON Web Tokens Online Free | BrowserStay",
+    description:
+      "Decode a JSON Web Token's header, payload, and claims for free. Registered claims are shown as readable dates — everything runs locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/jwt-decoder`,
+    keywords:
+      "jwt decoder, decode jwt, json web token, jwt parser, bearer token, jwt claims, exp iat, online jwt tool, browserstay",
+    jsonLd: {
+      name: "JWT Decoder",
+      description: "Decode a JSON Web Token's header, payload, and registered claims. Local processing only.",
+      featureList: ["Decode JWT header and payload", "Readable date for time claims", "Expiry status", "Local processing"]
+    }
+  },
   base64Encoder: {
     title: "Base64 Encoder/Decoder - Encode & Decode Online Free | BrowserStay",
     description:
