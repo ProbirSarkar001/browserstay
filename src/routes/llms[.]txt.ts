@@ -45,7 +45,7 @@ ${toolsSection}
 
 - Homepage: https://browserstay.com
 - GitHub: https://github.com/probir-sarkar/browserstay
-- Issues: https://github.com/probir-sarkar/browserstay/issues
+- Feedback & issues: https://tally.so/r/lbpj6N
 - License: Apache 2.0
 `;
 
