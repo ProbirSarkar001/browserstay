@@ -6,15 +6,16 @@ import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { cn } from "@/shared/utils";
-import { JsonEditor } from "./json-editor";
+import { JsonEditor } from "@/shared/components/common/json-editor";
 import { formatJson, minifyJson, validateJson } from "../services/json-formatter";
-import type { JsonIndent } from "../types";
+import type { JsonIndent, JsonOperation } from "../types";
 import { INDENT_OPTIONS, SAMPLE_JSON } from "../constants";
 
 export function JsonFormatter() {
   const clipboard = useClipboard({ timeout: 2000 });
   const [input, setInput] = useState("");
   const [indent, setIndent] = useState<JsonIndent>("2");
+  const [operation, setOperation] = useState<JsonOperation>("format");
 
   const validation = useMemo(() => validateJson(input), [input]);
   const inputStats = useMemo(
@@ -22,15 +23,16 @@ export function JsonFormatter() {
     [input]
   );
 
-  const apply = (transform: (value: string) => string) => {
-    try {
-      const output = transform(input);
-      setInput(output);
-      clipboard.reset();
-    } catch {
-      // Validation state already shows the error.
+  const output = useMemo(() => {
+    if (!validation.valid) {
+      return "";
     }
-  };
+    try {
+      return operation === "minify" ? minifyJson(input) : formatJson(input, indent);
+    } catch {
+      return "";
+    }
+  }, [validation.valid, input, operation, indent]);
 
   return (
     <Card className="w-full shadow-lg border-border/50">
@@ -45,7 +47,12 @@ export function JsonFormatter() {
               <Label htmlFor="json-indent" className="text-sm text-muted-foreground">
                 Indent
               </Label>
-              <Select value={indent} items={INDENT_OPTIONS} onValueChange={(value) => value && setIndent(value)}>
+              <Select
+                value={indent}
+                items={INDENT_OPTIONS}
+                onValueChange={(value) => value && setIndent(value)}
+                disabled={operation === "minify"}
+              >
                 <SelectTrigger id="json-indent" className="w-32">
                   <SelectValue />
                 </SelectTrigger>
@@ -58,11 +65,21 @@ export function JsonFormatter() {
                 </SelectContent>
               </Select>
             </div>
-            <Button size="sm" onClick={() => apply((value) => formatJson(value, indent))} disabled={!validation.valid}>
+            <Button
+              size="sm"
+              variant={operation === "format" ? "default" : "secondary"}
+              onClick={() => setOperation("format")}
+              disabled={!validation.valid}
+            >
               <Wand2 className="h-4 w-4" />
               Format
             </Button>
-            <Button size="sm" variant="secondary" onClick={() => apply(minifyJson)} disabled={!validation.valid}>
+            <Button
+              size="sm"
+              variant={operation === "minify" ? "default" : "secondary"}
+              onClick={() => setOperation("minify")}
+              disabled={!validation.valid}
+            >
               <Minimize2 className="h-4 w-4" />
               Minify
             </Button>
@@ -117,13 +134,13 @@ export function JsonFormatter() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="json-output" className="text-sm font-medium">
-                Formatted output
+                {operation === "minify" ? "Minified output" : "Formatted output"}
               </Label>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => clipboard.copy(input)}
-                disabled={!input}
+                onClick={() => clipboard.copy(output)}
+                disabled={!output}
                 className={cn(clipboard.copied && "text-green-600")}
               >
                 {clipboard.copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -133,7 +150,7 @@ export function JsonFormatter() {
             <JsonEditor
               id="json-output"
               readOnly
-              value={validation.valid && input ? safeFormat(input, indent) : ""}
+              value={output}
               placeholder="Formatted JSON appears here"
               className="bg-muted/30"
             />
@@ -142,12 +159,4 @@ export function JsonFormatter() {
       </CardContent>
     </Card>
   );
-}
-
-function safeFormat(input: string, indent: JsonIndent): string {
-  try {
-    return formatJson(input, indent);
-  } catch {
-    return "";
-  }
 }

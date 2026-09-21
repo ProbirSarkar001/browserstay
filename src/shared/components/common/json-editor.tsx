@@ -17,7 +17,9 @@ export interface JsonEditorProps {
 
 /**
  * @human A browser-only CodeMirror editor with JSON syntax highlighting, line numbers,
- * and code folding. Used for both the editable input and the read-only formatted output.
+ * and code folding. Supports an editable mode for input and a read-only mode for output.
+ * Import by path (`@/shared/components/common/json-editor`) rather than through the barrel,
+ * so CodeMirror stays out of the server bundle.
  */
 export function JsonEditor({
   id,

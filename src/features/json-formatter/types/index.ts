@@ -13,3 +13,5 @@ export interface JsonValidationError {
 export type JsonValidationResult = JsonValidationSuccess | JsonValidationError;
 
 export type JsonIndent = "2" | "4" | "tab";
+
+export type JsonOperation = "format" | "minify";

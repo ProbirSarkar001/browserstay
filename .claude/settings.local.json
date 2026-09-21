@@ -22,7 +22,14 @@
       "Bash(bun remove *)",
       "Bash(bunx tsc *)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:esm.sh)"
+      "WebFetch(domain:esm.sh)",
+      "Bash(xargs ls -la)",
+      "Bash(ls src/shared/components/ui/ src/shared/hooks/ && cat \"src/routes/{\\\\$category}-tools.tsx\" 2>/dev/null | head -60)",
+      "Read(//Users/probirsarkar/Projects/toolbox/src/routes/**)",
+      "Bash(git checkout *)",
+      "Bash(bun run *)",
+      "Bash(npx playwright *)",
+      "Bash(git add *)"
     ]
   }
 }
