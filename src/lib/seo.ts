@@ -258,6 +258,150 @@ export const metaConfigs = {
       featureList: ["Cryptographic randomness", "Customizable length", "Character type options", "One-click generation"]
     }
   },
+  hashGenerator: {
+    title: "Hash Generator - MD5, SHA-1, SHA-256, SHA-512 Online Free | BrowserStay",
+    description:
+      "Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files instantly. Everything is computed locally in your browser — your data never leaves your device.",
+    canonicalUrl: `${BASE_URL}/hash-generator`,
+    keywords:
+      "hash generator, md5 generator, sha256 hash, sha512 checksum, sha1, checksum tool, file checksum, local hash generator, browserstay",
+    jsonLd: {
+      name: "Hash Generator",
+      description:
+        "Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files. Computed locally in your browser.",
+      featureList: ["MD5, SHA-1, SHA-256, SHA-384, SHA-512", "Text and file input", "One-click copy", "Local WebCrypto processing"]
+    }
+  },
+  uuidGenerator: {
+    title: "UUID Generator - Bulk UUID v4 Online Free | BrowserStay",
+    description:
+      "Generate random UUIDs (v4) in bulk for free. Custom formatting options with one-click copy — created with your browser's cryptographic random number generator, nothing is sent to a server.",
+    canonicalUrl: `${BASE_URL}/uuid-generator`,
+    keywords:
+      "uuid generator, guid generator, uuid v4, random uuid, bulk uuid, online uuid creator, local uuid generator, browserstay",
+    jsonLd: {
+      name: "UUID Generator",
+      description: "Generate random UUIDs (v4) in bulk using your browser's cryptographic random number generator.",
+      featureList: ["Bulk UUID v4 generation", "Uppercase and hyphen options", "One-click copy", "Cryptographic randomness"]
+    }
+  },
+  jsonFormatter: {
+    title: "JSON Formatter & Validator - Beautify, Minify JSON Online Free | BrowserStay",
+    description:
+      "Format, validate, and minify JSON for free. Clear error messages, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/json-formatter`,
+    keywords:
+      "json formatter, json validator, json beautifier, json pretty print, minify json, format json online, local json formatter, browserstay",
+    jsonLd: {
+      name: "JSON Formatter & Validator",
+      description: "Format, validate, and minify JSON. Clear error messages, adjustable indentation.",
+      featureList: ["Format and beautify JSON", "Validate with clear error messages", "Minify JSON", "Adjustable indentation"]
+    }
+  },
+  xmlFormatter: {
+    title: "XML Formatter & Validator - Beautify, Minify XML Online Free | BrowserStay",
+    description:
+      "Format, validate, and minify XML for free. Clear error messages, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/xml-formatter`,
+    keywords:
+      "xml formatter, xml validator, xml beautifier, xml pretty print, minify xml, format xml online, local xml formatter, browserstay",
+    jsonLd: {
+      name: "XML Formatter & Validator",
+      description: "Format, validate, and minify XML. Clear error messages, adjustable indentation.",
+      featureList: ["Format and beautify XML", "Validate with clear error messages", "Minify XML", "Adjustable indentation"]
+    }
+  },
+  jsonYamlConverter: {
+    title: "JSON to YAML Converter - Convert JSON & YAML Online Free | BrowserStay",
+    description:
+      "Convert JSON to YAML and YAML to JSON for free. Clear error messages, adjustable indentation — all conversion happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/json-yaml-converter`,
+    keywords:
+      "json to yaml, yaml to json, yaml converter, json yaml converter, yaml formatter, convert yaml online, local yaml converter, browserstay",
+    jsonLd: {
+      name: "JSON to YAML Converter",
+      description: "Convert JSON to YAML and YAML back to JSON. Clear error messages, adjustable indentation.",
+      featureList: ["Convert JSON to YAML", "Convert YAML to JSON", "Validate with clear error messages", "Adjustable indentation"]
+    }
+  },
+  regexTester: {
+    title: "Regex Tester - Test Regular Expressions Online Free | BrowserStay",
+    description:
+      "Test and debug regular expressions for free. Live highlighting, match positions, capture groups, and replacement previews — all matching runs locally in your browser.",
+    canonicalUrl: `${BASE_URL}/regex-tester`,
+    keywords:
+      "regex tester, regular expression tester, regex online, test regex, regexp debugger, capture groups, regex replace, browserstay",
+    jsonLd: {
+      name: "Regex Tester",
+      description: "Test regular expressions with live highlighting, match positions, capture groups, and replacements.",
+      featureList: ["Live match highlighting", "Match positions and capture groups", "Flag toggles", "Replacement preview"]
+    }
+  },
+  diffChecker: {
+    title: "Diff Checker - Compare Two Texts Online Free | BrowserStay",
+    description:
+      "Compare two texts and highlight added, removed, and unchanged lines for free. Line numbers on both sides — the comparison runs locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/diff-checker`,
+    keywords:
+      "diff checker, compare text, text difference, diff tool, compare two files, online diff, line diff, browserstay",
+    jsonLd: {
+      name: "Diff Checker",
+      description: "Compare two texts line by line and highlight additions, deletions, and unchanged lines.",
+      featureList: ["Line-by-line comparison", "Added and removed highlighting", "Line numbers per side", "Copy unified diff"]
+    }
+  },
+  jwtDecoder: {
+    title: "JWT Decoder - Decode JSON Web Tokens Online Free | BrowserStay",
+    description:
+      "Decode a JSON Web Token's header, payload, and claims for free. Registered claims are shown as readable dates — everything runs locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/jwt-decoder`,
+    keywords:
+      "jwt decoder, decode jwt, json web token, jwt parser, bearer token, jwt claims, exp iat, online jwt tool, browserstay",
+    jsonLd: {
+      name: "JWT Decoder",
+      description: "Decode a JSON Web Token's header, payload, and registered claims. Local processing only.",
+      featureList: ["Decode JWT header and payload", "Readable date for time claims", "Expiry status", "Local processing"]
+    }
+  },
+  base64Encoder: {
+    title: "Base64 Encoder/Decoder - Encode & Decode Online Free | BrowserStay",
+    description:
+      "Encode text to Base64 or decode Base64 back to text for free. Supports Unicode and URL-safe alphabet — all conversion happens locally in your browser, nothing is uploaded.",
+    canonicalUrl: `${BASE_URL}/base64-encoder`,
+    keywords:
+      "base64 encode, base64 decode, base64 converter, base64 encoder decoder, url safe base64, online base64 tool, browserstay",
+    jsonLd: {
+      name: "Base64 Encoder/Decoder",
+      description: "Encode text to Base64 or decode Base64 back to text. Supports Unicode and URL-safe alphabet.",
+      featureList: ["Encode and decode Base64", "Unicode support", "Live conversion", "Local processing"]
+    }
+  },
+  urlEncoder: {
+    title: "URL Encoder/Decoder - Percent Encoding Online Free | BrowserStay",
+    description:
+      "Encode and decode URLs and query strings for free. Component and full-URL modes, plus space encoding options — everything runs locally in your browser.",
+    canonicalUrl: `${BASE_URL}/url-encoder`,
+    keywords:
+      "url encode, url decode, percent encoding, uri encoder, url encoder decoder, query string encode, online url tool, browserstay",
+    jsonLd: {
+      name: "URL Encoder/Decoder",
+      description: "Encode and decode URLs and query strings with percent encoding. Component and full-URL modes.",
+      featureList: ["Encode and decode URLs", "Component and full-URL modes", "Space encoding options", "Local processing"]
+    }
+  },
+  timestampConverter: {
+    title: "Unix Timestamp Converter - Epoch to Date Online Free | BrowserStay",
+    description:
+      "Convert Unix timestamps to human-readable dates and back for free. Seconds or milliseconds, local or UTC — all conversion happens locally in your browser.",
+    canonicalUrl: `${BASE_URL}/timestamp-converter`,
+    keywords:
+      "unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time, epoch time converter, browserstay",
+    jsonLd: {
+      name: "Unix Timestamp Converter",
+      description: "Convert Unix timestamps to human-readable dates and back. Seconds or milliseconds, local or UTC.",
+      featureList: ["Timestamp to date conversion", "Date to timestamp conversion", "Seconds and milliseconds", "Live current timestamp"]
+    }
+  },
   blog: {
     title: "Blog - Privacy, Browser Tools & Web Technology | BrowserStay",
     description:

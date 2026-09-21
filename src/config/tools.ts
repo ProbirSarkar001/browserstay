@@ -17,6 +17,7 @@ import {
   Hash,
   Fingerprint,
   FileCode,
+  FileCode2,
   Paintbrush,
   Code,
   PenLine,
@@ -204,7 +205,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Braces,
         color: "bg-yellow-500/10 text-yellow-600",
         tags: ["JSON", "Formatter"],
-        disabled: true,
         group: "JSON & Data",
         keywords: ["beautify", "prettify", "validate", "minify"]
       },
@@ -215,7 +215,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: FileJson,
         color: "bg-yellow-500/10 text-yellow-600",
         tags: ["JSON", "YAML", "Converter"],
-        disabled: true,
         group: "JSON & Data",
         keywords: ["yaml", "convert"]
       },
@@ -248,7 +247,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: FileDiff,
         color: "bg-rose-500/10 text-rose-600",
         tags: ["Text", "Compare"],
-        disabled: true,
         group: "JSON & Data",
         keywords: ["compare", "difference", "text"]
       },
@@ -259,7 +257,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Binary,
         color: "bg-sky-500/10 text-sky-600",
         tags: ["Encoding", "Dev"],
-        disabled: true,
         group: "Encoding",
         keywords: ["encode", "decode", "base64"]
       },
@@ -270,7 +267,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Link2,
         color: "bg-cyan-500/10 text-cyan-600",
         tags: ["Encoding", "URL"],
-        disabled: true,
         group: "Encoding",
         keywords: ["encode", "decode", "uri", "percent"]
       },
@@ -281,7 +277,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Hash,
         color: "bg-orange-500/10 text-orange-600",
         tags: ["Security", "Encoding"],
-        disabled: true,
         group: "Encoding",
         keywords: ["md5", "sha256", "checksum", "digest"]
       },
@@ -292,7 +287,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Fingerprint,
         color: "bg-violet-500/10 text-violet-600",
         tags: ["Generator", "Dev"],
-        disabled: true,
         group: "Encoding",
         keywords: ["guid", "identifier", "random"]
       },
@@ -306,6 +300,16 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         group: "Encoding",
         popular: true,
         keywords: ["qr", "barcode", "link"]
+      },
+      {
+        title: "XML Formatter",
+        href: "/xml-formatter",
+        description: "Format, validate, and minify XML documents.",
+        icon: FileCode2,
+        color: "bg-amber-500/10 text-amber-600",
+        tags: ["XML", "Formatter"],
+        group: "Formatting",
+        keywords: ["beautify", "prettify", "validate", "minify", "markup"]
       },
       {
         title: "HTML Formatter",
@@ -358,7 +362,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: KeyRound,
         color: "bg-red-500/10 text-red-600",
         tags: ["JWT", "Auth"],
-        disabled: true,
         group: "Web & API",
         keywords: ["token", "auth", "claims", "bearer"]
       },
@@ -369,7 +372,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: Regex,
         color: "bg-emerald-500/10 text-emerald-600",
         tags: ["Regex", "Dev"],
-        disabled: true,
         group: "Web & API",
         keywords: ["regexp", "pattern", "match"]
       },
@@ -413,7 +415,6 @@ export const TOOLS_CONFIG: ToolCategory[] = [
         icon: CalendarClock,
         color: "bg-purple-500/10 text-purple-600",
         tags: ["Time", "Converter"],
-        disabled: true,
         group: "Time & Color",
         keywords: ["epoch", "date", "time", "unix"]
       },

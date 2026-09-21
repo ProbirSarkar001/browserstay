@@ -11,10 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as Base64EncoderRouteImport } from './routes/base64-encoder'
+import { Route as DiffCheckerRouteImport } from './routes/diff-checker'
 import { Route as EncryptPdfRouteImport } from './routes/encrypt-pdf'
+import { Route as HashGeneratorRouteImport } from './routes/hash-generator'
 import { Route as ImageCompressorRouteImport } from './routes/image-compressor'
 import { Route as ImageResizeRouteImport } from './routes/image-resize'
 import { Route as ImageToPdfRouteImport } from './routes/image-to-pdf'
+import { Route as JsonFormatterRouteImport } from './routes/json-formatter'
+import { Route as JsonYamlConverterRouteImport } from './routes/json-yaml-converter'
+import { Route as JwtDecoderRouteImport } from './routes/jwt-decoder'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MergePdfRouteImport } from './routes/merge-pdf'
 import { Route as PasswordGeneratorRouteImport } from './routes/password-generator'
@@ -22,9 +28,14 @@ import { Route as PdfToImageRouteImport } from './routes/pdf-to-image'
 import { Route as PdfToMarkdownRouteImport } from './routes/pdf-to-markdown'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
+import { Route as RegexTesterRouteImport } from './routes/regex-tester'
 import { Route as RemoveImageMetadataRouteImport } from './routes/remove-image-metadata'
 import { Route as SplitPdfRouteImport } from './routes/split-pdf'
+import { Route as TimestampConverterRouteImport } from './routes/timestamp-converter'
 import { Route as UnlockPdfRouteImport } from './routes/unlock-pdf'
+import { Route as UrlEncoderRouteImport } from './routes/url-encoder'
+import { Route as UuidGeneratorRouteImport } from './routes/uuid-generator'
+import { Route as XmlFormatterRouteImport } from './routes/xml-formatter'
 import { Route as Char123categoryChar125ToolsRouteImport } from './routes/{$category}-tools'
 import { Route as ApiToolsDotjsonRouteImport } from './routes/api/tools[.]json'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -42,9 +53,24 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Base64EncoderRoute = Base64EncoderRouteImport.update({
+  id: '/base64-encoder',
+  path: '/base64-encoder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiffCheckerRoute = DiffCheckerRouteImport.update({
+  id: '/diff-checker',
+  path: '/diff-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EncryptPdfRoute = EncryptPdfRouteImport.update({
   id: '/encrypt-pdf',
   path: '/encrypt-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HashGeneratorRoute = HashGeneratorRouteImport.update({
+  id: '/hash-generator',
+  path: '/hash-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImageCompressorRoute = ImageCompressorRouteImport.update({
@@ -60,6 +86,21 @@ const ImageResizeRoute = ImageResizeRouteImport.update({
 const ImageToPdfRoute = ImageToPdfRouteImport.update({
   id: '/image-to-pdf',
   path: '/image-to-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JsonFormatterRoute = JsonFormatterRouteImport.update({
+  id: '/json-formatter',
+  path: '/json-formatter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JsonYamlConverterRoute = JsonYamlConverterRouteImport.update({
+  id: '/json-yaml-converter',
+  path: '/json-yaml-converter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JwtDecoderRoute = JwtDecoderRouteImport.update({
+  id: '/jwt-decoder',
+  path: '/jwt-decoder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
@@ -97,6 +138,11 @@ const QrGeneratorRoute = QrGeneratorRouteImport.update({
   path: '/qr-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegexTesterRoute = RegexTesterRouteImport.update({
+  id: '/regex-tester',
+  path: '/regex-tester',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RemoveImageMetadataRoute = RemoveImageMetadataRouteImport.update({
   id: '/remove-image-metadata',
   path: '/remove-image-metadata',
@@ -107,9 +153,29 @@ const SplitPdfRoute = SplitPdfRouteImport.update({
   path: '/split-pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TimestampConverterRoute = TimestampConverterRouteImport.update({
+  id: '/timestamp-converter',
+  path: '/timestamp-converter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnlockPdfRoute = UnlockPdfRouteImport.update({
   id: '/unlock-pdf',
   path: '/unlock-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrlEncoderRoute = UrlEncoderRouteImport.update({
+  id: '/url-encoder',
+  path: '/url-encoder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UuidGeneratorRoute = UuidGeneratorRouteImport.update({
+  id: '/uuid-generator',
+  path: '/uuid-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const XmlFormatterRoute = XmlFormatterRouteImport.update({
+  id: '/xml-formatter',
+  path: '/xml-formatter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char123categoryChar125ToolsRoute =
@@ -148,10 +214,16 @@ const ImageConverterConversionRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64-encoder': typeof Base64EncoderRoute
+  '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
+  '/hash-generator': typeof HashGeneratorRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
+  '/json-formatter': typeof JsonFormatterRoute
+  '/json-yaml-converter': typeof JsonYamlConverterRoute
+  '/jwt-decoder': typeof JwtDecoderRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
@@ -159,9 +231,14 @@ export interface FileRoutesByFullPath {
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
+  '/timestamp-converter': typeof TimestampConverterRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/url-encoder': typeof UrlEncoderRoute
+  '/uuid-generator': typeof UuidGeneratorRoute
+  '/xml-formatter': typeof XmlFormatterRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
   '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -172,10 +249,16 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64-encoder': typeof Base64EncoderRoute
+  '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
+  '/hash-generator': typeof HashGeneratorRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
+  '/json-formatter': typeof JsonFormatterRoute
+  '/json-yaml-converter': typeof JsonYamlConverterRoute
+  '/jwt-decoder': typeof JwtDecoderRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
@@ -183,9 +266,14 @@ export interface FileRoutesByTo {
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
+  '/timestamp-converter': typeof TimestampConverterRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/url-encoder': typeof UrlEncoderRoute
+  '/uuid-generator': typeof UuidGeneratorRoute
+  '/xml-formatter': typeof XmlFormatterRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
   '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -197,10 +285,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/base64-encoder': typeof Base64EncoderRoute
+  '/diff-checker': typeof DiffCheckerRoute
   '/encrypt-pdf': typeof EncryptPdfRoute
+  '/hash-generator': typeof HashGeneratorRoute
   '/image-compressor': typeof ImageCompressorRoute
   '/image-resize': typeof ImageResizeRoute
   '/image-to-pdf': typeof ImageToPdfRoute
+  '/json-formatter': typeof JsonFormatterRoute
+  '/json-yaml-converter': typeof JsonYamlConverterRoute
+  '/jwt-decoder': typeof JwtDecoderRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/merge-pdf': typeof MergePdfRoute
   '/password-generator': typeof PasswordGeneratorRoute
@@ -208,9 +302,14 @@ export interface FileRoutesById {
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
   '/qr-generator': typeof QrGeneratorRoute
+  '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
   '/split-pdf': typeof SplitPdfRoute
+  '/timestamp-converter': typeof TimestampConverterRoute
   '/unlock-pdf': typeof UnlockPdfRoute
+  '/url-encoder': typeof UrlEncoderRoute
+  '/uuid-generator': typeof UuidGeneratorRoute
+  '/xml-formatter': typeof XmlFormatterRoute
   '/{$category}-tools': typeof Char123categoryChar125ToolsRoute
   '/api/tools.json': typeof ApiToolsDotjsonRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -223,10 +322,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/base64-encoder'
+    | '/diff-checker'
     | '/encrypt-pdf'
+    | '/hash-generator'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
+    | '/json-formatter'
+    | '/json-yaml-converter'
+    | '/jwt-decoder'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
@@ -234,9 +339,14 @@ export interface FileRouteTypes {
     | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
+    | '/regex-tester'
     | '/remove-image-metadata'
     | '/split-pdf'
+    | '/timestamp-converter'
     | '/unlock-pdf'
+    | '/url-encoder'
+    | '/uuid-generator'
+    | '/xml-formatter'
     | '/{$category}-tools'
     | '/api/tools.json'
     | '/blog/$slug'
@@ -247,10 +357,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/base64-encoder'
+    | '/diff-checker'
     | '/encrypt-pdf'
+    | '/hash-generator'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
+    | '/json-formatter'
+    | '/json-yaml-converter'
+    | '/jwt-decoder'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
@@ -258,9 +374,14 @@ export interface FileRouteTypes {
     | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
+    | '/regex-tester'
     | '/remove-image-metadata'
     | '/split-pdf'
+    | '/timestamp-converter'
     | '/unlock-pdf'
+    | '/url-encoder'
+    | '/uuid-generator'
+    | '/xml-formatter'
     | '/{$category}-tools'
     | '/api/tools.json'
     | '/blog/$slug'
@@ -271,10 +392,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/base64-encoder'
+    | '/diff-checker'
     | '/encrypt-pdf'
+    | '/hash-generator'
     | '/image-compressor'
     | '/image-resize'
     | '/image-to-pdf'
+    | '/json-formatter'
+    | '/json-yaml-converter'
+    | '/jwt-decoder'
     | '/llms.txt'
     | '/merge-pdf'
     | '/password-generator'
@@ -282,9 +409,14 @@ export interface FileRouteTypes {
     | '/pdf-to-markdown'
     | '/privacy'
     | '/qr-generator'
+    | '/regex-tester'
     | '/remove-image-metadata'
     | '/split-pdf'
+    | '/timestamp-converter'
     | '/unlock-pdf'
+    | '/url-encoder'
+    | '/uuid-generator'
+    | '/xml-formatter'
     | '/{$category}-tools'
     | '/api/tools.json'
     | '/blog/$slug'
@@ -296,10 +428,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  Base64EncoderRoute: typeof Base64EncoderRoute
+  DiffCheckerRoute: typeof DiffCheckerRoute
   EncryptPdfRoute: typeof EncryptPdfRoute
+  HashGeneratorRoute: typeof HashGeneratorRoute
   ImageCompressorRoute: typeof ImageCompressorRoute
   ImageResizeRoute: typeof ImageResizeRoute
   ImageToPdfRoute: typeof ImageToPdfRoute
+  JsonFormatterRoute: typeof JsonFormatterRoute
+  JsonYamlConverterRoute: typeof JsonYamlConverterRoute
+  JwtDecoderRoute: typeof JwtDecoderRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MergePdfRoute: typeof MergePdfRoute
   PasswordGeneratorRoute: typeof PasswordGeneratorRoute
@@ -307,9 +445,14 @@ export interface RootRouteChildren {
   PdfToMarkdownRoute: typeof PdfToMarkdownRoute
   PrivacyRoute: typeof PrivacyRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
+  RegexTesterRoute: typeof RegexTesterRoute
   RemoveImageMetadataRoute: typeof RemoveImageMetadataRoute
   SplitPdfRoute: typeof SplitPdfRoute
+  TimestampConverterRoute: typeof TimestampConverterRoute
   UnlockPdfRoute: typeof UnlockPdfRoute
+  UrlEncoderRoute: typeof UrlEncoderRoute
+  UuidGeneratorRoute: typeof UuidGeneratorRoute
+  XmlFormatterRoute: typeof XmlFormatterRoute
   Char123categoryChar125ToolsRoute: typeof Char123categoryChar125ToolsRoute
   ApiToolsDotjsonRoute: typeof ApiToolsDotjsonRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -334,11 +477,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/base64-encoder': {
+      id: '/base64-encoder'
+      path: '/base64-encoder'
+      fullPath: '/base64-encoder'
+      preLoaderRoute: typeof Base64EncoderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diff-checker': {
+      id: '/diff-checker'
+      path: '/diff-checker'
+      fullPath: '/diff-checker'
+      preLoaderRoute: typeof DiffCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/encrypt-pdf': {
       id: '/encrypt-pdf'
       path: '/encrypt-pdf'
       fullPath: '/encrypt-pdf'
       preLoaderRoute: typeof EncryptPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hash-generator': {
+      id: '/hash-generator'
+      path: '/hash-generator'
+      fullPath: '/hash-generator'
+      preLoaderRoute: typeof HashGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/image-compressor': {
@@ -360,6 +524,27 @@ declare module '@tanstack/react-router' {
       path: '/image-to-pdf'
       fullPath: '/image-to-pdf'
       preLoaderRoute: typeof ImageToPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/json-formatter': {
+      id: '/json-formatter'
+      path: '/json-formatter'
+      fullPath: '/json-formatter'
+      preLoaderRoute: typeof JsonFormatterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/json-yaml-converter': {
+      id: '/json-yaml-converter'
+      path: '/json-yaml-converter'
+      fullPath: '/json-yaml-converter'
+      preLoaderRoute: typeof JsonYamlConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jwt-decoder': {
+      id: '/jwt-decoder'
+      path: '/jwt-decoder'
+      fullPath: '/jwt-decoder'
+      preLoaderRoute: typeof JwtDecoderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llms.txt': {
@@ -411,6 +596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QrGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/regex-tester': {
+      id: '/regex-tester'
+      path: '/regex-tester'
+      fullPath: '/regex-tester'
+      preLoaderRoute: typeof RegexTesterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/remove-image-metadata': {
       id: '/remove-image-metadata'
       path: '/remove-image-metadata'
@@ -425,11 +617,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplitPdfRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timestamp-converter': {
+      id: '/timestamp-converter'
+      path: '/timestamp-converter'
+      fullPath: '/timestamp-converter'
+      preLoaderRoute: typeof TimestampConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/unlock-pdf': {
       id: '/unlock-pdf'
       path: '/unlock-pdf'
       fullPath: '/unlock-pdf'
       preLoaderRoute: typeof UnlockPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/url-encoder': {
+      id: '/url-encoder'
+      path: '/url-encoder'
+      fullPath: '/url-encoder'
+      preLoaderRoute: typeof UrlEncoderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uuid-generator': {
+      id: '/uuid-generator'
+      path: '/uuid-generator'
+      fullPath: '/uuid-generator'
+      preLoaderRoute: typeof UuidGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/xml-formatter': {
+      id: '/xml-formatter'
+      path: '/xml-formatter'
+      fullPath: '/xml-formatter'
+      preLoaderRoute: typeof XmlFormatterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/{$category}-tools': {
@@ -480,10 +700,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  Base64EncoderRoute: Base64EncoderRoute,
+  DiffCheckerRoute: DiffCheckerRoute,
   EncryptPdfRoute: EncryptPdfRoute,
+  HashGeneratorRoute: HashGeneratorRoute,
   ImageCompressorRoute: ImageCompressorRoute,
   ImageResizeRoute: ImageResizeRoute,
   ImageToPdfRoute: ImageToPdfRoute,
+  JsonFormatterRoute: JsonFormatterRoute,
+  JsonYamlConverterRoute: JsonYamlConverterRoute,
+  JwtDecoderRoute: JwtDecoderRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MergePdfRoute: MergePdfRoute,
   PasswordGeneratorRoute: PasswordGeneratorRoute,
@@ -491,9 +717,14 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToMarkdownRoute: PdfToMarkdownRoute,
   PrivacyRoute: PrivacyRoute,
   QrGeneratorRoute: QrGeneratorRoute,
+  RegexTesterRoute: RegexTesterRoute,
   RemoveImageMetadataRoute: RemoveImageMetadataRoute,
   SplitPdfRoute: SplitPdfRoute,
+  TimestampConverterRoute: TimestampConverterRoute,
   UnlockPdfRoute: UnlockPdfRoute,
+  UrlEncoderRoute: UrlEncoderRoute,
+  UuidGeneratorRoute: UuidGeneratorRoute,
+  XmlFormatterRoute: XmlFormatterRoute,
   Char123categoryChar125ToolsRoute: Char123categoryChar125ToolsRoute,
   ApiToolsDotjsonRoute: ApiToolsDotjsonRoute,
   BlogSlugRoute: BlogSlugRoute,

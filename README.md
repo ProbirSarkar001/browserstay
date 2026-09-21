@@ -1,6 +1,6 @@
 # BrowserStay
 
-**Free, private, open-source PDF & image tools that stay in your browser.**
+**Free, private, open-source PDF, image & developer tools that stay in your browser.**
 
 Your files never leave your PC. BrowserStay runs every tool entirely in your browser with WebAssembly — no uploads, no accounts, no servers, no limits.
 
@@ -33,6 +33,14 @@ Most "free" online tools secretly upload your files to their servers. BrowserSta
 ### Security & Developer
 - **Password Generator** — Cryptographically strong passwords via the Web Crypto API.
 - **QR Code Generator** — Custom QR codes for URLs, text, WiFi, and contacts.
+
+### Developer Tools
+- **JSON Formatter** — Format, validate, and minify JSON with precise error locations.
+- **Base64 Encoder/Decoder** — Unicode-safe Base64 conversion, live as you type.
+- **URL Encoder/Decoder** — Percent-encoding for query strings and full URLs.
+- **Hash Generator** — MD5, SHA-1, SHA-256, SHA-384, and SHA-512 for text and files.
+- **UUID Generator** — Bulk UUID v4 generation with formatting options.
+- **Unix Timestamp Converter** — Convert timestamps to dates and back, with a live epoch clock.
 
 ## Tech Stack
 
