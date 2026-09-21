@@ -56,22 +56,22 @@ function XmlFormatterPage() {
               {
                 question: "Is my XML sent to a server?",
                 answer:
-                  "No. Parsing, validation, and formatting happen entirely in your browser using the native XML parser. Your data never leaves your device."
+                  "No. Parsing and formatting happen entirely in your browser — nothing is uploaded. Your data never leaves your device."
               },
               {
                 question: "How does error reporting work?",
                 answer:
-                  "When the document is malformed, the browser's XML parser message is shown, so you can see what it objected to."
+                  "Malformed markup is flagged inline above the input as you type, so you can fix it before formatting."
               },
               {
                 question: "Does it support large XML files?",
                 answer:
-                  "Yes. The native parser handles documents with tens of thousands of lines comfortably."
+                  "Yes. Parsing and formatting run in your browser and handle documents with tens of thousands of lines comfortably."
               },
               {
                 question: "Are comments and CDATA preserved?",
                 answer:
-                  "Yes. Comments, processing instructions, DOCTYPE declarations, and CDATA sections are kept as-is and placed at the correct indentation level when formatting."
+                  "Yes. Comments, processing instructions, DOCTYPE declarations, and CDATA sections are all preserved. CDATA stays inline with its parent element."
               }
             ]}
           />

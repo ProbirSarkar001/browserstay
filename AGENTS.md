@@ -196,6 +196,27 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 - Use `immer` for immutable state updates, especially with complex nested objects
 - Immer's `produce` function allows writing "mutable-style" code that produces immutable updates
 
+## Dependencies & Libraries
+
+**Don't reinvent the wheel.** If an established library already does the job, use it — never hand-roll a parser, tokenizer, encoder, formatter, or validator. Delete the custom implementation rather than keeping it alongside the library.
+
+- Configure the library's own options to match the behavior you need; don't reimplement its output.
+- Prefer surfacing the library's own error over rebuilding it just for friendlier messages.
+- Only write custom code when no maintained library covers the job.
+
+Preferred libraries for common jobs:
+
+| Job | Use |
+| --- | --- |
+| Base64 encode/decode | `js-base64` (`encode`, `decode`, `isValid`) |
+| XML format / minify / well-formedness | `xml-formatter` (`xmlFormat`, `xmlFormat.minify`, `strictMode: true`) |
+| YAML parse/serialize | `js-yaml` (`load`, `dump`, `YAMLException`) |
+| ZIP archive | `fflate` |
+| Hashing | `hash-wasm` |
+| Generic utilities | `es-toolkit/compat` (Lodash-compatible API) |
+| Immutable updates | `immer` |
+| Bounded concurrency | `p-limit` |
+
 ## Tech Stack
 
 - **Frontend**: React 19, Vite, TypeScript
@@ -203,6 +224,7 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 - **Styling**: Tailwind CSS v4
 - **State**: Immer for immutable updates
 - **Utilities**: es-toolkit/compat (Lodash-compatible API)
+- **Parsing & encoding**: js-yaml, js-base64, xml-formatter
 - **Deployment**: Cloudflare Workers
 
 ## Common Anti-Patterns to Avoid
@@ -215,3 +237,4 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 6. **Don't rely on `ClientOnly` to shrink the server bundle** - It only defers rendering; use `*.client.ts`, `ssr: false`, and direct route imports for browser-only code
 7. **Don't re-export browser runtime from service `index.ts`** - Use `export type *` so universal barrels (`shared/services/index.ts`) cannot pull heavy libs into `dist/server`
 8. **Don't use barrel (`index.ts`) imports in routes, contexts, or other SSR-universal code** - Import `context`, `components/*`, `constants`, and service files by path (`@/features/foo/context`, `@/shared/services/zip/zip`). Feature `index.ts` barrels and `@/shared/services` are for convenience only and must not appear in the server import graph.
+9. **Don't hand-roll what a library already does** - No custom tokenizers, parsers, encoders, formatters, or validators when a maintained package covers the job (e.g. `js-base64` over `TextEncoder`/`btoa` byte-walking, `xml-formatter` over a hand-written XML tree). Never keep both; delete the custom code. See [Dependencies & Libraries](#dependencies--libraries).

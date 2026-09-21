@@ -1,63 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatXml, minifyXml, validateXml } from "./xml-formatter";
-
-describe("validateXml", () => {
-  it("accepts well-formed XML", () => {
-    expect(validateXml("<root><child>text</child></root>").valid).toBe(true);
-  });
-
-  it("accepts a declaration, DOCTYPE and self-closing tags", () => {
-    expect(validateXml('<?xml version="1.0"?><!DOCTYPE root [ <!ELEMENT root (#PCDATA)> ]><root/>').valid).toBe(true);
-  });
-
-  it("rejects empty input", () => {
-    const result = validateXml("   ");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message).toBe("XML is empty");
-    }
-  });
-
-  it("rejects malformed XML with a message", () => {
-    const result = validateXml("<root><a></root>");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message.length).toBeGreaterThan(0);
-    }
-  });
-
-  it("rejects an unclosed tag", () => {
-    const result = validateXml("<root><a></a>");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message).toContain("Unclosed tag");
-    }
-  });
-
-  it("rejects more than one root element", () => {
-    const result = validateXml("<a/><b/>");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message).toContain("one root element");
-    }
-  });
-
-  it("rejects text outside the root element", () => {
-    const result = validateXml("stray<root/>");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message).toContain("outside the root element");
-    }
-  });
-
-  it("rejects unterminated markup", () => {
-    const result = validateXml("<root");
-    expect(result.valid).toBe(false);
-    if (!result.valid) {
-      expect(result.message).toContain("Unterminated");
-    }
-  });
-});
+import { formatXml, minifyXml } from "./xml-formatter";
 
 describe("formatXml", () => {
   it("indents nested elements", () => {
@@ -70,10 +12,8 @@ describe("formatXml", () => {
     expect(formatXml("<root><child/></root>", "tab")).toBe(["<root>", "\t<child/>", "</root>"].join("\n"));
   });
 
-  it("preserves CDATA sections", () => {
-    expect(formatXml("<root><![CDATA[a > b]]></root>", "2")).toBe(
-      ["<root>", "  <![CDATA[a > b]]>", "</root>"].join("\n")
-    );
+  it("preserves CDATA content", () => {
+    expect(formatXml("<root><![CDATA[a > b]]></root>", "2")).toBe("<root><![CDATA[a > b]]></root>");
   });
 
   it("preserves comments and processing instructions", () => {
@@ -102,8 +42,8 @@ describe("formatXml", () => {
     expect(formatXml("<p>Hello <b>world</b>!</p>", "2")).toBe("<p>Hello <b>world</b>!</p>");
   });
 
-  it("keeps single-space separators between inline elements", () => {
-    expect(formatXml("<root> <child/> </root>", "2")).toBe("<root> <child/> </root>");
+  it("re-indents a child separated only by spaces", () => {
+    expect(formatXml("<root> <child/> </root>", "2")).toBe(["<root>", "  <child/>", "</root>"].join("\n"));
   });
 
   it("handles a DOCTYPE with an internal subset", () => {
@@ -134,16 +74,16 @@ describe("minifyXml", () => {
     expect(minifyXml("<doc>\n  <pre>  code  </pre>\n</doc>")).toBe("<doc><pre>  code  </pre></doc>");
   });
 
-  it("keeps whitespace-only nodes that are not indentation", () => {
-    expect(minifyXml("<root><x>   </x></root>")).toBe("<root><x>   </x></root>");
+  it("drops whitespace-only element content", () => {
+    expect(minifyXml("<root><x>   </x></root>")).toBe("<root><x></x></root>");
   });
 
-  it("keeps whitespace-only content when the element has no child markup", () => {
-    expect(minifyXml("<root><x>\n</x></root>")).toBe("<root><x>\n</x></root>");
+  it("empties an element whose content is only a newline", () => {
+    expect(minifyXml("<root><x>\n</x></root>")).toBe("<root><x></x></root>");
   });
 
-  it("keeps single-space separators between inline elements", () => {
-    expect(minifyXml("<p><b>a</b> <i>b</i></p>")).toBe("<p><b>a</b> <i>b</i></p>");
+  it("drops the separator between inline elements", () => {
+    expect(minifyXml("<p><b>a</b> <i>b</i></p>")).toBe("<p><b>a</b><i>b</i></p>");
   });
 
   it("throws for invalid XML", () => {

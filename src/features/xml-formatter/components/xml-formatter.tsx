@@ -8,7 +8,7 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
 import { cn, safeSync } from "@/shared/utils";
-import { formatXml, minifyXml, validateXml } from "../services/xml-formatter";
+import { formatXml, minifyXml } from "../services/xml-formatter";
 import type { XmlIndent, XmlOperation } from "../types";
 import { INDENT_OPTIONS, SAMPLE_XML } from "../constants";
 
@@ -19,21 +19,20 @@ export function XmlFormatter() {
   const [operation, setOperation] = useState<XmlOperation>("format");
 
   const debouncedInput = useDebouncedValue(input);
-  const validation = useMemo(() => validateXml(debouncedInput), [debouncedInput]);
   const inputStats = useMemo(
     () => ({ lines: input ? input.split("\n").length : 0, chars: input.length }),
     [input]
   );
 
-  const output = useMemo(() => {
-    if (!validation.valid) {
-      return "";
+  const { output, error } = useMemo(() => {
+    if (!debouncedInput.trim()) {
+      return { output: "", error: "" };
     }
-    const [formatted, error] = safeSync(() =>
+    const [formatted, failure] = safeSync(() =>
       operation === "minify" ? minifyXml(debouncedInput) : formatXml(debouncedInput, indent)
     );
-    return error ? "" : formatted;
-  }, [validation.valid, debouncedInput, operation, indent]);
+    return failure ? { output: "", error: failure.message } : { output: formatted, error: "" };
+  }, [debouncedInput, operation, indent]);
 
   return (
     <Card className="w-full shadow-lg border-border/50">
@@ -70,7 +69,7 @@ export function XmlFormatter() {
               size="sm"
               variant={operation === "format" ? "default" : "secondary"}
               onClick={() => setOperation("format")}
-              disabled={!validation.valid}
+              disabled={!input.trim()}
             >
               <Wand2 className="h-4 w-4" />
               Format
@@ -79,7 +78,7 @@ export function XmlFormatter() {
               size="sm"
               variant={operation === "minify" ? "default" : "secondary"}
               onClick={() => setOperation("minify")}
-              disabled={!validation.valid}
+              disabled={!input.trim()}
             >
               <Minimize2 className="h-4 w-4" />
               Minify
@@ -88,7 +87,7 @@ export function XmlFormatter() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {input && !validation.valid && (
+        {input && error && (
           <div
             role="alert"
             className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm"
@@ -96,7 +95,7 @@ export function XmlFormatter() {
             <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
             <div>
               <p className="font-medium text-destructive">Invalid XML</p>
-              <p className="mt-0.5 text-muted-foreground">{validation.message}</p>
+              <p className="mt-0.5 text-muted-foreground">{error}</p>
             </div>
           </div>
         )}
@@ -127,7 +126,7 @@ export function XmlFormatter() {
               onChange={(event) => setInput(event.target.value)}
               placeholder='<?xml version="1.0"?><root>…</root>'
               spellCheck={false}
-              className={cn("min-h-64 font-mono text-sm resize-y", input && !validation.valid && "border-destructive/50")}
+              className={cn("min-h-64 font-mono text-sm resize-y", input && error && "border-destructive/50")}
             />
           </div>
 

@@ -1,3 +1,5 @@
+import { decode, encode, isValid } from "js-base64";
+
 export type Base64Alphabet = "standard" | "url-safe";
 
 export interface Base64EncodeOptions {
@@ -9,36 +11,19 @@ export interface Base64EncodeOptions {
 }
 
 export function encodeBase64(text: string, options: Base64EncodeOptions = { alphabet: "standard" }): string {
-  const bytes = new TextEncoder().encode(text);
-
-  let binary = "";
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
-  }
-
-  const base64 = btoa(binary);
-  if (options.alphabet === "url-safe") {
-    return toBase64Url(base64);
-  }
-
-  return base64;
+  return encode(text, options.alphabet === "url-safe");
 }
 
 /**
  * @ai-agent Decoding accepts both alphabets — `-`/`_` are invalid in standard
  * Base64, so the URL-safe characters are unambiguous. Padding is optional.
+ * `js-base64` silently drops invalid characters, so `isValid` is checked first
+ * to keep malformed input an error instead of decoding to garbage.
  */
 export function decodeBase64(base64: string): string {
-  const normalized = base64.replace(/\s+/g, "").replace(/-/g, "+").replace(/_/g, "/").replace(/=+$/, "");
-  const padding = (4 - (normalized.length % 4)) % 4;
+  if (!isValid(base64)) {
+    throw new Error("Input is not valid Base64.");
+  }
 
-  const binary = atob(normalized.padEnd(normalized.length + padding, "="));
-
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-
-  return new TextDecoder().decode(bytes);
-}
-
-function toBase64Url(base64: string): string {
-  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return decode(base64);
 }
