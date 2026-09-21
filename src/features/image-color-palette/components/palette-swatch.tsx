@@ -7,15 +7,18 @@ import type { ColorFormat, PaletteSwatch } from "../types";
 
 interface PaletteSwatchRowProps {
   swatch: PaletteSwatch;
+  /** Position in the palette, which is what links hovering here to the matching pointer. */
+  index: number;
   format: ColorFormat;
   /** Omitted for hand-picked colors, which have no share of the image. */
   percentage?: number;
   highlighted?: boolean;
-  onHighlight?: (hex: string | null) => void;
+  onHighlight?: (index: number | null) => void;
 }
 
 export function PaletteSwatchRow({
   swatch,
+  index,
   format,
   percentage,
   highlighted,
@@ -26,7 +29,7 @@ export function PaletteSwatchRow({
 
   const highlightProps = onHighlight
     ? {
-        onMouseEnter: () => onHighlight(swatch.hex),
+        onMouseEnter: () => onHighlight(index),
         onMouseLeave: () => onHighlight(null),
       }
     : {};

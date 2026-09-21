@@ -26,8 +26,8 @@ export function PalettePanel() {
     settings,
     updateSettings,
     isExtracting,
-    highlightedColor,
-    setHighlightedColor,
+    highlightedIndex,
+    setHighlightedIndex,
   } = useImageColorPaletteContext();
   const clipboard = useClipboard({ timeout: 2000 });
 
@@ -63,22 +63,23 @@ export function PalettePanel() {
               <PaletteBar
                 palette={palette}
                 format={settings.format}
-                highlightedColor={highlightedColor}
-                onHighlight={setHighlightedColor}
+                highlightedIndex={highlightedIndex}
+                onHighlight={setHighlightedIndex}
                 onCopy={clipboard.copy}
               />
               <ColorCountStepper />
             </div>
 
             <div className="space-y-2">
-              {palette.map((color) => (
+              {palette.map((color, index) => (
                 <PaletteSwatchRow
-                  key={color.hex}
+                  key={index}
                   swatch={color}
+                  index={index}
                   format={settings.format}
                   percentage={color.percentage}
-                  highlighted={highlightedColor === color.hex}
-                  onHighlight={setHighlightedColor}
+                  highlighted={highlightedIndex === index}
+                  onHighlight={setHighlightedIndex}
                 />
               ))}
             </div>

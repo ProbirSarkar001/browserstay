@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDebouncedValue } from "@/shared/hooks";
 import { EXTRACT_FAILED_MESSAGE } from "../constants";
 import { useImageColorPaletteContext } from "../context";
@@ -25,20 +25,21 @@ export function PaletteExtractor() {
   } = useImageColorPaletteContext();
   // Debounced so dragging the color count up and down does not queue a run per tick.
   const colorCount = useDebouncedValue(settings.colorCount);
-  const latestRequest = useRef(0);
 
   useEffect(() => {
     if (!image) {
       setPalette(() => []);
       setAnchors(() => []);
       setImagePixels(null);
+      setIsExtracting(false);
       return;
     }
 
-    // Results from an input the user has already moved past are dropped, so the
-    // palette never flashes for a stale color count.
-    const request = ++latestRequest.current;
-    const isCurrent = () => request === latestRequest.current;
+    // Cleanup cancels this run on every re-run and on unmount. That covers the image
+    // being removed mid-flight: without it, work that resolves afterwards would
+    // restore the palette, anchors and pixels of an image that is no longer shown.
+    let cancelled = false;
+    const isCurrent = () => !cancelled;
 
     setIsExtracting(true);
     setError(null);
@@ -72,6 +73,10 @@ export function PaletteExtractor() {
       .finally(() => {
         if (isCurrent()) setIsExtracting(false);
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, [
     image,
     colorCount,

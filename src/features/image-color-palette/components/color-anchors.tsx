@@ -31,10 +31,10 @@ export function ColorAnchors({ containerRef }: ColorAnchorsProps) {
     palette,
     anchors,
     imagePixels,
-    highlightedColor,
+    highlightedIndex,
     setPalette,
     setAnchors,
-    setHighlightedColor,
+    setHighlightedIndex,
   } = useImageColorPaletteContext();
   const [dragging, setDragging] = useState<number | null>(null);
 
@@ -81,7 +81,7 @@ export function ColorAnchors({ containerRef }: ColorAnchorsProps) {
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     setDragging(index);
-    setHighlightedColor(palette[index]?.hex ?? null);
+    setHighlightedIndex(index);
   };
 
   const handlePointerMove = (event: PointerEvent<HTMLButtonElement>, index: number) => {
@@ -96,7 +96,7 @@ export function ColorAnchors({ containerRef }: ColorAnchorsProps) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
     setDragging(null);
-    setHighlightedColor(null);
+    setHighlightedIndex(null);
     refreshShares();
   };
 
@@ -117,7 +117,7 @@ export function ColorAnchors({ containerRef }: ColorAnchorsProps) {
 
         const size = MIN_MARKER_SIZE + (color.percentage / largestShare) * MARKER_SIZE_RANGE;
         const isDragging = dragging === anchor.index;
-        const isDimmed = highlightedColor !== null && highlightedColor !== color.hex;
+        const isDimmed = highlightedIndex !== null && highlightedIndex !== anchor.index;
 
         return (
           <button
@@ -129,8 +129,8 @@ export function ColorAnchors({ containerRef }: ColorAnchorsProps) {
             onPointerUp={(event) => handlePointerUp(event, anchor.index)}
             onPointerCancel={(event) => handlePointerUp(event, anchor.index)}
             onKeyDown={(event) => handleKeyDown(event, anchor)}
-            onMouseEnter={() => setHighlightedColor(color.hex)}
-            onMouseLeave={() => dragging === null && setHighlightedColor(null)}
+            onMouseEnter={() => setHighlightedIndex(anchor.index)}
+            onMouseLeave={() => dragging === null && setHighlightedIndex(null)}
             style={{
               left: `${anchor.x * 100}%`,
               top: `${anchor.y * 100}%`,

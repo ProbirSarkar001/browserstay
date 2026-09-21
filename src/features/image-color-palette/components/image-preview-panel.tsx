@@ -34,7 +34,7 @@ export function ImagePreviewPanel() {
               file={image.file}
               src={image.preview}
               alt={image.file.name}
-              className="block max-h-[32rem] max-w-full rounded-lg"
+              className="block max-h-128 max-w-full rounded-lg"
             />
 
             <ColorAnchors containerRef={containerRef} />

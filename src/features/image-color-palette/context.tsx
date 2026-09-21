@@ -18,14 +18,18 @@ interface ImageColorPaletteContextValue {
   anchors: ColorAnchor[];
   /** Downscaled image once per file, shared by the pointers' drag handling. */
   imagePixels: ImagePixels | null;
-  /** Hex of the swatch under the pointer, used to spotlight it on the preview. */
-  highlightedColor: string | null;
+  /**
+   * Index of the palette entry under the pointer, used to spotlight it on the
+   * preview. Index rather than color, because two pointers can hold the same color
+   * and each entry still has to highlight on its own.
+   */
+  highlightedIndex: number | null;
   isExtracting: boolean;
   error: string | null;
   selectImage: (file: File) => void;
   removeImage: () => void;
   updateSettings: (patch: Partial<PaletteSettings>) => void;
-  setHighlightedColor: (hex: string | null) => void;
+  setHighlightedIndex: (index: number | null) => void;
   setPalette: (update: (palette: PaletteColor[]) => PaletteColor[]) => void;
   setAnchors: (update: (anchors: ColorAnchor[]) => ColorAnchor[]) => void;
   setImagePixels: (pixels: ImagePixels | null) => void;
@@ -40,7 +44,7 @@ export function ImageColorPaletteProvider({ children }: { children: ReactNode })
   const [palette, setPalette] = useState<PaletteColor[]>([]);
   const [anchors, setAnchors] = useState<ColorAnchor[]>([]);
   const [imagePixels, setImagePixels] = useState<ImagePixels | null>(null);
-  const [highlightedColor, setHighlightedColor] = useState<string | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const fileHandler = useFileHandler<PaletteImageFile>({ createFile: createImageFile });
   const processingState = useProcessingState();
 
@@ -65,6 +69,7 @@ export function ImageColorPaletteProvider({ children }: { children: ReactNode })
       }
       setAnchors([]);
       setImagePixels(null);
+      setHighlightedIndex(null);
       clearFiles();
       addFiles([file]);
     },
@@ -75,6 +80,7 @@ export function ImageColorPaletteProvider({ children }: { children: ReactNode })
     setPalette([]);
     setAnchors([]);
     setImagePixels(null);
+    setHighlightedIndex(null);
     clearFiles();
     setError(null);
   }, [clearFiles, setError]);
@@ -89,13 +95,13 @@ export function ImageColorPaletteProvider({ children }: { children: ReactNode })
     palette,
     anchors,
     imagePixels,
-    highlightedColor,
+    highlightedIndex,
     isExtracting: processingState.isProcessing,
     error: fileHandler.error || processingState.error,
     selectImage,
     removeImage,
     updateSettings,
-    setHighlightedColor,
+    setHighlightedIndex,
     setPalette,
     setAnchors,
     setImagePixels,
