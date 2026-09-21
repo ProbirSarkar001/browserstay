@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['yaml'],
+    include: ['js-yaml'],
   },
   test: {
     browser: {
