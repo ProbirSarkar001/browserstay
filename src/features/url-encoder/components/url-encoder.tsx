@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
-import { cn } from "@/shared/utils";
+import { cn, safeSync } from "@/shared/utils";
 import { decodeUrl, encodeUrl } from "../services/url-encoder";
 import type { SpaceEncoding, UrlEncodeMode } from "../services/url-encoder";
 
@@ -23,6 +23,11 @@ const SPACE_OPTIONS: { value: SpaceEncoding; label: string }[] = [
   { value: "plus", label: "+" }
 ];
 
+const DECODE_SPACE_OPTIONS: { value: SpaceEncoding; label: string }[] = [
+  { value: "percent", label: "Keep + literal" },
+  { value: "plus", label: "Decode + as a space" }
+];
+
 export function UrlEncoder() {
   const clipboard = useClipboard({ timeout: 2000 });
   const [direction, setDirection] = useState<Mode>("encode");
@@ -32,16 +37,17 @@ export function UrlEncoder() {
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: "", error: "" };
-    try {
-      const result =
-        direction === "encode"
-          ? encodeUrl(input, { mode: encodeMode, space })
-          : decodeUrl(input);
-      return { output: result, error: "" };
-    } catch {
-      return { output: "", error: "Malformed percent-encoding — check for stray % characters." };
-    }
+    const [result, failure] = safeSync(() =>
+      direction === "encode"
+        ? encodeUrl(input, { mode: encodeMode, space })
+        : decodeUrl(input, { plusAsSpace: space === "plus" })
+    );
+    return failure
+      ? { output: "", error: "Malformed percent-encoding — check for stray % characters." }
+      : { output: result, error: "" };
   }, [input, direction, encodeMode, space]);
+
+  const spaceOptions = direction === "encode" ? SPACE_OPTIONS : DECODE_SPACE_OPTIONS;
 
   const switchDirection = () => {
     if (output) {
@@ -67,8 +73,8 @@ export function UrlEncoder() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {direction === "encode" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {direction === "encode" && (
             <div className="space-y-2">
               <Label htmlFor="url-mode" className="text-sm text-muted-foreground">
                 Mode
@@ -86,25 +92,25 @@ export function UrlEncoder() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="url-space" className="text-sm text-muted-foreground">
-                Space encoding
-              </Label>
-              <Select value={space} items={SPACE_OPTIONS} onValueChange={(value) => value && setSpace(value)}>
-                <SelectTrigger id="url-space" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {SPACE_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          )}
+          <div className="space-y-2">
+            <Label htmlFor="url-space" className="text-sm text-muted-foreground">
+              {direction === "encode" ? "Space encoding" : "Plus handling"}
+            </Label>
+            <Select value={space} items={spaceOptions} onValueChange={(value) => value && setSpace(value)}>
+              <SelectTrigger id="url-space" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {spaceOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-        )}
+        </div>
 
         {error && (
           <div

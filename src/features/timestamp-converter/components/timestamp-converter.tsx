@@ -65,9 +65,11 @@ export function TimestampConverter() {
     () => (timestampInput ? parseTimestamp(timestampInput, unit) : null),
     [timestampInput, unit]
   );
+  // `now` ticks every second, so the relative value ("in 1 minute") stays true
+  // instead of freezing at the moment the timestamp was typed.
   const dateParts = useMemo(
-    () => (parsedDate ? formatDateParts(parsedDate) : null),
-    [parsedDate]
+    () => (parsedDate ? formatDateParts(parsedDate, now ?? undefined) : null),
+    [parsedDate, now]
   );
   const timestamps = useMemo(() => dateToTimestamps(dateInput), [dateInput]);
 

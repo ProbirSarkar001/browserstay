@@ -16,7 +16,7 @@ function XmlFormatterPage() {
       <div className="max-w-6xl mx-auto space-y-12">
         <PageHeader
           title="XML Formatter & Validator"
-          subtitle="Format, validate, and minify XML instantly in your browser. Precise error locations, nothing ever uploaded."
+          subtitle="Format, validate, and minify XML instantly in your browser. Clear error messages, nothing ever uploaded."
         />
 
         <div className="w-full max-w-6xl mx-auto">
@@ -32,7 +32,7 @@ function XmlFormatterPage() {
               {
                 title: "Paste XML",
                 description:
-                  "Paste raw or minified XML into the input pane. It is validated as you type, with the line and column of any syntax error."
+                  "Paste raw or minified XML into the input pane. It is validated as you type, so malformed markup is flagged right away."
               },
               {
                 title: "Format or Minify",
@@ -59,9 +59,9 @@ function XmlFormatterPage() {
                   "No. Parsing, validation, and formatting happen entirely in your browser using the native XML parser. Your data never leaves your device."
               },
               {
-                question: "How accurate is the error reporting?",
+                question: "How does error reporting work?",
                 answer:
-                  "When the document is malformed, the tool reports the line and column where parsing stopped so you can jump straight to the problem."
+                  "When the document is malformed, the browser's XML parser message is shown, so you can see what it objected to."
               },
               {
                 question: "Does it support large XML files?",

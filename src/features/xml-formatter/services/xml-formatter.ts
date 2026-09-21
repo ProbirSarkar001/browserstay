@@ -12,15 +12,15 @@ interface Token {
 
 /**
  * @human Validates XML using the browser's native XML parser and reports the
- * first error's line and column when the document is malformed.
+ * parser's error message when the document is malformed.
  */
 export function validateXml(input: string): XmlValidationResult {
   if (!input.trim()) {
-    return { valid: false, message: "XML is empty", line: 0, column: 0 };
+    return { valid: false, message: "XML is empty" };
   }
 
   if (typeof DOMParser === "undefined") {
-    return { valid: false, message: "XML validation requires a browser environment", line: 0, column: 0 };
+    return { valid: false, message: "XML validation requires a browser environment" };
   }
 
   const doc = new DOMParser().parseFromString(input, "application/xml");
@@ -36,16 +36,7 @@ export function validateXml(input: string): XmlValidationResult {
       .split("\n")
       .map((line) => line.trim())
       .find((line) => line && !/^this page contains/i.test(line)) ?? "Invalid XML";
-  const { line, column } = locateError(raw);
-  return { valid: false, message, line, column };
-}
-
-function locateError(text: string): { line: number; column: number } {
-  const match = text.match(/line(?:\s+number)?[:\s]+(\d+)(?:[^\d]+column[:\s]+(\d+))?/i);
-  if (!match) {
-    return { line: 0, column: 0 };
-  }
-  return { line: Number(match[1]), column: match[2] ? Number(match[2]) : 0 };
+  return { valid: false, message };
 }
 
 /**

@@ -16,7 +16,7 @@ function JsonYamlConverterPage() {
       <div className="max-w-6xl mx-auto space-y-12">
         <PageHeader
           title="JSON to YAML Converter"
-          subtitle="Convert JSON to YAML and YAML back to JSON instantly in your browser. Precise error locations, nothing ever uploaded."
+          subtitle="Convert JSON to YAML and YAML back to JSON instantly in your browser. Clear error messages, nothing ever uploaded."
         />
 
         <div className="w-full max-w-6xl mx-auto">
@@ -32,7 +32,7 @@ function JsonYamlConverterPage() {
               {
                 title: "Paste JSON or YAML",
                 description:
-                  "Paste JSON or YAML into the left pane and pick the conversion direction. The document is parsed as you type, with the line and column of any syntax error."
+                  "Paste JSON or YAML into the left pane and pick the conversion direction. The document is parsed as you type, so any syntax error is reported right away."
               },
               {
                 title: "Convert",
@@ -65,9 +65,9 @@ function JsonYamlConverterPage() {
                   "Yes. Anchors, aliases, and block scalars are resolved during parsing. YAML comments are not carried into JSON, since JSON has no comment syntax."
               },
               {
-                question: "How accurate is the error reporting?",
+                question: "How does error reporting work?",
                 answer:
-                  "Malformed input reports the line and column where parsing stopped, so you can jump straight to the problem in large documents."
+                  "Malformed input is rejected with the parser's error message, so you can see what the parser objected to."
               },
               {
                 question: "Which indentation options are available?",

@@ -16,7 +16,7 @@ function JsonFormatterPage() {
       <div className="max-w-6xl mx-auto space-y-12">
         <PageHeader
           title="JSON Formatter & Validator"
-          subtitle="Format, validate, and minify JSON instantly in your browser. Precise error locations, nothing ever uploaded."
+          subtitle="Format, validate, and minify JSON instantly in your browser. Clear error messages, nothing ever uploaded."
         />
 
         <div className="w-full max-w-6xl mx-auto">
@@ -32,7 +32,7 @@ function JsonFormatterPage() {
               {
                 title: "Paste JSON",
                 description:
-                  "Paste raw or minified JSON into the input pane. It is validated as you type, with exact line and column for any syntax error."
+                  "Paste raw or minified JSON into the input pane. It is validated as you type, so any syntax error is reported right away."
               },
               {
                 title: "Format or Minify",
@@ -59,9 +59,9 @@ function JsonFormatterPage() {
                   "No. Parsing and formatting happens entirely in your browser using the built-in JSON engine. Your data never leaves your device."
               },
               {
-                question: "How accurate is the error reporting?",
+                question: "How does error reporting work?",
                 answer:
-                  "Errors show the exact line and column where parsing stopped, so you can jump straight to the problem in large documents."
+                  "Malformed input is rejected with the parser's own error message, so you can see what the parser objected to without leaving the page."
               },
               {
                 question: "Does it support large JSON files?",

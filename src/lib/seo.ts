@@ -288,40 +288,40 @@ export const metaConfigs = {
   jsonFormatter: {
     title: "JSON Formatter & Validator - Beautify, Minify JSON Online Free | BrowserStay",
     description:
-      "Format, validate, and minify JSON for free. Precise error locations, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
+      "Format, validate, and minify JSON for free. Clear error messages, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
     canonicalUrl: `${BASE_URL}/json-formatter`,
     keywords:
       "json formatter, json validator, json beautifier, json pretty print, minify json, format json online, local json formatter, browserstay",
     jsonLd: {
       name: "JSON Formatter & Validator",
-      description: "Format, validate, and minify JSON. Precise error locations, adjustable indentation.",
-      featureList: ["Format and beautify JSON", "Validate with error location", "Minify JSON", "Adjustable indentation"]
+      description: "Format, validate, and minify JSON. Clear error messages, adjustable indentation.",
+      featureList: ["Format and beautify JSON", "Validate with clear error messages", "Minify JSON", "Adjustable indentation"]
     }
   },
   xmlFormatter: {
     title: "XML Formatter & Validator - Beautify, Minify XML Online Free | BrowserStay",
     description:
-      "Format, validate, and minify XML for free. Precise error locations, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
+      "Format, validate, and minify XML for free. Clear error messages, adjustable indentation — all parsing happens locally in your browser, nothing is uploaded.",
     canonicalUrl: `${BASE_URL}/xml-formatter`,
     keywords:
       "xml formatter, xml validator, xml beautifier, xml pretty print, minify xml, format xml online, local xml formatter, browserstay",
     jsonLd: {
       name: "XML Formatter & Validator",
-      description: "Format, validate, and minify XML. Precise error locations, adjustable indentation.",
-      featureList: ["Format and beautify XML", "Validate with error location", "Minify XML", "Adjustable indentation"]
+      description: "Format, validate, and minify XML. Clear error messages, adjustable indentation.",
+      featureList: ["Format and beautify XML", "Validate with clear error messages", "Minify XML", "Adjustable indentation"]
     }
   },
   jsonYamlConverter: {
     title: "JSON to YAML Converter - Convert JSON & YAML Online Free | BrowserStay",
     description:
-      "Convert JSON to YAML and YAML to JSON for free. Precise error locations, adjustable indentation — all conversion happens locally in your browser, nothing is uploaded.",
+      "Convert JSON to YAML and YAML to JSON for free. Clear error messages, adjustable indentation — all conversion happens locally in your browser, nothing is uploaded.",
     canonicalUrl: `${BASE_URL}/json-yaml-converter`,
     keywords:
       "json to yaml, yaml to json, yaml converter, json yaml converter, yaml formatter, convert yaml online, local yaml converter, browserstay",
     jsonLd: {
       name: "JSON to YAML Converter",
-      description: "Convert JSON to YAML and YAML back to JSON. Precise error locations, adjustable indentation.",
-      featureList: ["Convert JSON to YAML", "Convert YAML to JSON", "Validate with error location", "Adjustable indentation"]
+      description: "Convert JSON to YAML and YAML back to JSON. Clear error messages, adjustable indentation.",
+      featureList: ["Convert JSON to YAML", "Convert YAML to JSON", "Validate with clear error messages", "Adjustable indentation"]
     }
   },
   regexTester: {

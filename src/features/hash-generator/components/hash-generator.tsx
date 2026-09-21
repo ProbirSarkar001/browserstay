@@ -17,6 +17,7 @@ export function HashGenerator() {
   const clipboard = useClipboard({ timeout: 2000 });
   const [results, setResults] = useState<HashResult[]>([]);
   const [busy, setBusy] = useState(false);
+  const [text, setText] = useState("");
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
 
@@ -74,9 +75,12 @@ export function HashGenerator() {
                 variant="ghost"
                 size="sm"
                 onClick={() => {
+                  setText("");
                   setResults([]);
+                  setFileName("");
+                  setFileSize(0);
                 }}
-                disabled={!results.length}
+                disabled={!text && !results.length}
               >
                 <Eraser className="h-4 w-4" />
                 Clear
@@ -84,9 +88,12 @@ export function HashGenerator() {
             </div>
             <Textarea
               id="hash-input"
+              value={text}
               onChange={(event) => {
-                if (event.target.value) {
-                  compute(() => new TextEncoder().encode(event.target.value));
+                const value = event.target.value;
+                setText(value);
+                if (value) {
+                  compute(() => new TextEncoder().encode(value));
                 } else {
                   setResults([]);
                   setFileName("");

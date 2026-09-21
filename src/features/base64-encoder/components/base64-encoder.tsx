@@ -3,30 +3,36 @@ import { ArrowLeftRight, Check, CircleAlert, Copy, Eraser } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
-import { cn } from "@/shared/utils";
+import { cn, safeSync } from "@/shared/utils";
 import { decodeBase64, encodeBase64 } from "../services/base64";
+import type { Base64Alphabet } from "../services/base64";
 
 type Mode = "encode" | "decode";
 
 const SAMPLE_TEXT = "Hello, BrowserStay! 🔒";
 
+const ALPHABET_OPTIONS: { value: Base64Alphabet; label: string }[] = [
+  { value: "standard", label: "Standard (+, /)" },
+  { value: "url-safe", label: "URL-safe (-, _)" }
+];
+
 export function Base64Encoder() {
   const clipboard = useClipboard({ timeout: 2000 });
   const [mode, setMode] = useState<Mode>("encode");
+  const [alphabet, setAlphabet] = useState<Base64Alphabet>("standard");
   const [input, setInput] = useState("");
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: "", error: "" };
-    try {
-      const result = mode === "encode" ? encodeBase64(input) : decodeBase64(input);
-      return { output: result, error: "" };
-    } catch (err) {
-      return { output: "", error: err instanceof Error ? err.message : "Invalid Base64 input" };
-    }
-  }, [input, mode]);
+    const [result, failure] = safeSync(() =>
+      mode === "encode" ? encodeBase64(input, { alphabet }) : decodeBase64(input)
+    );
+    return failure ? { output: "", error: failure.message } : { output: result, error: "" };
+  }, [input, mode, alphabet]);
 
   const switchMode = () => {
     if (output) {
@@ -52,18 +58,36 @@ export function Base64Encoder() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
-          <TabsContent value="encode" className="mt-0">
-            <p className="text-sm text-muted-foreground">
-              Text is encoded as UTF-8, so emoji and non-Latin characters work correctly.
-            </p>
-          </TabsContent>
-          <TabsContent value="decode" className="mt-0">
-            <p className="text-sm text-muted-foreground">
-              Invalid Base64 shows an error instead of garbage output.
-            </p>
-          </TabsContent>
-        </Tabs>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            {mode === "encode"
+              ? "Text is encoded as UTF-8, so emoji and non-Latin characters work correctly."
+              : "Standard and URL-safe Base64 are both decoded — padding is optional."}
+          </p>
+          {mode === "encode" && (
+            <div className="space-y-2">
+              <Label htmlFor="base64-alphabet" className="text-sm text-muted-foreground">
+                Alphabet
+              </Label>
+              <Select
+                value={alphabet}
+                items={ALPHABET_OPTIONS}
+                onValueChange={(value) => value && setAlphabet(value)}
+              >
+                <SelectTrigger id="base64-alphabet" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ALPHABET_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        </div>
 
         {error && (
           <div

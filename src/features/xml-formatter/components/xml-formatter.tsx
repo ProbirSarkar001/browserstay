@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
-import { cn } from "@/shared/utils";
+import { cn, safeSync } from "@/shared/utils";
 import { formatXml, minifyXml, validateXml } from "../services/xml-formatter";
 import type { XmlIndent, XmlOperation } from "../types";
 import { INDENT_OPTIONS, SAMPLE_XML } from "../constants";
@@ -29,11 +29,10 @@ export function XmlFormatter() {
     if (!validation.valid) {
       return "";
     }
-    try {
-      return operation === "minify" ? minifyXml(debouncedInput) : formatXml(debouncedInput, indent);
-    } catch {
-      return "";
-    }
+    const [formatted, error] = safeSync(() =>
+      operation === "minify" ? minifyXml(debouncedInput) : formatXml(debouncedInput, indent)
+    );
+    return error ? "" : formatted;
   }, [validation.valid, debouncedInput, operation, indent]);
 
   return (
@@ -96,9 +95,7 @@ export function XmlFormatter() {
           >
             <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
             <div>
-              <p className="font-medium text-destructive">
-                Invalid XML{validation.line > 0 ? ` — line ${validation.line}, column ${validation.column}` : ""}
-              </p>
+              <p className="font-medium text-destructive">Invalid XML</p>
               <p className="mt-0.5 text-muted-foreground">{validation.message}</p>
             </div>
           </div>

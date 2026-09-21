@@ -6,8 +6,6 @@ export interface JsonValidationSuccess {
 export interface JsonValidationError {
   valid: false;
   message: string;
-  line: number;
-  column: number;
 }
 
 export type JsonValidationResult = JsonValidationSuccess | JsonValidationError;

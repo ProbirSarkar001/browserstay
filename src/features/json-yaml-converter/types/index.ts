@@ -10,8 +10,6 @@ export interface ConversionSuccess {
 export interface ConversionFailure {
   ok: false;
   message: string;
-  line: number;
-  column: number;
 }
 
 export type ConversionResult = ConversionSuccess | ConversionFailure;

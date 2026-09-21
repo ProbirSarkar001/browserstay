@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import { Label } from "@/shared/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
-import { cn } from "@/shared/utils";
+import { cn, safeSync } from "@/shared/utils";
 import { CodeEditor } from "@/shared/components/common/code-editor";
 import { formatJson, minifyJson, validateJson } from "../services/json-formatter";
 import type { JsonIndent, JsonOperation } from "../types";
@@ -27,11 +27,10 @@ export function JsonFormatter() {
     if (!validation.valid) {
       return "";
     }
-    try {
-      return operation === "minify" ? minifyJson(input) : formatJson(input, indent);
-    } catch {
-      return "";
-    }
+    const [formatted, error] = safeSync(() =>
+      operation === "minify" ? minifyJson(input) : formatJson(input, indent)
+    );
+    return error ? "" : formatted;
   }, [validation.valid, input, operation, indent]);
 
   return (
@@ -94,9 +93,7 @@ export function JsonFormatter() {
           >
             <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
             <div>
-              <p className="font-medium text-destructive">
-                Invalid JSON{validation.line > 0 ? ` — line ${validation.line}, column ${validation.column}` : ""}
-              </p>
+              <p className="font-medium text-destructive">Invalid JSON</p>
               <p className="mt-0.5 text-muted-foreground">{validation.message}</p>
             </div>
           </div>

@@ -5,8 +5,6 @@ export interface XmlValidationSuccess {
 export interface XmlValidationError {
   valid: false;
   message: string;
-  line: number;
-  column: number;
 }
 
 export type XmlValidationResult = XmlValidationSuccess | XmlValidationError;

@@ -97,7 +97,6 @@ export function JsonYamlConverter() {
             <div>
               <p className="font-medium text-destructive">
                 Invalid {toYaml ? "JSON" : "YAML"}
-                {result.line > 0 ? ` — line ${result.line}, column ${result.column}` : ""}
               </p>
               <p className="mt-0.5 text-muted-foreground">{result.message}</p>
             </div>

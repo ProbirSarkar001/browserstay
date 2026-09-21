@@ -17,24 +17,21 @@ describe("convert JSON to YAML", () => {
     expect(four).toEqual({ ok: true, output: ["a:", "    b: 1"].join("\n") });
   });
 
-  it("rejects invalid JSON with a location", () => {
+  it("rejects invalid JSON with the parser message", () => {
     const result = convert('{"a": }', "json-to-yaml", "2");
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.message.length).toBeGreaterThan(0);
-      expect(result.line).toBe(1);
-      expect(result.column).toBeGreaterThan(0);
     }
   });
 
-  it("reports the line of an error inside a multi-line document", () => {
+  it("reports the parser message for an error inside a multi-line document", () => {
     const result = convert('{\n  "a": 1,\n  "b": }\n}', "json-to-yaml", "2");
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.line).toBe(3);
-      expect(result.column).toBe(8);
+      expect(result.message.length).toBeGreaterThan(0);
     }
   });
 });
@@ -62,13 +59,12 @@ describe("convert YAML to JSON", () => {
     }
   });
 
-  it("rejects invalid YAML with a location", () => {
+  it("rejects invalid YAML with the parser message", () => {
     const result = convert("key: [1, 2", "yaml-to-json", "2");
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.message.length).toBeGreaterThan(0);
-      expect(result.line).toBeGreaterThan(0);
     }
   });
 });
@@ -77,9 +73,7 @@ describe("convert", () => {
   it("rejects empty input", () => {
     expect(convert("   ", "json-to-yaml", "2")).toEqual({
       ok: false,
-      message: "Input is empty",
-      line: 0,
-      column: 0
+      message: "Input is empty"
     });
   });
 });
