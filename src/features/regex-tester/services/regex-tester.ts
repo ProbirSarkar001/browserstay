@@ -1,6 +1,6 @@
 import type { RegexMatch, RegexResult } from "../types";
 
-const MAX_MATCHES = 10_000;
+export const MAX_MATCHES = 10_000;
 
 /**
  * @human Tests a regular expression against a string and returns every match
@@ -9,7 +9,7 @@ const MAX_MATCHES = 10_000;
  */
 export function testRegex(pattern: string, flags: string, text: string): RegexResult {
   if (!pattern) {
-    return { ok: true, matches: [] };
+    return { ok: true, matches: [], truncated: false };
   }
 
   let regex: RegExp;
@@ -23,7 +23,7 @@ export function testRegex(pattern: string, flags: string, text: string): RegexRe
 
   if (!regex.global && !regex.sticky) {
     const match = regex.exec(text);
-    return { ok: true, matches: match ? [toMatch(match)] : [] };
+    return { ok: true, matches: match ? [toMatch(match)] : [], truncated: false };
   }
 
   let match = regex.exec(text);
@@ -35,7 +35,7 @@ export function testRegex(pattern: string, flags: string, text: string): RegexRe
     match = regex.exec(text);
   }
 
-  return { ok: true, matches };
+  return { ok: true, matches, truncated: match !== null };
 }
 
 /**

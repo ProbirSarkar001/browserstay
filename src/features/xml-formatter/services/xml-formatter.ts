@@ -10,33 +10,93 @@ interface Token {
   value: string;
 }
 
+type XmlNode =
+  | { kind: "text"; value: string }
+  | { kind: "leaf"; value: string }
+  | { kind: "element"; open: string; close: string; children: XmlNode[] };
+
+type XmlElementNode = Extract<XmlNode, { kind: "element" }>;
+
+interface OpenElement {
+  open: string;
+  children: XmlNode[];
+}
+
+const WHITESPACE_ONLY = /^\s*$/;
+const HAS_NEWLINE = /[\r\n]/;
+
 /**
- * @human Validates XML using the browser's native XML parser and reports the
- * parser's error message when the document is malformed.
+ * @human Validates XML by walking its tags with a stack and reporting the first
+ * structural problem it finds.
+ * @ai-agent Do not reintroduce `DOMParser.parseFromString`. CodeQL flags it as a
+ * DOM-XSS sink (`js/xss-through-dom` → `HtmlParserSink`), and we only need
+ * well-formedness here — never a live document.
  */
 export function validateXml(input: string): XmlValidationResult {
   if (!input.trim()) {
     return { valid: false, message: "XML is empty" };
   }
 
-  if (typeof DOMParser === "undefined") {
-    return { valid: false, message: "XML validation requires a browser environment" };
+  const stack: string[] = [];
+  let hasRoot = false;
+  let rootClosed = false;
+
+  for (const token of tokenize(input)) {
+    if (token.type !== "text" && !token.value.endsWith(">")) {
+      return { valid: false, message: `Unterminated markup: ${token.value}` };
+    }
+
+    switch (token.type) {
+      case "text": {
+        if ((!hasRoot || rootClosed) && token.value.trim()) {
+          return { valid: false, message: "Text is not allowed outside the root element" };
+        }
+        break;
+      }
+      case "open":
+      case "self": {
+        if (rootClosed) {
+          return { valid: false, message: "Only one root element is allowed" };
+        }
+        const name = tagName(token.value);
+        if (!name) {
+          return { valid: false, message: `Malformed tag: ${token.value}` };
+        }
+        if (token.type === "open") {
+          stack.push(name);
+        } else if (!stack.length) {
+          rootClosed = true;
+        }
+        hasRoot = true;
+        break;
+      }
+      case "close": {
+        const name = tagName(token.value);
+        const open = stack.pop();
+        if (open === undefined) {
+          return { valid: false, message: `Unexpected closing tag </${name}>` };
+        }
+        if (open !== name) {
+          return { valid: false, message: `Expected </${open}> but found </${name}>` };
+        }
+        if (!stack.length) {
+          rootClosed = true;
+        }
+        break;
+      }
+      case "special":
+        break;
+    }
   }
 
-  const doc = new DOMParser().parseFromString(input, "application/xml");
-  const errorNode = doc.getElementsByTagName("parsererror")[0];
-
-  if (!errorNode) {
-    return { valid: true };
+  if (!hasRoot) {
+    return { valid: false, message: "Missing root element" };
+  }
+  if (stack.length) {
+    return { valid: false, message: `Unclosed tag <${stack[stack.length - 1]}>` };
   }
 
-  const raw = errorNode.textContent ?? "Invalid XML";
-  const message =
-    raw
-      .split("\n")
-      .map((line) => line.trim())
-      .find((line) => line && !/^this page contains/i.test(line)) ?? "Invalid XML";
-  return { valid: false, message };
+  return { valid: true };
 }
 
 /**
@@ -128,12 +188,84 @@ function tokenize(input: string): Token[] {
   return tokens;
 }
 
+/** Reads the element name out of an opening, closing or self-closing tag. */
+function tagName(value: string): string {
+  const inner = value.slice(1, -1).trim().replace(/^\//, "");
+  return /^([^\s/>]+)/.exec(inner)?.[1] ?? "";
+}
+
 /**
- * @ai-agent Only trims indentation at the node edges. Internal whitespace inside
- * a text node is data (e.g. inside `<pre>`) and must NOT be collapsed.
+ * @ai-agent Builds the tree from the token stream. Text nodes keep their exact
+ * value: leading, trailing and internal whitespace is data, not formatting.
  */
-function normalizeText(value: string): string {
-  return value.trim();
+function parseXml(input: string): XmlNode[] {
+  const rootNodes: XmlNode[] = [];
+  const stack: OpenElement[] = [];
+
+  const current = () => (stack.length ? stack[stack.length - 1].children : rootNodes);
+
+  for (const token of tokenize(input.trim())) {
+    switch (token.type) {
+      case "text":
+        current().push({ kind: "text", value: token.value });
+        break;
+      case "open":
+        stack.push({ open: token.value.trim(), children: [] });
+        break;
+      case "close": {
+        const element = stack.pop();
+        if (element) {
+          current().push({
+            kind: "element",
+            open: element.open,
+            close: token.value.trim(),
+            children: element.children
+          });
+        }
+        break;
+      }
+      case "self":
+      case "special":
+        current().push({ kind: "leaf", value: token.value.trim() });
+        break;
+    }
+  }
+
+  return rootNodes;
+}
+
+/**
+ * @human A whitespace-only node that only exists to lay out the markup.
+ * @ai-agent Whitespace without a newline is *not* indentation — it can separate
+ * inline elements (e.g. `<p><b>a</b> <i>b</i></p>`) and must be preserved.
+ */
+function isIndentation(node: XmlNode): boolean {
+  return node.kind === "text" && WHITESPACE_ONLY.test(node.value) && HAS_NEWLINE.test(node.value);
+}
+
+/**
+ * @human True when an element holds only elements, comments or CDATA, so its
+ * children can be re-indented without altering any text content.
+ */
+function isIndentable(element: XmlElementNode): boolean {
+  const hasChildNodes = element.children.some((child) => child.kind !== "text");
+  const hasText = element.children.some((child) => child.kind === "text" && !isIndentation(child));
+  return hasChildNodes && !hasText;
+}
+
+/**
+ * Serializes a node without adding any whitespace, so text content survives
+ * verbatim. Used for every element that contains text (mixed content).
+ */
+function serializeInline(node: XmlNode): string {
+  switch (node.kind) {
+    case "text":
+      return node.value;
+    case "leaf":
+      return node.value;
+    case "element":
+      return `${node.open}${node.children.map(serializeInline).join("")}${node.close}`;
+  }
 }
 
 export function formatXml(input: string, indent: XmlIndent): string {
@@ -143,35 +275,25 @@ export function formatXml(input: string, indent: XmlIndent): string {
   }
 
   const pad = indent === "tab" ? "\t" : " ".repeat(Number(indent));
-  const tokens = tokenize(input.trim());
   const lines: string[] = [];
-  let depth = 0;
 
-  for (const token of tokens) {
-    switch (token.type) {
-      case "close": {
-        depth = Math.max(0, depth - 1);
-        lines.push(pad.repeat(depth) + token.value.trim());
-        break;
-      }
-      case "open": {
-        lines.push(pad.repeat(depth) + token.value.trim());
-        depth += 1;
-        break;
-      }
-      case "self":
-      case "special": {
-        lines.push(pad.repeat(depth) + token.value.trim());
-        break;
-      }
-      case "text": {
-        const text = normalizeText(token.value);
-        if (text) {
-          lines.push(pad.repeat(depth) + text);
-        }
-        break;
-      }
+  const emit = (node: XmlNode, depth: number) => {
+    if (node.kind === "text") {
+      return;
     }
+    if (node.kind === "element" && isIndentable(node)) {
+      lines.push(pad.repeat(depth) + node.open);
+      for (const child of node.children) {
+        emit(child, depth + 1);
+      }
+      lines.push(pad.repeat(depth) + node.close);
+      return;
+    }
+    lines.push(pad.repeat(depth) + serializeInline(node));
+  };
+
+  for (const node of parseXml(input)) {
+    emit(node, 0);
   }
 
   return lines.join("\n");
@@ -183,19 +305,27 @@ export function minifyXml(input: string): string {
     throw new Error(result.message);
   }
 
-  const tokens = tokenize(input.trim());
   const parts: string[] = [];
 
-  for (const token of tokens) {
-    if (token.type === "text") {
-      const text = normalizeText(token.value);
-      if (text) {
-        parts.push(text);
-      }
-    } else {
-      parts.push(token.value.trim());
-    }
-  }
+  const walk = (nodes: XmlNode[]) => {
+    // Whitespace only exists to indent markup; when there is no sibling markup it
+    // is the element's content and has to be kept.
+    const hasMarkup = nodes.some((node) => node.kind !== "text");
 
+    for (const node of nodes) {
+      if (hasMarkup && isIndentation(node)) {
+        continue;
+      }
+      if (node.kind === "element") {
+        parts.push(node.open);
+        walk(node.children);
+        parts.push(node.close);
+      } else {
+        parts.push(node.value);
+      }
+    }
+  };
+
+  walk(parseXml(input));
   return parts.join("");
 }

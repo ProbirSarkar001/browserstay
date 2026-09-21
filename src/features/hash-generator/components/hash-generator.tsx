@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Check, Copy, Eraser, File as FileIcon, Loader2, Upload } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
@@ -8,10 +8,8 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import prettyBytes from "pretty-bytes";
 import { cn } from "@/shared/utils";
-import { hashBytes, hashText } from "../services/hash-generator";
+import { hashBytes } from "../services/hash-generator";
 import type { HashResult } from "../services/hash-generator";
-
-type InputMode = "text" | "file";
 
 export function HashGenerator() {
   const clipboard = useClipboard({ timeout: 2000 });
@@ -21,18 +19,38 @@ export function HashGenerator() {
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
 
+  // Every edit starts a new computation; only the most recent one may write its
+  // results, so a slower earlier hash can't overwrite the current digest.
+  const latestRun = useRef(0);
+
+  const reset = useCallback(() => {
+    latestRun.current += 1;
+    setResults([]);
+    setBusy(false);
+    setFileName("");
+    setFileSize(0);
+  }, []);
+
   const compute = useCallback(
     async (getBytes: () => Uint8Array<ArrayBuffer> | Promise<Uint8Array<ArrayBuffer>>, name = "", size = 0) => {
-    setBusy(true);
-    setFileName(name);
-    setFileSize(size);
-    try {
-      const bytes = await getBytes();
-      setResults(await hashBytes(bytes));
-    } finally {
-      setBusy(false);
-    }
-  }, []);
+      const run = (latestRun.current += 1);
+      setBusy(true);
+      setFileName(name);
+      setFileSize(size);
+      try {
+        const bytes = await getBytes();
+        const digests = await hashBytes(bytes);
+        if (run === latestRun.current) {
+          setResults(digests);
+        }
+      } finally {
+        if (run === latestRun.current) {
+          setBusy(false);
+        }
+      }
+    },
+    []
+  );
 
   const handleFile = useCallback(
     (file: File) => {
@@ -76,9 +94,7 @@ export function HashGenerator() {
                 size="sm"
                 onClick={() => {
                   setText("");
-                  setResults([]);
-                  setFileName("");
-                  setFileSize(0);
+                  reset();
                 }}
                 disabled={!text && !results.length}
               >
@@ -95,9 +111,7 @@ export function HashGenerator() {
                 if (value) {
                   compute(() => new TextEncoder().encode(value));
                 } else {
-                  setResults([]);
-                  setFileName("");
-                  setFileSize(0);
+                  reset();
                 }
               }}
               placeholder="Type or paste text to hash…"

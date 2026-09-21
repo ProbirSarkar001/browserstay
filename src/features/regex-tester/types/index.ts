@@ -10,6 +10,8 @@ export interface RegexMatch {
 export interface RegexSuccess {
   ok: true;
   matches: RegexMatch[];
+  /** True when matching stopped at the match limit and more matches exist. */
+  truncated: boolean;
 }
 
 export interface RegexFailure {

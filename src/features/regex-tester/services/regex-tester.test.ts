@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyReplacement, testRegex } from "./regex-tester";
+import { MAX_MATCHES, applyReplacement, testRegex } from "./regex-tester";
 
 describe("testRegex", () => {
   it("finds every global match with its index", () => {
@@ -53,7 +53,36 @@ describe("testRegex", () => {
 
   it("returns no matches for an empty pattern", () => {
     const result = testRegex("", "g", "anything");
-    expect(result).toEqual({ ok: true, matches: [] });
+    expect(result).toEqual({ ok: true, matches: [], truncated: false });
+  });
+
+  it("reports that results were not truncated", () => {
+    const result = testRegex("a", "g", "banana");
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.truncated).toBe(false);
+    }
+  });
+
+  it("flags truncation when the match limit is reached", () => {
+    const result = testRegex("a", "g", "a".repeat(MAX_MATCHES + 1));
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.matches).toHaveLength(MAX_MATCHES);
+      expect(result.truncated).toBe(true);
+    }
+  });
+
+  it("does not flag truncation when the last match hits the limit exactly", () => {
+    const result = testRegex("a", "g", "a".repeat(MAX_MATCHES));
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.matches).toHaveLength(MAX_MATCHES);
+      expect(result.truncated).toBe(false);
+    }
   });
 
   it("reports invalid patterns", () => {

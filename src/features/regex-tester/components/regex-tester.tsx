@@ -9,7 +9,7 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
 import { cn } from "@/shared/utils";
-import { applyReplacement, testRegex } from "../services/regex-tester";
+import { MAX_MATCHES, applyReplacement, testRegex } from "../services/regex-tester";
 import type { RegexFlag } from "../types";
 import { FLAG_OPTIONS, SAMPLE_PATTERN, SAMPLE_TEXT } from "../constants";
 
@@ -30,6 +30,7 @@ export function RegexTester() {
     [debouncedPattern, flags, debouncedText]
   );
   const matches = result.ok ? result.matches : [];
+  const truncated = result.ok && result.truncated;
 
   const replaced = useMemo(
     () => applyReplacement(debouncedPattern, flags, replacement, debouncedText),
@@ -155,7 +156,8 @@ export function RegexTester() {
               Test string
             </Label>
             <Badge variant={matches.length > 0 ? "secondary" : "outline"}>
-              {matches.length} {matches.length === 1 ? "match" : "matches"}
+              {matches.length.toLocaleString()}
+              {truncated ? "+" : ""} {matches.length === 1 ? "match" : "matches"}
             </Badge>
           </div>
           <Textarea
@@ -215,8 +217,17 @@ export function RegexTester() {
                 </div>
               ))}
               {matches.length > MAX_VISIBLE_MATCHES && (
-                <div className="px-3 py-2 text-xs text-muted-foreground">
-                  Showing the first {MAX_VISIBLE_MATCHES} of {matches.length} matches.
+                <div className="space-y-1 px-3 py-2 text-xs text-muted-foreground">
+                  <p>
+                    Showing the first {MAX_VISIBLE_MATCHES} of {matches.length.toLocaleString()}
+                    {truncated ? "+" : ""} matches.
+                  </p>
+                  {truncated && (
+                    <p>
+                      Matching stopped at the {MAX_MATCHES.toLocaleString()}-match limit — narrow the
+                      pattern to see the rest.
+                    </p>
+                  )}
                 </div>
               )}
             </div>
