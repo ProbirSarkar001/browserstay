@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TOOLS_CONFIG } from "@/config/tools";
+import { SITE_CONFIG } from "@/config/site";
+import { BASE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/llms.txt")({
   server: {
@@ -43,9 +45,9 @@ ${toolsSection}
 
 ## Links
 
-- Homepage: https://browserstay.com
-- GitHub: https://github.com/probir-sarkar/browserstay
-- Feedback & issues: https://tally.so/r/lbpj6N
+- Homepage: ${BASE_URL}
+- GitHub: ${SITE_CONFIG.links.github}
+- Feedback & issues: ${SITE_CONFIG.links.feedback}
 - License: Apache 2.0
 `;
 
