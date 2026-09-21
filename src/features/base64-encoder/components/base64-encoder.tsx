@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ArrowLeftRight, Check, CircleAlert, Copy, Eraser } from "lucide-react";
+import { useImmer } from "use-immer";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
@@ -13,6 +14,12 @@ import type { Base64Alphabet } from "../services/base64";
 
 type Mode = "encode" | "decode";
 
+interface Base64State {
+  input: string;
+  mode: Mode;
+  alphabet: Base64Alphabet;
+}
+
 const SAMPLE_TEXT = "Hello, BrowserStay! 🔒";
 
 const ALPHABET_OPTIONS: { value: Base64Alphabet; label: string }[] = [
@@ -22,9 +29,16 @@ const ALPHABET_OPTIONS: { value: Base64Alphabet; label: string }[] = [
 
 export function Base64Encoder() {
   const clipboard = useClipboard({ timeout: 2000 });
-  const [mode, setMode] = useState<Mode>("encode");
-  const [alphabet, setAlphabet] = useState<Base64Alphabet>("standard");
-  const [input, setInput] = useState("");
+  const [state, updateState] = useImmer<Base64State>({
+    input: "",
+    mode: "encode",
+    alphabet: "standard"
+  });
+  const { input, mode, alphabet } = state;
+
+  const setInput = (value: string) => updateState((draft) => { draft.input = value; });
+  const setMode = (value: Mode) => updateState((draft) => { draft.mode = value; });
+  const setAlphabet = (value: Base64Alphabet) => updateState((draft) => { draft.alphabet = value; });
 
   const { output, error } = useMemo(() => {
     if (!input) return { output: "", error: "" };
@@ -35,10 +49,12 @@ export function Base64Encoder() {
   }, [input, mode, alphabet]);
 
   const switchMode = () => {
-    if (output) {
-      setInput(output);
-    }
-    setMode(mode === "encode" ? "decode" : "encode");
+    updateState((draft) => {
+      if (output) {
+        draft.input = output;
+      }
+      draft.mode = draft.mode === "encode" ? "decode" : "encode";
+    });
   };
 
   return (

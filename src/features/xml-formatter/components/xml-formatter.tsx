@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Check, CircleAlert, Copy, Eraser, FileCode2, Minimize2, Wand2 } from "lucide-react";
+import { useImmer } from "use-immer";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Label } from "@/shared/components/ui/label";
@@ -9,14 +10,21 @@ import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { useDebouncedValue } from "@/shared/hooks/use-debounced-value";
 import { cn, safeSync } from "@/shared/utils";
 import { formatXml, minifyXml } from "../services/xml-formatter";
-import type { XmlIndent, XmlOperation } from "../types";
+import type { XmlFormatterState, XmlIndent, XmlOperation } from "../types";
 import { INDENT_OPTIONS, SAMPLE_XML } from "../constants";
 
 export function XmlFormatter() {
   const clipboard = useClipboard({ timeout: 2000 });
-  const [input, setInput] = useState("");
-  const [indent, setIndent] = useState<XmlIndent>("2");
-  const [operation, setOperation] = useState<XmlOperation>("format");
+  const [state, updateState] = useImmer<XmlFormatterState>({
+    input: "",
+    indent: "2",
+    operation: "format"
+  });
+  const { input, indent, operation } = state;
+
+  const setInput = (value: string) => updateState((draft) => { draft.input = value; });
+  const setIndent = (value: XmlIndent) => updateState((draft) => { draft.indent = value; });
+  const setOperation = (value: XmlOperation) => updateState((draft) => { draft.operation = value; });
 
   const debouncedInput = useDebouncedValue(input);
   const inputStats = useMemo(
