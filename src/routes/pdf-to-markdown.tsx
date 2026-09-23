@@ -30,7 +30,7 @@ const pdfToMarkdownFaqItems = [
   {
     question: "Does it work with password-protected PDFs?",
     answer:
-      "Encrypted PDFs are not supported yet. Unlock your PDF first with our Unlock PDF tool, then convert the decrypted file.",
+      "Yes. If your PDF is encrypted we'll ask for its password, which is used locally in your browser to decrypt and convert the file. If you don't know the password, unlock it first with our Unlock PDF tool.",
   },
 ];
 
