@@ -28,6 +28,7 @@ import {
   Clock,
   CalendarClock,
   Pipette,
+  Terminal,
   LucideIcon
 } from "lucide-react";
 
@@ -207,6 +208,17 @@ export const TOOLS_CONFIG: ToolCategory[] = [
     icon: Sparkles,
     description: "Encode, format, convert, and inspect — everyday developer utilities.",
     items: [
+      {
+        title: "Python Playground",
+        href: "/python-playground",
+        description: "Write and run Python in your browser with WebAssembly.",
+        icon: Terminal,
+        color: "bg-blue-500/10 text-blue-600",
+        tags: ["Python", "Runtime"],
+        group: "Runtimes",
+        popular: true,
+        keywords: ["python", "pyodide", "wasm", "webassembly", "repl", "playground", "numpy", "run python"]
+      },
       {
         title: "JSON Formatter",
         href: "/json-formatter",

@@ -28,6 +28,7 @@ import { Route as PasswordGeneratorRouteImport } from './routes/password-generat
 import { Route as PdfToImageRouteImport } from './routes/pdf-to-image'
 import { Route as PdfToMarkdownRouteImport } from './routes/pdf-to-markdown'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PythonPlaygroundRouteImport } from './routes/python-playground'
 import { Route as QrGeneratorRouteImport } from './routes/qr-generator'
 import { Route as RegexTesterRouteImport } from './routes/regex-tester'
 import { Route as RemoveImageMetadataRouteImport } from './routes/remove-image-metadata'
@@ -139,6 +140,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PythonPlaygroundRoute = PythonPlaygroundRouteImport.update({
+  id: '/python-playground',
+  path: '/python-playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QrGeneratorRoute = QrGeneratorRouteImport.update({
   id: '/qr-generator',
   path: '/qr-generator',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/pdf-to-image': typeof PdfToImageRoute
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
+  '/python-playground': typeof PythonPlaygroundRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/pdf-to-image': typeof PdfToImageRoute
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
+  '/python-playground': typeof PythonPlaygroundRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   '/pdf-to-image': typeof PdfToImageRoute
   '/pdf-to-markdown': typeof PdfToMarkdownRoute
   '/privacy': typeof PrivacyRoute
+  '/python-playground': typeof PythonPlaygroundRoute
   '/qr-generator': typeof QrGeneratorRoute
   '/regex-tester': typeof RegexTesterRoute
   '/remove-image-metadata': typeof RemoveImageMetadataRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/pdf-to-markdown'
     | '/privacy'
+    | '/python-playground'
     | '/qr-generator'
     | '/regex-tester'
     | '/remove-image-metadata'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/pdf-to-markdown'
     | '/privacy'
+    | '/python-playground'
     | '/qr-generator'
     | '/regex-tester'
     | '/remove-image-metadata'
@@ -420,6 +431,7 @@ export interface FileRouteTypes {
     | '/pdf-to-image'
     | '/pdf-to-markdown'
     | '/privacy'
+    | '/python-playground'
     | '/qr-generator'
     | '/regex-tester'
     | '/remove-image-metadata'
@@ -457,6 +469,7 @@ export interface RootRouteChildren {
   PdfToImageRoute: typeof PdfToImageRoute
   PdfToMarkdownRoute: typeof PdfToMarkdownRoute
   PrivacyRoute: typeof PrivacyRoute
+  PythonPlaygroundRoute: typeof PythonPlaygroundRoute
   QrGeneratorRoute: typeof QrGeneratorRoute
   RegexTesterRoute: typeof RegexTesterRoute
   RemoveImageMetadataRoute: typeof RemoveImageMetadataRoute
@@ -609,6 +622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/python-playground': {
+      id: '/python-playground'
+      path: '/python-playground'
+      fullPath: '/python-playground'
+      preLoaderRoute: typeof PythonPlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/qr-generator': {
       id: '/qr-generator'
       path: '/qr-generator'
@@ -737,6 +757,7 @@ const rootRouteChildren: RootRouteChildren = {
   PdfToImageRoute: PdfToImageRoute,
   PdfToMarkdownRoute: PdfToMarkdownRoute,
   PrivacyRoute: PrivacyRoute,
+  PythonPlaygroundRoute: PythonPlaygroundRoute,
   QrGeneratorRoute: QrGeneratorRoute,
   RegexTesterRoute: RegexTesterRoute,
   RemoveImageMetadataRoute: RemoveImageMetadataRoute,

@@ -3,16 +3,18 @@ import { useMemo } from "react";
 import { json } from "@codemirror/lang-json";
 import { xml } from "@codemirror/lang-xml";
 import { yaml } from "@codemirror/lang-yaml";
+import { python } from "@codemirror/lang-python";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
 import { cn } from "@/shared/utils";
 
-export type CodeLanguage = "json" | "yaml" | "xml";
+export type CodeLanguage = "json" | "yaml" | "xml" | "python";
 
 const LANGUAGES: Record<CodeLanguage, () => ReturnType<typeof json>> = {
   json,
   yaml,
-  xml
+  xml,
+  python
 };
 
 export interface CodeEditorProps {

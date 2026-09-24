@@ -21,3 +21,7 @@ declare module "https://cdn.jsdelivr.net/npm/@jsquash/png@3.1.1/+esm" {
 declare module "https://cdn.jsdelivr.net/npm/@jsquash/avif@2.1.1/+esm" {
   export * from "@jsquash/avif";
 }
+
+declare module "https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.mjs" {
+  export * from "pyodide";
+}
