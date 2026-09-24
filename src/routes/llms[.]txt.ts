@@ -28,7 +28,7 @@ ${toolsSection}
 
 ## Key Facts
 
-- Heavy processing (PDF, image) uses WebAssembly; other tools use native browser APIs (Web Crypto, Canvas, etc.)
+- Heavy processing (PDF, image, Python) uses WebAssembly; other tools use native browser APIs (Web Crypto, Canvas, etc.)
 - No files are uploaded to any server
 - No accounts, sign-ups, or watermarks
 - Free and open source under Apache 2.0
@@ -41,6 +41,7 @@ ${toolsSection}
 - Routing: TanStack Router (file-based)
 - PDF Processing: PDF.js, pdf-lib, jsPDF
 - Image Processing: @jsquash/* (WebAssembly), Web Workers + Comlink
+- Python Runtime: Pyodide (CPython on WebAssembly), Web Workers + Comlink
 - Build: Vite 8 with Cloudflare Workers plugin
 
 ## Links

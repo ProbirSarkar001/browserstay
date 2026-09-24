@@ -350,6 +350,20 @@ export const metaConfigs = {
       featureList: ["Live match highlighting", "Match positions and capture groups", "Flag toggles", "Replacement preview"]
     }
   },
+  pythonPlayground: {
+    title: "Python Playground - Run Python in Your Browser Free | BrowserStay",
+    description:
+      "Write and run Python entirely in your browser — no installs, no servers, nothing uploaded. Pyodide (CPython on WebAssembly) runs in a Web Worker with automatic package loading, stdout/stderr capture, and tracebacks.",
+    canonicalUrl: `${BASE_URL}/python-playground`,
+    keywords:
+      "python playground, run python online, python in browser, pyodide, python wasm, python repl, run python without install, numpy in browser, local python, browserstay",
+    jsonLd: {
+      name: "Python Playground",
+      description:
+        "Run Python entirely in your browser using Pyodide (CPython on WebAssembly) in a Web Worker, with automatic package loading.",
+      featureList: ["Run Python in-browser", "Automatic package loading", "stdout, stderr, and tracebacks", "No uploads, local execution"]
+    }
+  },
   diffChecker: {
     title: "Diff Checker - Compare Two Texts Online Free | BrowserStay",
     description:
