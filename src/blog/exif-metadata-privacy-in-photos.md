@@ -26,7 +26,7 @@ None of this is visible when you view the photo. It's in the file header, readab
 
 **Social media** often strips EXIF on upload — but not always, and not every platform. Don't rely on Instagram or Facebook to protect you.
 
-**Email and messaging** usually preserve EXIF. Send a photo via email or WhatsApp and the recipient (or an intermediary) may be able to extract location data.
+**Email** preserves EXIF — send a photo as an attachment and the recipient (or an intermediary) may be able to extract location data. Most messaging apps strip EXIF by re-encoding photos, but don't rely on it: WhatsApp keeps metadata only if you send the photo as a document, and app behavior changes over time.
 
 **Selling items online** — a photo of your couch for a marketplace listing might include your home address in GPS tags.
 

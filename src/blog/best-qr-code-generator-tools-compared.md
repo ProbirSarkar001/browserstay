@@ -22,11 +22,10 @@ QR codes are everywhere — menus, business cards, WiFi sharing, event tickets. 
 | Tool | Processing | WiFi QR | Custom colors | SVG export | Tracking | Account | Privacy |
 |------|------------|---------|---------------|------------|----------|---------|---------|
 | **BrowserStay** | Browser (local) | Yes | Yes | Yes | None | No | Never uploaded |
-| **QR Code Monkey** | Server | Yes | Yes | Yes (paid) | Optional dynamic | No | Data sent to server |
+| **QR Code Monkey** | Server | Yes | Yes | Yes | Optional dynamic | No | Data sent to server |
 | **QR Tiger** | Server | Yes | Yes | Yes | Dynamic tracking | Optional | Data sent to server |
 | **goqr.me** | Server | Yes | No | No | None | No | Data sent to server |
 | **Canva** | Server | No | Yes | Yes | None | Optional | Data sent to server |
-| **Google Charts API** | Server | No | Limited | No | Google analytics | No | Data sent to Google |
 
 *Based on publicly available information as of 2026.*
 
@@ -44,7 +43,6 @@ QR codes are everywhere — menus, business cards, WiFi sharing, event tickets. 
 - **Your URL, WiFi password, or contact info is sent to their server**
 - **Dynamic QR codes route through their redirect** — they see every scan
 - **QR Tiger/Monkey analytics** track when and where codes are scanned
-- SVG export sometimes requires paid accounts
 
 **Best for:** Marketing campaigns where scan analytics matter and you accept the tracking tradeoff.
 

@@ -13,7 +13,7 @@ This guide compares the major options across every common PDF task — so you ca
 
 | Platform | Type | Merge | Split | Compress | Convert | Encrypt | Unlock |
 |----------|------|-------|-------|----------|---------|---------|--------|
-| **BrowserStay** | Browser-local | Yes | Yes | Via images* | PDF↔Image | Yes | Yes |
+| **BrowserStay** | Browser-local | Yes | Yes | Via images* | PDF↔Image, PDF→Markdown | Yes | Yes |
 | **iLovePDF** | Server upload | Yes | Yes | Yes | Yes | Yes | Yes |
 | **Smallpdf** | Server upload | Yes | Yes | Yes | Yes | Yes | Yes |
 | **Adobe Acrobat Online** | Server upload | Yes | Yes | Yes | Yes | Yes | Limited |

@@ -75,4 +75,4 @@ AVIF (AV1 Image File Format) achieves even better compression than WebP — ofte
 
 ## Try It Yourself
 
-Convert between any of these formats with our free [Image Converter](/image-converter) — JPEG, PNG, WebP, AVIF, and HEIC. Batch convert, download as ZIP. All processing happens in your browser.
+Convert between any of these formats with our free [Image Converter](/image-converter) — it accepts JPEG, PNG, WebP, AVIF, GIF, and HEIC as input, and outputs JPEG, PNG, WebP, or AVIF. Batch convert, download as ZIP. All processing happens in your browser.

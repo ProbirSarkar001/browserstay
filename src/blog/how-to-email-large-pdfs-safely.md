@@ -71,11 +71,11 @@ For non-sensitive files (public brochures, open documentation), cloud links are 
 | Provider | Typical attachment limit |
 |----------|---------------------------|
 | Gmail | 25MB |
-| Outlook.com | 25MB (via OneDrive for larger) |
+| Outlook.com | 20MB (via OneDrive for larger) |
 | Yahoo Mail | 25MB |
 | Corporate Exchange | Often 10–20MB (varies) |
 
-Stay under 20MB total to be safe across providers.
+Stay under 18MB total to be safe across providers — encoding overhead can push a larger attachment past the strictest limit.
 
 ## Quality vs Size Tradeoffs
 

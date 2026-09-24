@@ -34,7 +34,7 @@ The goal: **correct dimensions, reasonable file size, sharp quality.**
 | Type | Size | Aspect ratio |
 |------|------|--------------|
 | Feed post | 1200 × 630 | 1.91:1 |
-| Cover photo | 820 × 312 | ~2.7:1 |
+| Cover photo | 820 × 312 | ~2.6:1 |
 | Profile photo | 170 × 170 | 1:1 |
 | Story | 1080 × 1920 | 9:16 |
 

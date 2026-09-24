@@ -32,7 +32,7 @@ Your iPhone stores twice as many photos in the same space. That's the main reaso
 
 HEIC is better technically. But JPEG is universal. Windows, older Android phones, many websites, and legacy software expect `.jpg` files.
 
-When you AirDrop a HEIC photo to a Windows PC, it often fails to open. When you upload HEIC to a form that only accepts JPEG, you get an error. When you email HEIC to a colleague, they might not see the attachment correctly.
+When you transfer a HEIC photo to a Windows PC (email, cable, cloud sync), it often fails to open. When you upload HEIC to a form that only accepts JPEG, you get an error. When you email HEIC to a colleague, they might not see the attachment correctly.
 
 Apple partially solves this: when you share via Messages or Mail, iOS often converts to JPEG automatically. But file transfers, cloud sync, and manual exports may not.
 

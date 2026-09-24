@@ -14,7 +14,7 @@ PDF size reduction isn't one-size-fits-all. Here's what actually works.
 PDF file size usually comes from:
 
 1. **Embedded images** — scanned pages, photos, diagrams. Often 90%+ of the file.
-2. **High-resolution scans** — 300 DPI is standard for print; 600 DPI doubles the pixels.
+2. **High-resolution scans** — 300 DPI is standard for print; 600 DPI quadruples the pixels.
 3. **Uncompressed images** — raw bitmap data instead of JPEG compression inside the PDF.
 4. **Embedded fonts** — full font files add weight, especially for documents with many typefaces.
 5. **Redundant objects** — duplicate images, unused resources from editing history.

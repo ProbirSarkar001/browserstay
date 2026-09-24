@@ -45,7 +45,7 @@ You need to merge, split, convert, and protect these files regularly. The wrong 
 
 **Use case:** Pull a diagram from a PDF for a presentation. Convert a signed page to an image for a website or social post.
 
-**Solution:** Convert pages to JPG or PNG without uploading the source PDF.
+**Solution:** Convert pages to PNG without uploading the source PDF.
 
 ## Why Small Businesses Should Care
 
