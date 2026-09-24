@@ -38,7 +38,8 @@
       "Bash(python3 -)",
       "WebSearch",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/probir-sarkar/browserstay)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/probir-sarkar/toolbox)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/probir-sarkar/toolbox)",
+      "Bash(git mv *)"
     ]
   }
 }

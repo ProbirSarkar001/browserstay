@@ -6,7 +6,7 @@ description: Audit BrowserStay blog articles (src/blog/*.md) for wrong or missin
 # Blog Content Audit
 
 Audit blog articles for factual errors, wrong tool claims, and missing info.
-Before auditing, read `docs/blog-audit-manifest.md` and **skip any article whose
+Before auditing, read `.claude/skills/blog-audit/manifest.md` and **skip any article whose
 `content` column is ✅** unless it was substantially edited since its audit date
 (then audit only the changed parts and update the row).
 
@@ -75,6 +75,6 @@ Do not flag style/tone, SEO wording, or intentional BrowserStay promotion.
 1. Apply fixes to the `.md` files.
 2. Re-open each edited article in agent-browser and confirm the corrected text
    renders (guards against stale build).
-3. Update `docs/blog-audit-manifest.md`: set `content ✅` with the date and a
+3. Update `.claude/skills/blog-audit/manifest.md`: set `content ✅` with the date and a
    one-line note per fixed article.
 4. Commit on the branch.

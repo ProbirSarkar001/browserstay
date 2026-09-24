@@ -20,7 +20,7 @@ Most "free" online tools secretly upload your files to their servers. BrowserSta
 ## Tools
 
 ### PDF Tools
-- **PDF to Image** — Convert PDF pages to high-quality JPG or PNG images.
+- **PDF to Image** — Convert PDF pages to high-quality PNG images.
 - **Image to PDF** — Turn images into a single PDF with sortable pages.
 - **Merge PDF** — Combine multiple PDFs into one document.
 - **Split PDF** — Extract specific pages or split into separate files.
