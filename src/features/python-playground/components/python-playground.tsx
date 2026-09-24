@@ -6,6 +6,7 @@ import {
   Play,
   RotateCcw,
   Sparkles,
+  Square,
   Terminal
 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
@@ -31,7 +32,8 @@ import { useClipboard } from "@/shared/hooks/use-clipboard";
 import { cn } from "@/shared/utils";
 import {
   initPythonRuntime,
-  runPython
+  runPython,
+  terminatePythonWorker
 } from "@/shared/services/python/python.client";
 import type {
   PythonRunResult,
@@ -79,11 +81,14 @@ export function PythonPlayground() {
     setIsRunning(true);
     setWorkerError(null);
 
+    // Local copy: the `runtime` state variable is stale within this closure
+    // until the next render, even right after a successful init below.
+    let activeRuntime = runtime;
     try {
-      if (!runtime) {
+      if (!activeRuntime) {
         setStatus("loading");
-        const info = await initPythonRuntime();
-        setRuntime(info);
+        activeRuntime = await initPythonRuntime();
+        setRuntime(activeRuntime);
       }
       setStatus("ready");
 
@@ -92,7 +97,7 @@ export function PythonPlayground() {
       });
       setOutput(result);
     } catch (error) {
-      setStatus(runtime ? "ready" : "idle");
+      setStatus(activeRuntime ? "ready" : "idle");
       setWorkerError(
         error instanceof Error
           ? error.message
@@ -103,6 +108,18 @@ export function PythonPlayground() {
       setIsRunning(false);
     }
   }, [autoLoadPackages, code, runtime]);
+
+  // The interpreter can't be interrupted from outside (no timeouts across the
+  // Comlink boundary), so stopping means killing the worker entirely; the next
+  // run boots a fresh one.
+  const stop = useCallback(() => {
+    terminatePythonWorker();
+    isRunningRef.current = false;
+    setIsRunning(false);
+    setRuntime(null);
+    setStatus("idle");
+    setWorkerError("Execution stopped. The runtime restarts on the next run.");
+  }, []);
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
@@ -122,13 +139,7 @@ export function PythonPlayground() {
   };
 
   const outputText = buildOutputText(output, workerError, isRunning);
-  const hasOutput =
-    Boolean(workerError) ||
-    (output !== null &&
-      (output.stdout !== "" ||
-        output.stderr !== "" ||
-        output.result !== null ||
-        output.error !== null));
+  const hasOutput = outputText !== "";
 
   return (
     <Card
@@ -162,23 +173,31 @@ export function PythonPlayground() {
               <Sparkles className="h-4 w-4" />
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-80">
               {PYTHON_EXAMPLES.map((example) => (
-                <SelectItem key={example.id} value={example.id}>
-                  {example.label}
+                <SelectItem key={example.id} value={example.id} className="items-start">
+                  <span className="flex flex-col gap-0.5 whitespace-normal py-1">
+                    <span>{example.label}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {example.description}
+                    </span>
+                  </span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <Button onClick={() => void run()} disabled={isRunning || !code.trim()}>
-            {isRunning ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
+          {isRunning ? (
+            <Button variant="destructive" onClick={stop}>
+              <Square className="h-4 w-4" />
+              Stop
+            </Button>
+          ) : (
+            <Button onClick={() => void run()} disabled={!code.trim()}>
               <Play className="h-4 w-4" />
-            )}
-            {isRunning ? "Running" : "Run"}
-          </Button>
+              Run
+            </Button>
+          )}
 
           <Button
             variant="ghost"
@@ -186,7 +205,7 @@ export function PythonPlayground() {
               setOutput(null);
               setWorkerError(null);
             }}
-            disabled={!hasOutput || isRunning}
+            disabled={!hasOutput}
           >
             <RotateCcw className="h-4 w-4" />
             Clear output
@@ -271,13 +290,13 @@ export function PythonPlayground() {
             )}
 
             {output?.stdout && (
-              <pre className="whitespace-pre-wrap break-words text-zinc-100">
+              <pre className="whitespace-pre-wrap wrap-break-word text-zinc-100">
                 {output.stdout}
               </pre>
             )}
 
             {output?.stderr && (
-              <pre className="whitespace-pre-wrap break-words text-amber-400">
+              <pre className="whitespace-pre-wrap wrap-break-word text-amber-400">
                 {output.stderr}
               </pre>
             )}
