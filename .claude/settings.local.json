@@ -39,7 +39,9 @@
       "WebSearch",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/probir-sarkar/browserstay)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/probir-sarkar/toolbox)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(echo \"ssr/barrel check exit: $?\")",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

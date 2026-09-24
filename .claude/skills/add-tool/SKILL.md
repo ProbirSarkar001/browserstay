@@ -5,7 +5,7 @@ description: Add a new tool/feature to BrowserStay — feature directory, contex
 
 # Add a New Tool
 
-Architecture rules (file naming, client-only imports, SSR, barrels) are in
+Architecture rules (file naming, client-only imports) are in
 `AGENTS.md` and always apply. This skill is the step-by-step recipe. Code
 templates for each step: [references/templates.md](references/templates.md).
 
@@ -17,7 +17,7 @@ templates for each step: [references/templates.md](references/templates.md).
 
 3. **Constants** in `constants/index.ts`: `DEFAULT_*_SETTINGS`, `*_LIMITS`.
 
-4. **Context provider** in `context.tsx`: build on `useFileHandler` + `useProcessingState` from `@/shared/hooks`. No client-only service imports here. Export a `use<Name>Context()` hook that throws outside the provider.
+4. **Context provider** in `context.tsx`: build on `useFileHandler` + `useProcessingState` from `@/shared/hooks`. Use `useImmer` for complex state. No client-only service imports here. Export a `use<Name>Context()` hook that throws outside the provider.
 
 5. **Components**: reuse shared primitives — `DropZoneBase`, `FileListBase` from `@/shared/components/common`. Standard flow: drop → list → settings → action card (process → download single file or ZIP via `createZip` + `downloadBlob`).
 
