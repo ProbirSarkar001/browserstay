@@ -13,7 +13,6 @@ Before substantial work:
 This project follows a consistent file naming convention to improve code organization and discoverability.
 
 ### Service Files (`src/shared/services/*/`)
-- `index.ts` - Public entry point. For browser-only services, export **types only** here.
 - `types.ts` - Shared types safe to import from SSR/universal code
 - `*.client.ts` - Browser-only runtime (PDF, image codecs, DOM APIs). Never imported by route shells or SSR code.
 - `*.ts` - Isomorphic implementation (safe on server and client)
@@ -22,7 +21,6 @@ This project follows a consistent file naming convention to improve code organiz
 Example structure (isomorphic):
 ```
 src/shared/services/zip/
-├── index.ts          # Exports public API
 ├── zip.ts            # Main implementation
 └── zip.test.ts       # Tests
 ```
@@ -30,7 +28,6 @@ src/shared/services/zip/
 Example structure (browser-only):
 ```
 src/shared/services/pdf/
-├── index.ts          # export type * from "./types" only
 ├── types.ts          # FileWithInfo, ImageResult, etc.
 └── pdf.client.ts     # PdfService, encryptPdf, clawpdf, @cantoo/pdf-lib
 ```
@@ -41,7 +38,6 @@ src/shared/services/pdf/
 - `services/` - Feature-specific services (`*.client.ts` for browser-only runtime)
 - `types/` - TypeScript types
 - `utils/` - Utility functions
-- `index.ts` - **Avoid.** Barrel re-exports drag the whole feature graph into whatever imports them. Routes and other SSR-universal modules must import `context`, `components/*`, and `constants` by path instead.
 
 ## Comment Rules
 
@@ -105,10 +101,9 @@ const api = Comlink.wrap<WorkerApi>(worker);
 ```
 
 ### Service Pattern
-- Services export a clean public API via `index.ts`
 - Implementation details stay in the main file
 - Workers are co-located with their service
-- Browser-only services split types (`types.ts`) from runtime (`*.client.ts`); `index.ts` re-exports types only so `export * from "./pdf"` in `shared/services/index.ts` cannot pull heavy libs into the server bundle
+- Browser-only services split types (`types.ts`) from runtime (`*.client.ts`)
 
 ### Client-Only Code & Server Bundle Size (TanStack Start)
 
@@ -125,16 +120,10 @@ TanStack Start treats `.client.*` files as client-only via [import protection](h
 import { PdfService } from "@/shared/services/pdf/pdf.client";
 
 // ✅ Type-only in universal code
-import type { FileWithInfo } from "@/shared/services/pdf";
+import type { FileWithInfo } from "@/shared/services/pdf/types";
 ```
 
-```ts
-// ❌ Pulls @cantoo/pdf-lib, clawpdf, etc. into dist/server
-import { PdfService } from "@/shared/services/pdf";
-import { PdfService } from "@/shared/services";
-```
-
-Keep `shared/services/index.ts` as `export type * from "./pdf"` (not `export *`) for browser-only services.
+Import runtime from the `.client.ts` file directly, and types from `types.ts` — never through feature-wide or service-wide aggregations, which pull @cantoo/pdf-lib, clawpdf, etc. into dist/server.
 
 #### 2. Set `ssr: false` on tool routes
 
@@ -150,22 +139,14 @@ export const Route = createFileRoute("/split-pdf")({
 
 Apply to all browser-tool routes (PDF tools, image tools, QR generator, password generator, etc.) unless there is a specific reason to SSR the tool UI.
 
-#### 3. Avoid barrel (`index.ts`) imports — especially in routes
+#### 3. Import by direct path — especially in routes
 
-**Barrel files are an anti-pattern in this codebase.** Route modules are always part of the server graph, so importing `@/features/foo` (the feature `index.ts`) re-exports the entire feature — context, components, services — and can pull client-only deps into the SSR bundle or trigger import-protection build errors. The same applies to `@/shared/services` and feature `index.ts` barrels in `context.tsx` or other universal code.
-
-Import the concrete module you need:
+Route modules are always part of the server graph, so any module a route imports must be safe for SSR. Import the concrete module you need by path; importing feature-wide or service-wide aggregations can pull client-only deps into the SSR bundle or trigger import-protection build errors.
 
 ```ts
 // ✅ Route file — provider from context, components by path
 import { EncryptPdfProvider } from "@/features/encrypt-pdf/context";
 import { EncryptPdfDropZone } from "@/features/encrypt-pdf/components/drop-zone";
-
-// ❌ Barrel pulls drop-zone → constants → pdf.client into server graph
-import { EncryptPdfProvider, EncryptPdfDropZone } from "@/features/encrypt-pdf";
-
-// ❌ Universal service barrel can pull browser-only runtime into dist/server
-import { createZip, downloadBlob } from "@/shared/services";
 ```
 
 `ClientOnly` around tool UI is still useful for a loading fallback during hydration, but it is not a substitute for `ssr: false`, direct imports, or `.client.ts` / `client-only` markers.
@@ -187,8 +168,8 @@ Target: `dist/server` stays small for Cloudflare Workers limits; heavy libs live
 | --- | --- |
 | Browser-only utility | `*.client.ts` or `createClientOnlyFn()` |
 | Browser-only component | `ClientOnly` + `ssr: false` on the route |
-| Types in SSR/universal code | `types.ts` / `import type` from `index.ts` |
-| Tool route default | `ssr: false` + direct path imports (never feature/service barrels) |
+| Types in SSR/universal code | `types.ts` / `import type` from the module path |
+| Tool route default | `ssr: false` + direct path imports |
 | SEO for tool pages | `head()` + prerender (unchanged) |
 
 ### Utilities
@@ -235,6 +216,5 @@ Preferred libraries for common jobs:
 4. **Don't manually spread nested objects for immutability** - Use Immer's `produce` instead
 5. **Don't import from `lodash`** - Use `es-toolkit/compat` for the same API with better performance
 6. **Don't rely on `ClientOnly` to shrink the server bundle** - It only defers rendering; use `*.client.ts`, `ssr: false`, and direct route imports for browser-only code
-7. **Don't re-export browser runtime from service `index.ts`** - Use `export type *` so universal barrels (`shared/services/index.ts`) cannot pull heavy libs into `dist/server`
-8. **Don't use barrel (`index.ts`) imports in routes, contexts, or other SSR-universal code** - Import `context`, `components/*`, `constants`, and service files by path (`@/features/foo/context`, `@/shared/services/zip/zip`). Feature `index.ts` barrels and `@/shared/services` are for convenience only and must not appear in the server import graph.
+7. **Don't import feature-wide or service-wide aggregations in routes, contexts, or other SSR-universal code** - Import `context`, `components/*`, `constants`, and service files by direct path (`@/features/foo/context`, `@/shared/services/zip/zip`) so client-only runtime never reaches the server import graph.
 9. **Don't hand-roll what a library already does** - No custom tokenizers, parsers, encoders, formatters, or validators when a maintained package covers the job (e.g. `js-base64` over `TextEncoder`/`btoa` byte-walking, `xml-formatter` over a hand-written XML tree). Never keep both; delete the custom code. See [Dependencies & Libraries](#dependencies--libraries).
