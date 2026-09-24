@@ -32,7 +32,7 @@ If you want more privacy, no daily limits, or a different feature mix, here are 
 
 Same core PDF tasks without uploading.
 
-**Covers:** Merge, split, encrypt, unlock, PDF to image, image to PDF
+**Covers:** Merge, split, encrypt, unlock, PDF to image, PDF to Markdown, image to PDF
 **Advantages:** Files stay on your device, unlimited free use, open source
 **Missing:** OCR, e-sign, PDF editing, compression (use image workflow)
 

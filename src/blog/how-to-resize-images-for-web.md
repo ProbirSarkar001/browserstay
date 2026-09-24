@@ -11,7 +11,7 @@ Oversized images are one of the biggest causes of slow websites. Resizing before
 
 ## Why Dimensions Matter More Than Compression
 
-A 4000px image displayed at 800px wastes 75% of its pixels. The browser still downloads the full file, then scales it down in memory.
+A 4000px image displayed at 800px wastes about 94% of its pixels. The browser still downloads the full file, then scales it down in memory.
 
 Resize first, then compress. The order matters:
 

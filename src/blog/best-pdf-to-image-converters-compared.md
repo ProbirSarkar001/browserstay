@@ -20,7 +20,7 @@ You need PDF pages as images — for a presentation slide, a social media post, 
 
 | Tool | Processing | Formats | DPI control | All pages | Free limits | Privacy |
 |------|------------|---------|-------------|-----------|-------------|---------|
-| **BrowserStay** | Browser (local) | JPG, PNG | Yes | Yes (ZIP) | None | Never uploaded |
+| **BrowserStay** | Browser (local) | PNG | Yes | Yes (ZIP) | None | Never uploaded |
 | **iLovePDF** | Server upload | JPG, PNG | Limited | Yes | Daily limit | Uploaded |
 | **Smallpdf** | Server upload | JPG, PNG | Limited | Yes | 2 tasks/day | Uploaded |
 | **Adobe Acrobat Online** | Server upload | JPG, PNG, TIFF | Yes | Yes | Limited | Uploaded |
@@ -50,7 +50,7 @@ You need PDF pages as images — for a presentation slide, a social media post, 
 
 ## Browser-Based: BrowserStay
 
-Renders PDF pages to JPG or PNG in your browser using PDF.js.
+Renders PDF pages to PNG in your browser using PDF.js.
 
 **Strengths:**
 - PDF never leaves your device
@@ -60,7 +60,7 @@ Renders PDF pages to JPG or PNG in your browser using PDF.js.
 
 **Weaknesses:**
 - Very large PDFs (100+ pages) take longer on older devices
-- No TIFF output
+- PNG output only — no JPG or TIFF
 - Requires initial page load
 
 **Best for:** Confidential documents, client files, anything you wouldn't email to a stranger.
@@ -85,4 +85,4 @@ For scanned documents and pages with lots of text, PNG usually looks sharper.
 
 ## Try It Yourself
 
-Convert PDF pages to JPG or PNG with our free [PDF to Image](/pdf-to-image) tool. Select pages, choose format, download individually or as ZIP. No uploads, no limits.
+Convert PDF pages to PNG with our free [PDF to Image](/pdf-to-image) tool. Select pages, adjust resolution, download individually or as ZIP. No uploads, no limits.

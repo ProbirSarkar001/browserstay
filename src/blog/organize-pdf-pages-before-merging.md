@@ -1,6 +1,6 @@
 ---
 title: "How to Organize PDF Pages Before Merging (Order, Rotation, and Cleanup)"
-published: 2026-09-27
+published: 2026-09-24
 description: "Merged PDFs in the wrong order waste everyone's time. Here's how to plan page order, handle mixed sources, and merge cleanly — without uploading."
 tags: ["pdf", "how-to", "merge"]
 ---

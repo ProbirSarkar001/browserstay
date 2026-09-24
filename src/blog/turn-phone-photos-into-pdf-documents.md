@@ -74,7 +74,7 @@ Depending on your needs:
 - **[Merge](/merge-pdf)** with other PDFs if you're combining scanned pages with existing documents
 - **[Encrypt](/encrypt-pdf)** before emailing sensitive documents
 - **[Split](/split-pdf)** if you only need to send specific pages
-- **Compress** via PDF-to-image workflow if the file is still too large
+- **[Convert](/pdf-to-image)** pages to PNG and compress the images, then rebuild the PDF via [Image to PDF](/image-to-pdf) — a workaround since there's no direct PDF compressor, and usually a last resort
 
 ## Try It Yourself
 

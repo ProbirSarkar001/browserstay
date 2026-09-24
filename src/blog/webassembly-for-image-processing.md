@@ -39,7 +39,7 @@ In our testing with a 12MP photo:
 - **WebP encoding**: ~300ms (vs ~200ms native)
 - **AVIF encoding**: ~800ms (vs ~600ms native)
 
-The browser overhead is minimal — typically 20-40% slower than native, which is negligible for most use cases.
+The browser overhead is minimal — typically 30-50% slower than native, which is negligible for most use cases.
 
 ## The Web Worker Advantage
 
@@ -50,7 +50,7 @@ Heavy processing shouldn't block the user interface. Web Workers let us:
 - Process multiple images in parallel
 - Report progress back to the main thread
 
-Combined with Comlink (a library for type-safe worker communication), worker code feels almost as simple as synchronous code.
+Combined with Comlink (a library that makes worker communication feel like calling local functions), worker code feels almost as simple as synchronous code.
 
 ## Supported Formats
 
@@ -60,7 +60,7 @@ Modern WASM image libraries support:
 - **PNG** — lossless with transparency
 - **WebP** — better compression than JPEG
 - **AVIF** — next-generation format
-- **HEIC** — Apple's format (convert to web-friendly formats)
+- **HEIC** — popularized by Apple (convert to web-friendly formats)
 
 ## The Privacy Bonus
 

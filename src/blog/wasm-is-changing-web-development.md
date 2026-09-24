@@ -21,7 +21,7 @@ It's not a JavaScript replacement. It's a second compile target that handles wha
 
 The flagship examples are everywhere now:
 
-- **Figma** — its design engine is C++ compiled to WASM; the app famously became near-instant to load after the port
+- **Figma** — its design engine is C++ compiled to WASM; the port famously cut load times by around 3x
 - **Photoshop on the web** — the full desktop codebase running in the browser
 - **Google Earth** — a native C++ engine delivered as a web page
 - **AutoCAD** — 30 years of desktop code running without a plugin

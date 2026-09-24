@@ -27,9 +27,9 @@ Without that codec, `.heic` files are invisible to File Explorer previews, Paint
 
 ### Option 1: Install the HEIC Codec (Windows)
 
-Search the Microsoft Store for "HEIF Image Extensions" and "HEVC Video Extensions." Install both. After that, Windows can open and preview HEIC files natively.
+Search the Microsoft Store for "HEIF Image Extensions" (free) and "HEVC Video Extensions" (a paid item, around $0.99). Install both. After that, Windows can open and preview HEIC files natively.
 
-Downside: you're installing Microsoft codecs; some users prefer not to.
+Downside: HEVC Video Extensions isn't free, and you're installing Microsoft codecs; some users prefer not to.
 
 ### Option 2: Change iPhone Settings to Shoot JPEG
 

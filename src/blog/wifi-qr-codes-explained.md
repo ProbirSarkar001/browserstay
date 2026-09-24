@@ -17,7 +17,7 @@ A WiFi QR code encodes your network name (SSID) and password in a standard forma
 2. It prompts to join the network
 3. One tap — connected. No typing.
 
-The format is standardized (WIFI:T:WPA;S:YourNetworkName;P:YourPassword;;) so it works on iPhone and Android.
+The format is standardized (WIFI:T:WPA;S:YourNetworkName;P:YourPassword;;) so it works on iPhone and Android. One catch: if your network name or password contains `;`, `:`, `,`, or `\`, each must be escaped with a backslash — otherwise the code scans but fails to join.
 
 ## When to Use WiFi QR Codes
 

@@ -31,7 +31,7 @@ If you've hit the limit, need more privacy, or want to avoid another subscriptio
 
 ## 1. BrowserStay — Best for Privacy and Unlimited Use
 
-**What it does:** Merge, split, encrypt, unlock, PDF↔image — all in your browser.
+**What it does:** Merge, split, encrypt, unlock, PDF↔image, PDF to Markdown — all in your browser.
 
 **Why it's a good Smallpdf alternative:**
 - **No daily limits** — use as much as you want

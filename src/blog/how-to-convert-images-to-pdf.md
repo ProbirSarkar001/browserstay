@@ -24,7 +24,7 @@ Most converters accept:
 - **JPEG** — photos, scans
 - **PNG** — screenshots, graphics with transparency
 - **WebP** — modern web images
-- **HEIC** — iPhone photos (may need conversion first on some systems)
+- **HEIC** — iPhone photos (convert to JPEG first — most tools, including ours, take JPEG/PNG/WebP/GIF)
 
 Mix formats freely — one PDF can contain JPG pages and PNG pages.
 

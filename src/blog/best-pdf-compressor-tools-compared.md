@@ -64,7 +64,7 @@ Before choosing a tool, know what's making your PDF large:
 
 BrowserStay doesn't have a dedicated "compress PDF" button. Instead, it uses a local workflow:
 
-1. [PDF to Image](/pdf-to-image) — extract pages as JPG/PNG
+1. [PDF to Image](/pdf-to-image) — extract pages as PNG
 2. [Image Compressor](/image-compressor) — reduce image quality/size
 3. [Image to PDF](/image-to-pdf) — rebuild the PDF
 

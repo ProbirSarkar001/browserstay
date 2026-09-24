@@ -23,7 +23,7 @@ A good rule of thumb: photos get lossy formats, everything else gets PNG or loss
 | JPEG | Lossy | No | No | Photos, universal compatibility |
 | PNG | Lossless | Yes | No | Screenshots, logos, transparency |
 | WebP | Both | Yes | Yes | Modern web images |
-| AVIF | Lossy | Yes | Yes | Highest compression, modern browsers |
+| AVIF | Both | Yes | Yes | Highest compression, modern browsers |
 
 WebP typically produces files 25-35% smaller than JPEG at equivalent quality. AVIF goes further, often 50% smaller than JPEG, but encoding is slower and not every browser supports it yet.
 

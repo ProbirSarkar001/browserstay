@@ -23,7 +23,7 @@ For personal documents, medical records, financial statements, or business contr
 
 ## The Browser Alternative
 
-Modern browsers can do things that weren't possible five years ago:
+Modern browsers can do things that weren't possible a decade ago:
 
 - **WebAssembly** brings near-native performance to image and PDF processing
 - **Web Workers** run heavy computations without blocking the UI
